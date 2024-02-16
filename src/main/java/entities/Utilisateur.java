@@ -1,5 +1,7 @@
 package entities;
 
+import entities.enums.Role;
+
 import java.util.Objects;
 
 public class Utilisateur {
@@ -8,16 +10,25 @@ public class Utilisateur {
     private String prenom;
     private String email;
     private String mdp;
+    private Role role;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(int idC, String nom, String prenom, String email, String mdp) {
+    public Utilisateur(int idC, String nom, String prenom, String email, String mdp,Role role) {
         this.idC = idC;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.mdp = mdp;
+        this.role=role;
+    }
+    public Utilisateur(String nom, String prenom, String email, String mdp,Role role) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
+        this.role=role;
     }
 
     public int getIdC() {
@@ -82,6 +93,7 @@ public class Utilisateur {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", mdp='" + mdp + '\'' +
+                ", role='" + role +
                 '}';
     }
 
@@ -92,6 +104,7 @@ public class Utilisateur {
         result = 31 * result + (prenom != null ? prenom.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (mdp != null ? mdp.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }
