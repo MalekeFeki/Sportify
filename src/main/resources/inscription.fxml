@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.InscriptionController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InscriptionController">
+   <children>
+      <Label layoutX="92.0" layoutY="57.0" text="Nom" />
+      <Label layoutX="91.0" layoutY="114.0" text="Prénom" />
+      <TextField fx:id="tfnom" layoutX="202.0" layoutY="53.0" />
+      <TextField fx:id="tfprenom" layoutX="202.0" layoutY="110.0" />
+      <TextField fx:id="tfemail" layoutX="202.0" layoutY="165.0" />
+      <Label layoutX="91.0" layoutY="169.0" text="Email" />
+      <Label layoutX="91.0" layoutY="223.0" text="Mot de passe" />
+      <Button layoutX="213.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="S'inscrire" />
+      <RadioButton layoutX="278.0" layoutY="283.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton layoutX="201.0" layoutY="283.0" mnemonicParsing="false" selected="true" text="Membre" />
+      <Label layoutX="91.0" layoutY="283.0" text="Role" />
+      <Button layoutX="284.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Annuler" />
+      <Hyperlink layoutX="173.0" layoutY="362.0" text="Vous avez déjà un compte? cliquer ici" underline="true" />
+      <Text layoutX="429.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inscription">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="145.0" fitWidth="175.0" layoutX="401.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../esprit/user-plus-solid.png" />
+         </image>
+      </ImageView>
+      <PasswordField layoutX="201.0" layoutY="219.0" />
+   </children>
 </AnchorPane>
