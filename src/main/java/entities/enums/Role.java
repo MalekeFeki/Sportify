@@ -3,5 +3,10 @@ package entities.enums;
 public enum Role {
     MEMBRE,
     PROPRIETAIRE,
-    ADMIN
+    ADMIN;
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

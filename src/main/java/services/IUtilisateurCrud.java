@@ -1,4 +1,14 @@
 package services;
 
-public interface IUtilisateurCrud {
+import entities.Utilisateur;
+
+import java.util.List;
+
+public interface IUtilisateurCrud<T> {
+    public void ajouterEntite(T u);
+    public List<T> afficherEntite();
+
+    public void modifierEntite(Utilisateur u);
+
+    public void supprimerEntite(int id);
 }

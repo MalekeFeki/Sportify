@@ -5,7 +5,9 @@ import entities.enums.Role;
 import java.util.Objects;
 
 public class Utilisateur {
-    private int idC;
+    private int id;
+    private int cin;
+    private int num_tel;
     private String nom;
     private String prenom;
     private String email;
@@ -15,15 +17,19 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(int idC, String nom, String prenom, String email, String mdp,Role role) {
-        this.idC = idC;
+    public Utilisateur(int idC, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
+        this.id = id;
+        this.cin=cin;
+        this.num_tel=num_tel;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.mdp = mdp;
         this.role=role;
     }
-    public Utilisateur(String nom, String prenom, String email, String mdp,Role role) {
+    public Utilisateur(int cin, int num_tel,String nom, String prenom, String email, String mdp,Role role) {
+        this.cin=cin;
+        this.num_tel=num_tel;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -32,11 +38,35 @@ public class Utilisateur {
     }
 
     public int getIdC() {
-        return idC;
+        return id;
     }
 
-    public void setIdC(int idC) {
-        this.idC = idC;
+    public void setIdC(int id) {
+        this.id = id;
+    }
+
+    public int getCin() {
+        return cin;
+    }
+
+    public void setCin(int cin) {
+        this.cin = cin;
+    }
+
+    public int getNum_tel() {
+        return num_tel;
+    }
+
+    public void setNum_tel(int num_tel) {
+        this.num_tel = num_tel;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getNom() {
@@ -78,33 +108,28 @@ public class Utilisateur {
 
         Utilisateur that = (Utilisateur) o;
 
-        if (idC != that.idC) return false;
-        if (!Objects.equals(nom, that.nom)) return false;
-        if (!Objects.equals(prenom, that.prenom)) return false;
-        if (!Objects.equals(email, that.email)) return false;
-        return Objects.equals(mdp, that.mdp);
+        if (id != that.id) return false;
+        return cin == that.cin;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + cin;
+        return result;
     }
 
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "idC=" + idC +
+                "idC=" + id +
+                ", cin=" + cin +
+                ", num_tel=" + num_tel +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", mdp='" + mdp + '\'' +
-                ", role='" + role +
+                ", role=" + role +
                 '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idC;
-        result = 31 * result + (nom != null ? nom.hashCode() : 0);
-        result = 31 * result + (prenom != null ? prenom.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (mdp != null ? mdp.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        return result;
     }
 }
