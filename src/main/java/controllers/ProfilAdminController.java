@@ -5,14 +5,13 @@ import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class ProfilController {
+public class ProfilAdminController {
 
     @FXML
     private ResourceBundle resources;
@@ -25,6 +24,15 @@ public class ProfilController {
 
     @FXML
     private Button btn_deco;
+
+    @FXML
+    private Button btn_deco1;
+
+    @FXML
+    private Button btn_deco2;
+
+    @FXML
+    private Button btn_deco3;
 
     @FXML
     private Button btn_inscri;
@@ -52,27 +60,22 @@ public class ProfilController {
 
     @FXML
     private TextField tfprenom;
-    public void initData(Utilisateur utilisateur) {
-        tfnom.setText(utilisateur.getNom());
-        tfprenom.setText(utilisateur.getPrenom());
-        tfemail.setText(utilisateur.getEmail());
-        tfmdp.setText(utilisateur.getMdp());
-        tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
-        tfcin.setText(String.valueOf(utilisateur.getCin()));
+    private Utilisateur admin;
 
-        // Vérifier et sélectionner le rôle approprié
-        if (utilisateur.getRole() == Role.PROPRIETAIRE) {
-            rbproprietaire.setSelected(true);
-        } else {
-            rbmembre.setSelected(true);
-        }
+    public void setAdmin(Utilisateur admin) {
+        this.admin = admin;
+        afficherDetailsProfil(admin);  // Populate the fields when the admin is set
     }
-
-    @FXML
-    void savePerson(ActionEvent event) {
-
+    public void afficherDetailsProfil(Utilisateur admin) {
+        tfcin.setText(String.valueOf(admin.getCin()));
+        tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
+        tfnom.setText(admin.getNom());
+        tfprenom.setText(admin.getPrenom());
+        tfemail.setText(admin.getEmail());
+        tfmdp.setText(admin.getMdp());
+        rbproprietaire.setSelected(false);
+        rbmembre.setSelected(false);
     }
-
     @FXML
     void initialize() {
 

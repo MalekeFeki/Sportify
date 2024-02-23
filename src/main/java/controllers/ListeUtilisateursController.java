@@ -1,14 +1,18 @@
 package controllers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import services.UtilisateurCrud;
 
 public class ListeUtilisateursController {
 
@@ -38,6 +42,7 @@ public class ListeUtilisateursController {
 
     @FXML
     private TableColumn<Utilisateur, Role> colRole;
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     public void setResId(String resId) {
         this.colId.setText(resId);
     }
@@ -64,15 +69,22 @@ public class ListeUtilisateursController {
     public void setResRole(Role resRole) {
         this.colRole.setText(resRole.toString());
     }
+
     @FXML
     void initialize() {
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCin.setCellValueFactory(new PropertyValueFactory<>("cin"));
-        colNumTel.setCellValueFactory(new PropertyValueFactory<>("numTel"));
+        colNumTel.setCellValueFactory(new PropertyValueFactory<>("num_tel"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+        List<Utilisateur> allUtilisateurs = utilisateurCrud.getAllUtilisateurs();
+        tableView.getItems().addAll(allUtilisateurs);
+
+
+
 
 
     }

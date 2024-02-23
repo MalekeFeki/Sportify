@@ -14,19 +14,24 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InscriptionController">
    <children>
+      <Label layoutX="91.0" layoutY="38.0" text="Cin" />
+      <TextField fx:id="tfcin" layoutX="203.0" layoutY="34.0" promptText="saisir votre cin" />
+      <Label layoutX="91.0" layoutY="83.0" text="Numéro tel" />
+      <TextField fx:id="tfnum_tel" layoutX="203.0" layoutY="79.0" promptText="saisir votre téléphone" />
       <Label layoutX="92.0" layoutY="127.0" text="Nom" />
       <Label layoutX="91.0" layoutY="174.0" text="Prénom" />
-      <TextField fx:id="tfnom" layoutX="201.0" layoutY="123.0" />
-      <TextField fx:id="tfprenom" layoutX="201.0" layoutY="171.0" />
-      <TextField fx:id="tfemail" layoutX="201.0" layoutY="215.0" />
+      <TextField fx:id="tfnom" layoutX="201.0" layoutY="123.0" promptText="saisir votre nom" />
+      <TextField fx:id="tfprenom" layoutX="201.0" layoutY="171.0" promptText="saisir votre prénom" />
+      <TextField fx:id="tfemail" layoutX="201.0" layoutY="215.0" promptText="saisir votre email" />
       <Label layoutX="91.0" layoutY="219.0" text="Email" />
       <Label layoutX="91.0" layoutY="256.0" text="Mot de passe" />
+      <PasswordField fx:id="tfmdp" layoutX="201.0" layoutY="252.0" promptText="saisir votre mot de passe" />
       <Button fx:id="btn_inscri" layoutX="213.0" layoutY="330.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #FF6100;" text="S'inscrire" />
       <RadioButton fx:id="rbproprietaire" layoutX="278.0" layoutY="292.0" mnemonicParsing="false" text="Propriétaire de salle" />
-      <RadioButton fx:id="rbmembre" layoutX="202.0" layoutY="292.0" mnemonicParsing="false" selected="true" text="Membre" />
+      <RadioButton fx:id="rbmembre" layoutX="202.0" layoutY="292.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="91.0" layoutY="292.0" text="Role" />
-      <Button fx:id="btn_annul" layoutX="284.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Annuler" />
-      <Hyperlink fx:id="hyperlink" layoutX="173.0" layoutY="362.0" text="Vous avez déjà un compte? cliquer ici" underline="true" />
+      <Button fx:id="btn_annul" layoutX="284.0" layoutY="330.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" text="Annuler" />
+      <Hyperlink fx:id="hyperlink" layoutX="173.0" layoutY="362.0" onAction="#redirectToAuthPage" text="Vous avez déjà un compte? cliquer ici" underline="true" />
       <Text layoutX="429.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inscription">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -34,13 +39,11 @@
       </Text>
       <ImageView fitHeight="145.0" fitWidth="175.0" layoutX="401.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../esprit/user-plus-solid.png" />
+            <Image url="file:/C:/Users/Malek/Desktop/esprit/user-plus-solid.png" />
          </image>
       </ImageView>
-      <PasswordField fx:id="tfmdp" layoutX="201.0" layoutY="252.0" />
-      <TextField fx:id="tfnum_tel" layoutX="203.0" layoutY="79.0" />
-      <TextField fx:id="tfcin" layoutX="203.0" layoutY="34.0" />
-      <Label layoutX="91.0" layoutY="38.0" text="Cin" />
-      <Label layoutX="91.0" layoutY="83.0" text="Numéro tel" />
+
+
+
    </children>
 </AnchorPane>

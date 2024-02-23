@@ -6,15 +6,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeUtilisateursController">
    <children>
-      <TableView layoutX="42.0" layoutY="63.0" prefHeight="200.0" prefWidth="529.0" style="-fx-border-color: #FF6100;">
+      <TableView fx:id="tableView" layoutX="42.0" layoutY="63.0" prefHeight="200.0" prefWidth="529.0" style="-fx-border-color: #FF6100;">
         <columns>
-          <TableColumn fx:id="colId" prefWidth="75.0" text="id" />
-            <TableColumn fx:id="colCin" prefWidth="75.0" text="cin" />
-            <TableColumn fx:id="colNumTel" prefWidth="75.0" text="num_tel" />
-          <TableColumn fx:id="colNom" prefWidth="75.0" text="nom" />
-            <TableColumn fx:id="colPrenom" prefWidth="75.0" text="prénom" />
-            <TableColumn fx:id="colEmail" prefWidth="75.0" text="email" />
-            <TableColumn fx:id="colRole" prefWidth="75.0" text="role" />
+          <TableColumn fx:id="colId"  editable="false" prefWidth="75.0" text="id" />
+            <TableColumn fx:id="colCin" editable="false" prefWidth="75.0" text="cin" />
+            <TableColumn fx:id="colNumTel" editable="false" prefWidth="75.0" text="num_tel" />
+          <TableColumn fx:id="colNom" editable="false" prefWidth="75.0" text="nom" />
+            <TableColumn fx:id="colPrenom" editable="false" prefWidth="75.0" text="prénom" />
+            <TableColumn fx:id="colEmail" editable="false" prefWidth="75.0" text="email" />
+            <TableColumn fx:id="colRole" editable="false" prefWidth="75.0" text="role" />
         </columns>
       </TableView>
    </children>

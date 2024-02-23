@@ -17,7 +17,7 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(int idC, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
+    public Utilisateur(int id, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
         this.id = id;
         this.cin=cin;
         this.num_tel=num_tel;
@@ -37,11 +37,11 @@ public class Utilisateur {
         this.role=role;
     }
 
-    public int getIdC() {
+    public int getId() {
         return id;
     }
 
-    public void setIdC(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,7 +90,9 @@ public class Utilisateur {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        // Vérifier si l'email est au format email kifeh?
+            this.email = email;
+
     }
 
     public String getMdp() {
@@ -98,7 +100,12 @@ public class Utilisateur {
     }
 
     public void setMdp(String mdp) {
-        this.mdp = mdp;
+        // Vérifier si le mot de passe respecte les contraintes
+        if (mdp.length() >= 8 && !mdp.equals(mdp.toLowerCase())) {
+            this.mdp = mdp;
+        } else {
+            throw new IllegalArgumentException("Le mot de passe doit contenir au moins 8 caractères et inclure au moins une majuscule.");
+        }
     }
 
     @Override
