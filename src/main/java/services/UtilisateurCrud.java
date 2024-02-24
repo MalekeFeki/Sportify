@@ -95,15 +95,16 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             pst.setInt(2, u.getNum_tel());
             pst.setString(3, u.getNom());
             pst.setString(4, u.getPrenom());
-            pst.setInt(5, u.getId()); // Assuming id is the primary key
-            pst.setString(6, u.getEmail());
-            pst.setString(7, u.getMdp());
+            pst.setString(5, u.getEmail());
+            pst.setString(6, u.getMdp());
+            pst.setInt(7, u.getId()); // Assuming id is the primary key
             pst.executeUpdate();
             System.out.println("utilisateur modifié");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
 
     @Override
     public void supprimerEntite(int id) {

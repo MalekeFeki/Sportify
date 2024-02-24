@@ -22,13 +22,13 @@
             <Text layoutX="75.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" />
             <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="18.0" layoutY="334.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../Downloads/logout.png" />
+                  <Image url="file:/C:/Users/Malek/Downloads/logout.png" />
                </image>
             </ImageView>
             <Button fx:id="btn_deco" alignment="BOTTOM_LEFT" layoutX="50.0" layoutY="336.0" mnemonicParsing="false" style="-fx-background-color: #000000;" text="Se déconnecter" textFill="#fcf8f8" />
             <Line endX="100.0" layoutX="99.0" layoutY="184.0" startX="-99.99998474121094" startY="-1.52587890625E-5" />
             <Button fx:id="btn_deco1" alignment="BOTTOM_LEFT" layoutX="50.0" layoutY="247.0" mnemonicParsing="false" style="-fx-background-color: #000000;" text="Propriétaires salles" textFill="#fcf8f8" />
-            <Button fx:id="btn_deco2" alignment="BOTTOM_LEFT" layoutX="48.0" layoutY="200.0" mnemonicParsing="false" style="-fx-background-color: #000000;" text="Modifier profil" textFill="#fcf8f8" />
+            <Button fx:id="btn_modif" alignment="BOTTOM_LEFT" layoutX="48.0" layoutY="200.0" mnemonicParsing="false" style="-fx-background-color: #000000;" text="Modifier profil" textFill="#fcf8f8" />
             <Button fx:id="btn_deco3" alignment="BOTTOM_LEFT" layoutX="53.0" layoutY="290.0" mnemonicParsing="false" style="-fx-background-color: #000000;" text="Membres" textFill="#fcf8f8" />
             <FontAwesomeIconView glyphName="EDIT" layoutX="21.0" layoutY="221.0" size="23" wrappingWidth="17.59999999999991" />
             <FontAwesomeIconView glyphName="USER" layoutX="21.0" layoutY="267.0" size="23" />
@@ -43,7 +43,7 @@
       <TextField fx:id="tfemail" layoutX="366.0" layoutY="225.0" />
       <Label layoutX="256.0" layoutY="229.0" text="Email" />
       <Label layoutX="256.0" layoutY="266.0" text="Mot de passe" />
-      <Button fx:id="btn_inscri" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
       <RadioButton fx:id="rbproprietaire" layoutX="443.0" layoutY="302.0" mnemonicParsing="false" text="Propriétaire de salle" />
       <RadioButton fx:id="rbmembre" layoutX="367.0" layoutY="302.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="256.0" layoutY="302.0" text="Role" />

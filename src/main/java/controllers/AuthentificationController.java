@@ -70,6 +70,7 @@ public class AuthentificationController {
             // Si l'utilisateur est trouvé, afficher un message de succès
             if (utilisateur != null) {
                 showSuccessMessage();
+                redirectToProfile(utilisateur.getRole().toString());
             }
         });
     }
@@ -109,8 +110,4 @@ public class AuthentificationController {
             e.printStackTrace();
         }
     }
-    }
-
-
-
-
+}

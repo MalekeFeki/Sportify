@@ -124,27 +124,6 @@ public class InscriptionController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
         alert.show();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeUtilisateurs.fxml"));
-        try {
-            Parent root = loader.load();
-            ListeUtilisateursController luc = loader.getController();
-            luc.setResCin(tfcin.getText());
-            luc.setResNumTel(tfnum_tel.getText());
-            luc.setResNom(tfnom.getText());
-            luc.setResPrenom(tfprenom.getText());
-            luc.setResEmail(tfemail.getText());
-            luc.setResRole(selectedRole);
-            tfnom.getScene().setRoot(root);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Scene scene = btn_inscri.getScene();
-        if (scene != null) {
-            Stage stage = (Stage) scene.getWindow();
-            if (stage != null) {
-                stage.close();
-            }
-        }
     }
     private boolean validerCIN(String cin) {
         String regex = "^[01]\\d{7}$";
