@@ -32,7 +32,7 @@ public class AuthentificationController {
     private PasswordField tfmdp;
     private List<Utilisateur> registeredUsers;
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
-    // Ajoutez des champs pour stocker les données d'inscription
+
     private String cin;
     private String numTel;
     private String nom;
@@ -71,6 +71,9 @@ public class AuthentificationController {
             if (utilisateur != null) {
                 showSuccessMessage();
                 redirectToProfile(utilisateur.getRole().toString());
+                // Fermer la fenêtre d'authentification
+                Stage stage = (Stage) btn.getScene().getWindow();
+                stage.close();
             }
         });
     }

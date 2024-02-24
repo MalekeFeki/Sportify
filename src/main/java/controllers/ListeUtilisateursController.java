@@ -1,7 +1,11 @@
 package controllers;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
@@ -14,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import services.UtilisateurCrud;
 import javafx.scene.layout.HBox;
+import tools.MyConnection;
 
 
 public class ListeUtilisateursController {
@@ -41,9 +46,13 @@ public class ListeUtilisateursController {
 
     @FXML
     private TableColumn<Utilisateur, String> colEmail;
+    @FXML
+    private TableColumn<Utilisateur, String> colMdp;
+
 
     @FXML
     private TableColumn<Utilisateur, Role> colRole;
+    private Connection connection;
 
     @FXML
     private TableColumn<Utilisateur, Void> colAction;
@@ -77,13 +86,16 @@ public class ListeUtilisateursController {
 
     @FXML
     void initialize() {
-
+// Initialiser la connexion
+        /*MyConnection myConnection = MyConnection.getInstance();
+        connection = myConnection.getCnx();*/
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         colNumTel.setCellValueFactory(new PropertyValueFactory<>("num_tel"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colMdp.setCellValueFactory(new PropertyValueFactory<>("mdp"));
         colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         colNom.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -137,17 +149,67 @@ public class ListeUtilisateursController {
             }
         });
     }
+    private void configureEditableCells() {
+        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
+        colNom.setOnEditCommit(event -> {
+            Utilisateur user = event.getRowValue();
+            user.setNom(event.getNewValue());
+            utilisateurCrud.modifierEntite(user);
+            refreshTableViewData();
+        });
+    }
     private void handleUpdateButtonAction(Utilisateur user) {
-        utilisateurCrud.modifierEntite(user);
-        // Rafraîchissez les données dans la TableView après la mise à jour.
-        refreshTableViewData();
+        if (user == null) {
+            showAlert("Veuillez sélectionner un utilisateur à modifier.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous vraiment modifier cet utilisateur ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            utilisateurCrud.modifierEntite(user);
+            // Rafraîchissez les données dans la TableView après la mise à jour.
+            refreshTableViewData();
+        }
     }
 
     private void handleDeleteButtonAction(Utilisateur user) {
-        utilisateurCrud.supprimerEntite(user.getId());
-        // Mettre à jour l'affichage en supprimant l'utilisateur de la TableView
-        tableView.getItems().remove(user);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous vraiment supprimer cet utilisateur ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            utilisateurCrud.supprimerEntite(user.getId());
+            // Mettre à jour l'affichage en supprimant l'utilisateur de la TableView
+            tableView.getItems().remove(user);
+            // Exécuter la requête TRUNCATE pour réinitialiser la table
+            //executeTruncateQuery();
+        }
+        // Exécuter la requête TRUNCATE pour réinitialiser la table
+        //executeTruncateQuery();
     }
+  /*  private void executeTruncateQuery() {
+        String truncateQuery = "TRUNCATE TABLE utilisateur"; // Remplacez "utilisateur" par le nom de votre table
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(truncateQuery);
+            System.out.println("Table utilisateur tronquée avec succès.");
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la troncature de la table utilisateur : " + e.getMessage());
+        }
+    }*/
+  private void showAlert(String message) {
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle("Attention");
+      alert.setHeaderText(null);
+      alert.setContentText(message);
+      alert.showAndWait();
+  }
     private void refreshTableViewData() {
         // Effacez toutes les lignes existantes dans la TableView
         tableView.getItems().clear();

@@ -1,15 +1,20 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import services.UtilisateurCrud;
 
 public class ProfilMembreController {
@@ -63,13 +68,14 @@ public class ProfilMembreController {
     private TextField tfprenom;
 
      private Utilisateur utilisateur;
-    private UtilisateurCrud utilisateurCrud;
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     private String email;
     private String password;
-   public ProfilMembreController(Utilisateur utilisateur) {
+    public void setMembre(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
-        this.utilisateurCrud = new UtilisateurCrud();
+        afficherDetailsProfil(utilisateur);  // Populate the fields when the admin is set
     }
+
     public void initData(String email, String password) {
         this.email = email;
         this.password = password;
@@ -77,38 +83,57 @@ public class ProfilMembreController {
 
     @FXML
     void initialize() {
-        // Afficher les informations de l'utilisateur dans les champs correspondants
-        tfcin.setText(Integer.toString(utilisateur.getCin()));
-        tfnum_tel.setText(Integer.toString(utilisateur.getNum_tel()));
-        tfnom.setText(utilisateur.getNom());
-        tfprenom.setText(utilisateur.getPrenom());
-        tfemail.setText(utilisateur.getEmail());
-        tfmdp.setText(utilisateur.getMdp());
+        btn_deco.setOnAction(event -> {
+            // Fermer la fenêtre actuelle
+            Stage stage = (Stage) btn_deco.getScene().getWindow();
+            stage.close();
 
-        // Désactiver la modification du rôle de l'utilisateur
-        rbmembre.setDisable(true);
-        rbproprietaire.setDisable(true);
-        if (utilisateur.getRole() == Role.MEMBRE) {
-            rbmembre.setSelected(true);
-        } else {
-            rbproprietaire.setSelected(true);
-        }
+            // Charger la page d'authentification
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                Parent root = loader.load();
+                Stage authStage = new Stage();
+                authStage.setScene(new Scene(root));
+                authStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
+
+
+
+        // Gérer l'événement du bouton "Modifier profil"
+        btn_enregismodif.setOnAction(event -> {
+            // Récupérer les nouvelles valeurs des champs de texte
+            int cin = Integer.parseInt(tfcin.getText());
+            int num_tel = Integer.parseInt(tfnum_tel.getText());
+            String nom = tfnom.getText();
+            String prenom = tfprenom.getText();
+            String email = tfemail.getText();
+            String mdp = tfmdp.getText();
+
+            // Mettre à jour les propriétés de l'utilisateur
+            utilisateur.setCin(cin);
+            utilisateur.setNum_tel(num_tel);
+            utilisateur.setNom(nom);
+            utilisateur.setPrenom(prenom);
+            utilisateur.setEmail(email);
+            utilisateur.setMdp(mdp);
+
+            // Appeler la méthode de votre classe UtilisateurCrud pour mettre à jour les informations de l'utilisateur dans la base de données
+            utilisateurCrud.modifierEntite(utilisateur);
+        });
     }
-    @FXML
-    void modifierProfil() {
-        // Mettre à jour les informations de l'utilisateur
-        utilisateur.setCin(Integer.parseInt(tfcin.getText()));
-        utilisateur.setNum_tel(Integer.parseInt(tfnum_tel.getText()));
-        utilisateur.setNom(tfnom.getText());
-        utilisateur.setPrenom(tfprenom.getText());
-        utilisateur.setEmail(tfemail.getText());
-        utilisateur.setMdp(tfmdp.getText());
-
-        // Appeler la méthode de mise à jour dans UtilisateurCrud
-        utilisateurCrud.modifierEntite(utilisateur);
-
-        // Afficher un message de succès ou une notification à l'utilisateur
-        // Vous pouvez ajouter cela en fonction de vos besoins
+    public void afficherDetailsProfil(Utilisateur admin) {
+        tfcin.setText(String.valueOf(admin.getCin()));
+        tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
+        tfnom.setText(admin.getNom());
+        tfprenom.setText(admin.getPrenom());
+        tfemail.setText(admin.getEmail());
+        tfmdp.setText(admin.getMdp());
+        rbproprietaire.setSelected(false);
+        rbmembre.setSelected(true);
     }
+
 }

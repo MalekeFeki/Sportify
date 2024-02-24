@@ -16,6 +16,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilPropController">
    <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/esprit/background_2.png" />
+         </image>
+      </ImageView>
       <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />

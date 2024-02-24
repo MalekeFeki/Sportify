@@ -79,8 +79,7 @@ public class ProfilPropController {
     }
 
     public void initialize() {
-        // Récupérer l'utilisateur authentifié
-        utilisateur = utilisateurCrud.login(email, password); // Assurez-vous d'avoir les informations d'authentification (email, mot de passe) nécessaires
+
 
         // Remplir les champs de texte avec les données de l'utilisateur
         if (utilisateur != null) {

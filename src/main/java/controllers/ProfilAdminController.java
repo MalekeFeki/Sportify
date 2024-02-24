@@ -2,19 +2,19 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import services.UtilisateurCrud;
 
 public class ProfilAdminController {
 
@@ -68,6 +68,33 @@ public class ProfilAdminController {
     private Utilisateur admin;
     private String email;
     private String password;
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
+    @FXML
+    private TableView<Utilisateur> tableView;
+    @FXML
+    private TableColumn<Utilisateur, Integer> colCin;
+
+    @FXML
+    private TableColumn<Utilisateur, Integer> colNumTel;
+
+    @FXML
+    private TableColumn<Utilisateur, Integer> colId;
+
+    @FXML
+    private TableColumn<Utilisateur, String> colNom;
+
+    @FXML
+    private TableColumn<Utilisateur, String> colPrenom;
+
+    @FXML
+    private TableColumn<Utilisateur, String> colEmail;
+
+    @FXML
+    private TableColumn<Utilisateur, Role> colRole;
+
+    @FXML
+    private TableColumn<Utilisateur, Void> colAction;
+
 
     public void setAdmin(Utilisateur admin) {
         this.admin = admin;
@@ -89,6 +116,27 @@ public class ProfilAdminController {
     }
     @FXML
     void initialize() {
+        btn_deco.setOnAction(event -> {
+            // Fermer la fenêtre actuelle
+            Stage stage = (Stage) btn_deco.getScene().getWindow();
+            stage.close();
+
+            // Charger la page d'authentification
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                Parent root = loader.load();
+                Stage authStage = new Stage();
+                authStage.setScene(new Scene(root));
+                authStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        btn_deco1.setOnAction(event -> {
+            afficherProprietairesSalles();
+        });
+
         btn_deco3.setOnAction(event -> {
             try {
                 // Charger le fichier FXML de la page ListeUtilisateurs
@@ -108,8 +156,15 @@ public class ProfilAdminController {
                 e.printStackTrace();
             }
         });
+        btn_deco1.setOnAction(event -> {
+            afficherProprietairesSalles();
+        });
     }
-
+    @FXML
+    void afficherProprietairesSalles() {
+        ObservableList<Utilisateur> utilisateurs = utilisateurCrud.getUtilisateursByRole(Role.PROPRIETAIRE);
+        tableView.setItems(utilisateurs);
+    }
     }
 
 

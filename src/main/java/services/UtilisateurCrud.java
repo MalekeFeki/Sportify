@@ -1,8 +1,11 @@
 package services;
 
 
+import entities.MdpHash;
 import entities.Utilisateur;
 import entities.enums.Role;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tools.MyConnection;
 
 import java.sql.*;
@@ -15,7 +18,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     Connection cnx2;
     public UtilisateurCrud(){
         cnx2= MyConnection.getInstance().getCnx();
-        //registeredUsers = getAllUtilisateurs();
+        registeredUsers = getAllUtilisateurs();
     }
     // Méthode pour charger la liste des utilisateurs enregistrés depuis la base de données
     private List<Utilisateur> loadRegisteredUsers() {
@@ -66,7 +69,9 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         return utilisateurs;
     }
     public void ajouterEntite2(Utilisateur u) {
-
+        // Hacher le mot de passe avant de l'ajouter à la base de données
+       // String hashedPassword = MdpHash.hashPassword(u.getMdp());
+       // u.setMdp(hashedPassword);
 
         String requete = "INSERT INTO utilisateur (cin, num_tel, nom, prenom, email, mdp, role) VALUES (?,?,?,?,?,?,?)";
 
@@ -88,6 +93,10 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
 
     @Override
     public void modifierEntite(Utilisateur u) {
+        // Hacher le nouveau mot de passe avant de le mettre à jour dans la base de données
+        //String hashedPassword = MdpHash.hashPassword(u.getMdp());
+        //u.setMdp(hashedPassword);
+
         String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
         try {
             PreparedStatement pst = cnx2.prepareStatement(req2);
@@ -135,6 +144,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
                         utilisateur.setNom(resultSet.getString("nom"));
                         utilisateur.setPrenom(resultSet.getString("prenom"));
                         utilisateur.setEmail(resultSet.getString("email"));
+                        utilisateur.setMdp(resultSet.getString("mdp"));
                         String roleString = resultSet.getString("role");
                         Role role = Role.valueOf(roleString);
                         utilisateur.setRole(role);
@@ -196,6 +206,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
                     utilisateur.setNom(rs.getString("nom"));
                     utilisateur.setPrenom(rs.getString("prenom"));
                     utilisateur.setEmail(rs.getString("email"));
+                    utilisateur.setMdp(rs.getString("mdp"));
                     String roleString = rs.getString("role");
                     Role role = Role.valueOf(roleString);
                     utilisateur.setRole(role);
@@ -211,6 +222,15 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             e.printStackTrace();
         }
         return utilisateur;
+    }
+    public ObservableList<Utilisateur> getUtilisateursByRole(Role role) {
+        List<Utilisateur> utilisateursFiltres = new ArrayList<>();
+        for (Utilisateur utilisateur : getAllUtilisateurs()) {
+            if (utilisateur.getRole() == role) {
+                utilisateursFiltres.add(utilisateur);
+            }
+        }
+        return FXCollections.observableArrayList(utilisateursFiltres);
     }
 
 }
