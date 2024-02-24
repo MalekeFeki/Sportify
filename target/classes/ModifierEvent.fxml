@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="514.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierEventController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="65.0" stroke="BLACK" strokeType="INSIDE" width="799.0" />
+        <Label layoutX="79.0" layoutY="20.0" text="SPORTIFY" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="65.0" fitWidth="67.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="26.0" layoutY="84.0" text="MODIFIER EVENEMENT">
+            <font>
+                <Font name="System Bold" size="17.0" />
+            </font>
+        </Label>
+        <Label layoutX="26.0" layoutY="130.0" text="Nom Evenement" />
+        <TextField fx:id="nomEvenementTextField" layoutX="132.0" layoutY="126.0" prefHeight="26.0" prefWidth="175.0" />
+        <TextArea fx:id="descriptionTextArea" layoutX="446.0" layoutY="128.0" prefHeight="122.0" prefWidth="200.0" />
+        <DatePicker fx:id="dateDebutDatePicker" layoutX="132.0" layoutY="168.0" />
+
+        <Label layoutX="28.0" layoutY="172.0" text="date de debut" />
+        <Label layoutX="28.0" layoutY="205.0" text="date de fin" />
+        <Label layoutX="29.0" layoutY="248.0" text="Heure" />
+        <Label layoutX="357.0" layoutY="130.0" text="Descrption" />
+        <Label layoutX="35.0" layoutY="287.0" text="lieu" />
+        <Label layoutX="23.0" layoutY="327.0" text="num tele" />
+        <Label layoutX="31.0" layoutY="366.0" text="email" />
+
+        <Label layoutX="26.0" layoutY="445.0" text="FB_link" />
+        <Label layoutX="29.0" layoutY="409.0" text="IG_link" />
+        <Label layoutX="364.0" layoutY="366.0" text="capacite" />
+        <TextField fx:id="numTeleTextField" layoutX="132.0" layoutY="323.0" prefHeight="26.0" prefWidth="175.0" />
+        <TextField fx:id="emailTextField" layoutX="132.0" layoutY="362.0" prefHeight="26.0" prefWidth="175.0" />
+        <TextField fx:id="lieuTextField" layoutX="132.0" layoutY="283.0" prefHeight="26.0" prefWidth="175.0" />
+        <TextField fx:id="igLinkTextField" layoutX="132.0" layoutY="404.0" prefHeight="26.0" prefWidth="175.0" />
+        <HBox layoutX="132.0" layoutY="246.0" prefHeight="34.0" prefWidth="262.0">
+            <ComboBox fx:id="hoursComboBox" prefHeight="26.0" prefWidth="82.0" promptText="Hours" />
+            <Text text=":">
+                <font>
+                    <Font name="System Bold" size="17.0" />
+                </font></Text>
+            <ComboBox fx:id="minutesComboBox" prefHeight="26.0" prefWidth="89.0" promptText="Minutes" />
+
+        </HBox>
+        <DatePicker fx:id="dateFinDatePicker" layoutX="132.0" layoutY="201.0" />
+        <TextField fx:id="fbLinkTextField" layoutX="132.0" layoutY="440.0" prefHeight="26.0" prefWidth="175.0" />
+        <TextField fx:id="capaciteTextField" layoutX="446.0" layoutY="362.0" prefHeight="26.0" prefWidth="200.0" />
+        <Label layoutX="339.0" layoutY="274.0" text="Genre Evenement" />
+        <ComboBox fx:id="genreEvenementComboBox" layoutX="446.0" layoutY="270.0" prefHeight="26.0" prefWidth="200.0" />
+        <Label layoutX="344.0" layoutY="319.0" text="type Evenement" />
+        <ComboBox fx:id="typeEventComboBox" layoutX="446.0" layoutY="314.0" prefHeight="26.0" prefWidth="200.0" />
+
+        <Label layoutX="355.0" layoutY="416.0" text="Image Upload" textFill="#1f1f1f">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="uploadimage" layoutX="500.0" layoutY="417.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
+        <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="603.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="modifierEventButton" layoutX="686.0" layoutY="454.0" mnemonicParsing="false" onAction="#modifierEvent" prefHeight="34.0" prefWidth="74.0" text="Modifier" />
+        <Button fx:id="returntolist" layoutX="591.0" layoutY="454.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
+
+    </children>
+</AnchorPane>

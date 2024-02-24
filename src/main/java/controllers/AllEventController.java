@@ -1,103 +1,111 @@
 package controllers;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Pagination;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Callback;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import services.EvenementCrud;
+import entities.Evenement;
+
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import entities.Evenement;
-import services.EvenementCrud;
-public class AllEventController {
+
+public class AllEventController implements Initializable {
 
     @FXML
-    private ResourceBundle resources;
+    private FlowPane eventFlowPane;
 
     @FXML
-    private URL location;
-
-    @FXML
-    private ComboBox<?> cityFilter;
-
-    @FXML
-    private ComboBox<?> monthFilter;
-
-    @FXML
-    private ComboBox<?> sportTypeFilter;
-
-    @FXML
-    private ComboBox<?> typeFilter;
-    @FXML
-    private ListView<Evenement> eventList;
-    @FXML
-    private TextField searchField;
-
-    @FXML
-    private ListView<Evenement> eventListView;
+    private Pagination pagination;
 
     private EvenementCrud evenementCrud = new EvenementCrud();
     private ObservableList<Evenement> allEvents;
 
-    @FXML
-    void initialize() {
+    private static final int EVENTS_PER_PAGE = 1; // Set the number of events per page
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         loadEvents();
-        assert cityFilter != null : "fx:id=\"cityFilter\" was not injected: check your FXML file 'AllEvent.fxml'.";
-        assert monthFilter != null : "fx:id=\"monthFilter\" was not injected: check your FXML file 'AllEvent.fxml'.";
-        assert sportTypeFilter != null : "fx:id=\"sportTypeFilter\" was not injected: check your FXML file 'AllEvent.fxml'.";
-        assert typeFilter != null : "fx:id=\"typeFilter\" was not injected: check your FXML file 'AllEvent.fxml'.";
-
+        configurePagination();
+        configureScrollPane();
     }
+
     private void loadEvents() {
         List<Evenement> events = evenementCrud.afficherEvent();
         allEvents = FXCollections.observableArrayList(events);
-
-        eventListView.setItems(allEvents);
-        eventListView.setCellFactory(param -> new ListCell<Evenement>() {
-            @Override
-            protected void updateItem(Evenement event, boolean empty) {
-                super.updateItem(event, empty);
-
-                if (empty || event == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    // Customize the cell content here
-                    setText(event.getNomEv() + "\n" + event.getDescrptionEv().substring(0, Math.min(event.getDescrptionEv().length(), 50)) + "...");
-
-                    String imagePath = event.getPhoto();
-
-                    // Add a small image using a local file path
-                    ImageView imageView = new ImageView(new Image("file:" + imagePath));
-                    imageView.setFitWidth(10);
-                    imageView.setFitHeight(50);
-                    setGraphic(imageView);
-                }
-            }
-        });
+        displayEvents(allEvents);
     }
 
+    private void displayEvents(List<Evenement> events) {
+        int pageCount = (int) Math.ceil((double) events.size() / EVENTS_PER_PAGE);
+        pagination.setPageCount(pageCount);
+        pagination.setPageFactory(pageIndex -> createPage(pageIndex));
+    }
 
+    private VBox createPage(int pageIndex) {
+        int fromIndex = pageIndex * EVENTS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + EVENTS_PER_PAGE, allEvents.size());
 
+        List<Evenement> eventsToDisplay = allEvents.subList(fromIndex, toIndex);
 
+        FlowPane pageFlowPane = new FlowPane();
+        pageFlowPane.setHgap(10);
+        pageFlowPane.setVgap(10);
+
+        for (Evenement event : eventsToDisplay) {
+            VBox eventBox = createEventBox(event);
+            pageFlowPane.getChildren().add(eventBox);
+        }
+
+        return new VBox(pageFlowPane);
+    }
+
+    private VBox createEventBox(Evenement event) {
+        Text eventNameText = new Text(event.getNomEv());
+        Text eventDescriptionText = new Text(event.getDescrptionEv());
+        eventDescriptionText.setWrappingWidth(200);
+
+        Button moreInfoButton = new Button("More Info");
+
+        ImageView imageView = new ImageView(new Image("file:" + event.getPhoto()));
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+
+        VBox eventBox = new VBox(
+                new VBox(eventNameText, eventDescriptionText, moreInfoButton),
+                imageView
+        );
+        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px;");
+        eventBox.setMinWidth(150);
+
+        return eventBox;
+    }
+
+    private void configureScrollPane() {
+        scrollPane.setOnScroll(this::handleScroll);
+    }
+    @FXML
+    private ScrollPane scrollPane;
+    private void handleScroll(ScrollEvent event) {
+        double deltaY = event.getDeltaY();
+        double scrollSpeed = 0.005; // You can adjust the scroll speed
+
+        scrollPane.setVvalue(scrollPane.getVvalue() - deltaY * scrollSpeed);
+    }
+
+    private void configurePagination() {
+        pagination.setPageFactory(pageIndex -> createPage(pageIndex));
+    }
 }
-
-//work
-//    private void loadEvents() {
-//        List<Evenement> events = evenementCrud.afficherEvent();
-//        allEvents = FXCollections.observableArrayList();
-//
-//        for (Evenement evenement : events) {
-//            allEvents.add(evenement.getNomEv());
-//        }
-//
-//        eventListView.setItems(allEvents);
-//    }
