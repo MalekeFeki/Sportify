@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilPropController">
@@ -25,27 +26,35 @@
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
             <Text layoutX="59.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proprietaire Salle" />
-            <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="20.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:/C:/Users/Malek/Downloads/logout.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="btn_deco" alignment="BOTTOM_LEFT" layoutX="50.0" layoutY="361.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #000000;" text="Se déconnecter" textFill="#fcf8f8" />
-            <Line endX="100.0" layoutX="100.0" layoutY="184.0" startX="-99.99998474121094" startY="-1.52587890625E-5" />
-            <Button fx:id="btn_deco1" alignment="BOTTOM_LEFT" layoutX="51.0" layoutY="289.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #000000;" text="Coachs" textFill="#fcf8f8" />
-            <Button fx:id="btn_deco3" alignment="BOTTOM_LEFT" layoutX="51.0" layoutY="247.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #000000;" text="Modifier Planning" textFill="#fcf8f8" />
-            <FontAwesomeIconView glyphName="CALENDAR" layoutX="25.0" layoutY="266.0" size="23" />
-            <Button fx:id="btn_deco4" alignment="BOTTOM_LEFT" layoutX="50.0" layoutY="326.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #000000;" text="Adhésion" textFill="#fcf8f8" />
-            <ImageView fitHeight="23.0" fitWidth="24.0" layoutX="21.0" layoutY="290.0">
-               <image>
-                  <Image url="file:/C:/Users/Malek/Pictures/1685085.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="18.0" layoutY="326.0">
-               <image>
-                  <Image url="file:/C:/Users/Malek/Pictures/1865084.png" />
-               </image>
-            </ImageView>
+            <Line endX="67.20002746582031" endY="-1.52587890625E-5" layoutX="100.0" layoutY="184.0" startX="-70.0999755859375" startY="-1.52587890625E-5" />
+            <Button fx:id="btn_deco1" alignment="CENTER" layoutX="32.0" layoutY="284.0" mnemonicParsing="false" onAction="#savePerson" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Coachs" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btn_deco3" alignment="CENTER_RIGHT" layoutX="32.0" layoutY="245.0" mnemonicParsing="false" onAction="#savePerson" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="  Modifier Planning" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR" layoutX="34.0" layoutY="265.0" size="22" wrappingWidth="17.59999999999991" />
+            <Button fx:id="btn_deco4" alignment="CENTER" layoutX="33.0" layoutY="323.0" mnemonicParsing="false" onAction="#savePerson" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Adhésion" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btn_deco2" alignment="CENTER" layoutX="32.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Se déconnecter" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn_modif1" alignment="CENTER" layoutX="33.0" layoutY="206.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Modifier profil" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <FontAwesomeIconView fill="WHITE" glyphName="EDIT" layoutX="36.0" layoutY="228.0" size="23" wrappingWidth="17.59999999999991" />
+            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" layoutX="33.0" layoutY="384.0" size="25" />
+            <FontAwesomeIconView fill="WHITE" glyphName="MONEY" layoutX="36.0" layoutY="345.0" size="23" />
+            <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="128.0" size="100" wrappingWidth="8.571428298950252" />
+            <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="36.0" layoutY="305.0" size="22" wrappingWidth="17.59999999999991" />
          </children>
       </Pane>
       <Label layoutX="247.0" layoutY="127.0" text="Nom" />
@@ -64,8 +73,6 @@
       <TextField fx:id="tfnum_tel" layoutX="358.0" layoutY="79.0" />
       <TextField fx:id="tfcin" layoutX="358.0" layoutY="34.0" />
       <Label layoutX="246.0" layoutY="38.0" text="Cin" />
-      <Label layoutX="246.0" layoutY="83.0" text="Numéro tel" />
-      <Button fx:id="btn_modif" alignment="BOTTOM_LEFT" layoutX="51.0" layoutY="206.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #000000;" text="Modifier profil" textFill="#fcf8f8" />
-      <FontAwesomeIconView glyphName="EDIT" layoutX="24.0" layoutY="227.0" size="23" wrappingWidth="17.59999999999991" />
+      <Label layoutX="246.0" layoutY="83.0" text="Numéro téléphone" />
    </children>
 </AnchorPane>

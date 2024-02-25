@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
@@ -28,7 +29,7 @@ public class ProfilAdminController {
     private Button btn_annul;
 
     @FXML
-    private Button btn_deco;
+    private Button btn_deco2;
 
     @FXML
     private Button btn_deco1;
@@ -116,22 +117,33 @@ public class ProfilAdminController {
     }
     @FXML
     void initialize() {
-        btn_deco.setOnAction(event -> {
-            // Fermer la fenêtre actuelle
-            Stage stage = (Stage) btn_deco.getScene().getWindow();
-            stage.close();
+        btn_deco2.setOnAction(event -> {
+            // Display a confirmation dialog
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Voulez-vous vraiment vous déconnecter ?");
 
-            // Charger la page d'authentification
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
-                Parent root = loader.load();
-                Stage authStage = new Stage();
-                authStage.setScene(new Scene(root));
-                authStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // If the user clicks "OK", close the current window and open the authentication page
+                Stage stage = (Stage) btn_deco2.getScene().getWindow();
+                stage.close();
+
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                    Parent root = loader.load();
+                    Stage authStage = new Stage();
+                    authStage.setScene(new Scene(root));
+                    authStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // maysir chay
             }
         });
+
 
         btn_deco1.setOnAction(event -> {
             afficherProprietairesSalles();

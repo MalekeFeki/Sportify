@@ -60,7 +60,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
                 Utilisateur u=new Utilisateur();
                 u.setId(rs.getInt(1));
                 u.setNom(rs.getString("nom"));
-                u.setPrenom(rs.getString(3));
+                u.setPrenom(rs.getString("prenom"));
                 utilisateurs.add(u);
             }
         } catch (SQLException e) {
@@ -70,8 +70,8 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     }
     public void ajouterEntite2(Utilisateur u) {
         // Hacher le mot de passe avant de l'ajouter à la base de données
-       // String hashedPassword = MdpHash.hashPassword(u.getMdp());
-       // u.setMdp(hashedPassword);
+        String hashedPassword = MdpHash.hashPassword(u.getMdp());
+        u.setMdp(hashedPassword);
 
         String requete = "INSERT INTO utilisateur (cin, num_tel, nom, prenom, email, mdp, role) VALUES (?,?,?,?,?,?,?)";
 
@@ -82,7 +82,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             pst.setString(3, u.getNom());
             pst.setString(4, u.getPrenom());
             pst.setString(5, u.getEmail());
-            pst.setString(6, u.getMdp());
+            pst.setString(6, hashedPassword);
             pst.setString(7, u.getRole().name());
             pst.executeUpdate();
             System.out.println("Ajouté");
@@ -156,6 +156,29 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             ex.printStackTrace();
         }
         return utilisateurs;
+    }
+    public Utilisateur getUtilisateurById(int id) {
+        Utilisateur utilisateur = null;
+        String query = "SELECT * FROM utilisateur WHERE id = ?";
+        try (PreparedStatement pst = cnx2.prepareStatement(query)) {
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    utilisateur = new Utilisateur();
+                    utilisateur.setId(rs.getInt("cin"));
+                    utilisateur.setNum_tel(rs.getInt("num_tel"));
+                    utilisateur.setNom(rs.getString("nom"));
+                    utilisateur.setPrenom(rs.getString("prenom"));
+                    utilisateur.setEmail(rs.getString("email"));
+                    utilisateur.setMdp(rs.getString("mdp"));
+
+                    // Ajoutez d'autres champs selon vos besoins
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateur;
     }
 
 

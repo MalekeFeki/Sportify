@@ -1,17 +1,21 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import services.UtilisateurCrud;
+import tools.MyConnection;
 
 public class ProfilPropController {
 
@@ -34,7 +38,7 @@ public class ProfilPropController {
 
 
     @FXML
-    private Button btn_deco;
+    private Button btn_deco2;
 
     @FXML
     private Button btn_enregismodif;
@@ -68,9 +72,18 @@ public class ProfilPropController {
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     private String email;
     private String password;
-    public void initData(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public void initData(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+
+        // Pre-fill text fields with user information
+        if (utilisateur != null) {
+            tfcin.setText(String.valueOf(utilisateur.getCin()));
+            tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
+            tfnom.setText(utilisateur.getNom());
+            tfprenom.setText(utilisateur.getPrenom());
+            tfemail.setText(utilisateur.getEmail());
+            tfmdp.setText(utilisateur.getMdp()); // Consider security implications of displaying password
+        }
     }
 
     @FXML
@@ -79,6 +92,49 @@ public class ProfilPropController {
     }
 
     public void initialize() {
+
+        // Récupérer l'ID de l'utilisateur authentifié depuis MyConnection
+        int userId = MyConnection.getInstance().getId();
+
+        // Interroger la base de données pour récupérer les données du profil de l'utilisateur
+        // Utiliser une méthode de service pour récupérer les données du profil en fonction de l'ID de l'utilisateur
+        UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
+        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(userId);
+
+        // Mettre à jour les champs de texte dans l'interface utilisateur avec les données du profil
+        if (utilisateur != null) {
+            tfnom.setText(utilisateur.getNom());
+            tfprenom.setText(utilisateur.getPrenom());
+            tfemail.setText(utilisateur.getEmail());
+            tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
+        }
+
+        btn_deco2.setOnAction(event -> {
+            // Display a confirmation dialog
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Voulez-vous vraiment vous déconnecter ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // If the user clicks "OK", close the current window and open the authentication page
+                Stage stage = (Stage) btn_deco2.getScene().getWindow();
+                stage.close();
+
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                    Parent root = loader.load();
+                    Stage authStage = new Stage();
+                    authStage.setScene(new Scene(root));
+                    authStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // maysir chay
+            }
+        });
 
 
         // Remplir les champs de texte avec les données de l'utilisateur

@@ -8,12 +8,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeUtilisateursController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0">
+      <ImageView fitHeight="400.0" fitWidth="800.0">
          <image>
             <Image url="@../../../../esprit/background_2.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tableView" editable="true" layoutY="58.0" prefHeight="200.0" prefWidth="600.0" style="-fx-border-color: #FF6100; -fx-background-color: #FF6100;">
+      <TableView fx:id="tableView" editable="true" layoutX="38.0" layoutY="56.0" prefHeight="200.0" prefWidth="751.0" style="-fx-border-color: #FF6100; -fx-background-color: #FF6100;">
         <columns>
           <TableColumn fx:id="colId" editable="true" prefWidth="32.0" text="id" />
             <TableColumn fx:id="colCin" editable="true" prefWidth="81.60000610351562" text="cin" />
@@ -23,7 +23,7 @@
             <TableColumn fx:id="colEmail" editable="true" prefWidth="90.4000244140625" text="email" />
             <TableColumn fx:id="colMdp" editable="true" prefWidth="100.0" text="mot de passe" />
             <TableColumn fx:id="colRole" editable="true" prefWidth="79.199951171875" text="role" />
-            <TableColumn fx:id="colAction" prefWidth="75.0" text="action" />
+            <TableColumn fx:id="colAction" prefWidth="119.2000732421875" text="action" />
         </columns>
       </TableView>
    </children>

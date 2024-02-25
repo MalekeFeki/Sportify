@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import entities.MdpHash;
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.event.ActionEvent;
@@ -98,6 +99,8 @@ public class InscriptionController {
             return;
         }
         // Sauvegarde de personne dans la BD
+
+
         Utilisateur p = new Utilisateur(Integer.parseInt(tfcin.getText()), Integer.parseInt(tfnum_tel.getText()), tfnom.getText(), tfprenom.getText(), tfemail.getText(), tfmdp.getText(), rbmembre.isSelected() ? Role.MEMBRE : Role.PROPRIETAIRE);
 
         // Ajouter des vérifications ici avant d'ajouter l'utilisateur

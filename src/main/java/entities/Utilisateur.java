@@ -100,11 +100,9 @@ public class Utilisateur {
     }
 
     public void setMdp(String mdp) {
-        // Vérifier si le mot de passe respecte les contraintes
-        if (mdp.length() >= 8 && !mdp.equals(mdp.toLowerCase())) {
+        {
             this.mdp = mdp;
-        } else {
-            throw new IllegalArgumentException("Le mot de passe doit contenir au moins 8 caractères et inclure au moins une majuscule.");
+
         }
     }
 

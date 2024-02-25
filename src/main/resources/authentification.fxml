@@ -18,7 +18,7 @@
          </image>
       </ImageView>
       <TextField fx:id="tfemail" layoutX="225.0" layoutY="216.0" promptText="email" />
-      <Button fx:id="btn" alignment="CENTER" layoutX="258.0" layoutY="332.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
+      <Button fx:id="btn_auth" alignment="CENTER" layoutX="258.0" layoutY="332.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
       <Text layoutX="245.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authentification">
          <font>
             <Font name="System Bold" size="14.0" />

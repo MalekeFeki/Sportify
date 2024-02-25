@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
 import services.UtilisateurCrud;
 import javafx.scene.layout.HBox;
 import tools.MyConnection;
@@ -54,6 +56,7 @@ public class ListeUtilisateursController {
     private TableColumn<Utilisateur, Role> colRole;
     private Connection connection;
 
+
     @FXML
     private TableColumn<Utilisateur, Void> colAction;
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
@@ -87,8 +90,8 @@ public class ListeUtilisateursController {
     @FXML
     void initialize() {
 // Initialiser la connexion
-        /*MyConnection myConnection = MyConnection.getInstance();
-        connection = myConnection.getCnx();*/
+        MyConnection myConnection = MyConnection.getInstance();
+        connection = myConnection.getCnx();
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         colNumTel.setCellValueFactory(new PropertyValueFactory<>("num_tel"));
@@ -105,6 +108,40 @@ public class ListeUtilisateursController {
             utilisateurCrud.modifierEntite(user);
             refreshTableViewData();
         });
+        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
+        colPrenom.setOnEditCommit(event -> {
+            Utilisateur user = event.getRowValue();
+            user.setPrenom(event.getNewValue());
+            utilisateurCrud.modifierEntite(user);
+            refreshTableViewData();
+        });
+        colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
+        colEmail.setOnEditCommit(event -> {
+            Utilisateur user = event.getRowValue();
+            user.setEmail(event.getNewValue());
+            utilisateurCrud.modifierEntite(user);
+            refreshTableViewData();
+        });
+        colMdp.setCellFactory(TextFieldTableCell.forTableColumn());
+        colMdp.setOnEditCommit(event -> {
+            Utilisateur user = event.getRowValue();
+            user.setMdp(event.getNewValue());
+            utilisateurCrud.modifierEntite(user);
+            refreshTableViewData();
+        });
+        colNumTel.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colNumTel.setOnEditCommit(event -> {
+            Utilisateur user = event.getRowValue();
+            try {
+                int newNumTel = Integer.parseInt(String.valueOf(event.getNewValue()));
+                user.setNum_tel(newNumTel);
+                utilisateurCrud.modifierEntite(user);
+                refreshTableViewData();
+            } catch (NumberFormatException e) {
+                showAlert("Veuillez saisir un numéro de téléphone valide (entier).");
+            }
+        });
+
 
         addActionButtonToTable();
         List<Utilisateur> allUtilisateurs = utilisateurCrud.getAllUtilisateurs();
@@ -122,13 +159,13 @@ public class ListeUtilisateursController {
     }
     private void addActionButtonToTable() {
         colAction.setCellFactory(param -> new TableCell<Utilisateur, Void>() {
-            private final Button btnUpdate = new Button("Update");
-            private final Button btnDelete = new Button("Delete");
+            private final Button btnUpdate = new Button("Modifier");
+            private final Button btnDelete = new Button("Supprimer");
 
             {
                 btnUpdate.setOnAction(event -> {
                     Utilisateur user = getTableView().getItems().get(getIndex());
-                    handleUpdateButtonAction(user);
+                    handleUpdateButtonAction();
                 });
 
                 btnDelete.setOnAction(event -> {
@@ -154,11 +191,14 @@ public class ListeUtilisateursController {
         colNom.setOnEditCommit(event -> {
             Utilisateur user = event.getRowValue();
             user.setNom(event.getNewValue());
+            user.setPrenom(event.getNewValue());
             utilisateurCrud.modifierEntite(user);
             refreshTableViewData();
         });
     }
-    private void handleUpdateButtonAction(Utilisateur user) {
+    @FXML
+    private void handleUpdateButtonAction() {
+        Utilisateur user = tableView.getSelectionModel().getSelectedItem();
         if (user == null) {
             showAlert("Veuillez sélectionner un utilisateur à modifier.");
             return;
@@ -177,6 +217,7 @@ public class ListeUtilisateursController {
         }
     }
 
+
     private void handleDeleteButtonAction(Utilisateur user) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -188,22 +229,44 @@ public class ListeUtilisateursController {
             utilisateurCrud.supprimerEntite(user.getId());
             // Mettre à jour l'affichage en supprimant l'utilisateur de la TableView
             tableView.getItems().remove(user);
+            // Rafraîchir la TableView après la suppression
+
+            refreshTableViewData();
+
+        }
             // Exécuter la requête TRUNCATE pour réinitialiser la table
             //executeTruncateQuery();
         }
         // Exécuter la requête TRUNCATE pour réinitialiser la table
         //executeTruncateQuery();
+
+ /*  private void truncateAndReorderUserIds() {
+    // Supprimer l'utilisateur souhaité (vous avez déjà cette partie dans votre code)
+    //utilisateurCrud.supprimerEntite(user.getId);
+
+    // Exécuter la commande TRUNCATE pour réinitialiser les valeurs d'auto-incrémentation des IDs
+    String truncateQuery = "TRUNCATE TABLE utilisateur";
+    try (Statement statement = connection.createStatement()) {
+        statement.executeUpdate(truncateQuery);
+        System.out.println("Table utilisateur tronquée avec succès.");
+    } catch (SQLException e) {
+        System.out.println("Erreur lors de la troncature de la table utilisateur : " + e.getMessage());
     }
-  /*  private void executeTruncateQuery() {
-        String truncateQuery = "TRUNCATE TABLE utilisateur"; // Remplacez "utilisateur" par le nom de votre table
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(truncateQuery);
-            System.out.println("Table utilisateur tronquée avec succès.");
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de la troncature de la table utilisateur : " + e.getMessage());
-        }
-    }*/
-  private void showAlert(String message) {
+
+    // Requérir les données des utilisateurs restants
+    List<Utilisateur> utilisateursRestants = utilisateurCrud.getAllUtilisateurs();
+
+    // Utiliser une boucle pour mettre à jour les IDs des utilisateurs restants dans l'ordre
+    for (int i = 0; i < utilisateursRestants.size(); i++) {
+        Utilisateur utilisateur = utilisateursRestants.get(i);
+        utilisateur.setId(i + 1); // Nouvelle valeur d'ID basée sur l'index de la boucle
+        utilisateurCrud.modifierEntite(utilisateur); // Mettre à jour l'utilisateur dans la base de données
+    }
+}*/
+
+
+
+    private void showAlert(String message) {
       Alert alert = new Alert(Alert.AlertType.WARNING);
       alert.setTitle("Attention");
       alert.setHeaderText(null);

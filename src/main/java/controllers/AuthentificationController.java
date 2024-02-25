@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
 
@@ -23,7 +24,7 @@ public class AuthentificationController {
     @FXML
     private URL location;
     @FXML
-    private Button btn;
+    private Button btn_auth;
 
     @FXML
     private TextField tfemail;
@@ -58,7 +59,7 @@ public class AuthentificationController {
     @FXML
     void initialize() {
 
-        btn.setOnAction(event -> {
+        btn_auth.setOnAction(event -> {
             // Récupérer les informations d'identification fournies par l'utilisateur (par exemple, à partir de champs de texte)
             String email = tfemail.getText();
             String password = tfmdp.getText();
@@ -72,12 +73,14 @@ public class AuthentificationController {
                 showSuccessMessage();
                 redirectToProfile(utilisateur.getRole().toString());
                 // Fermer la fenêtre d'authentification
-                Stage stage = (Stage) btn.getScene().getWindow();
+                Stage stage = (Stage) btn_auth.getScene().getWindow();
                 stage.close();
             }
         });
     }
     public void redirectToProfile(String role) {
+
+
         try {
             String fxmlFileName;
             switch (role) {
@@ -100,6 +103,7 @@ public class AuthentificationController {
             Parent root = loader.load();
 
 
+
             // Créer une nouvelle scène avec le contenu chargé du fichier FXML
             Scene scene = new Scene(root);
 
@@ -113,4 +117,5 @@ public class AuthentificationController {
             e.printStackTrace();
         }
     }
+
 }
