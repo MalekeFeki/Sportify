@@ -1,6 +1,7 @@
 package services;
 
 
+import entities.MdpGen;
 import entities.MdpHash;
 import entities.Utilisateur;
 import entities.enums.Role;
@@ -8,18 +9,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import tools.MyConnection;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 
 
 public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     private List<Utilisateur> registeredUsers;
     Connection cnx2;
-    public UtilisateurCrud(){
-        cnx2= MyConnection.getInstance().getCnx();
+
+    public UtilisateurCrud() {
+        cnx2 = MyConnection.getInstance().getCnx();
         registeredUsers = getAllUtilisateurs();
     }
+
     // Méthode pour charger la liste des utilisateurs enregistrés depuis la base de données
     private List<Utilisateur> loadRegisteredUsers() {
         List<Utilisateur> users = new ArrayList<>();
@@ -41,7 +50,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     public void ajouterEntite(Utilisateur u) {
         String req1 = "INSERT INTO utilisateur(cin, num_tel, nom, prenom, email, mdp, role) VALUES ('" + u.getCin() + "','" + u.getNum_tel() + "','" + u.getNom() + "','" + u.getPrenom() + "','" + u.getEmail() + "','" + u.getMdp() + "','" + u.getRole() + "')";
         try {
-            Statement st=cnx2.createStatement();
+            Statement st = cnx2.createStatement();
             st.executeUpdate(req1);
             System.out.println("Utilisateur ajouté");
         } catch (SQLException e) {
@@ -55,9 +64,9 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         String req3 = "SELECT * FROM utilisateur";
         try {
             Statement stm = cnx2.createStatement();
-            ResultSet rs=stm.executeQuery(req3);
-            while (rs.next()){
-                Utilisateur u=new Utilisateur();
+            ResultSet rs = stm.executeQuery(req3);
+            while (rs.next()) {
+                Utilisateur u = new Utilisateur();
                 u.setId(rs.getInt(1));
                 u.setNom(rs.getString("nom"));
                 u.setPrenom(rs.getString("prenom"));
@@ -68,6 +77,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         }
         return utilisateurs;
     }
+
     public void ajouterEntite2(Utilisateur u) {
         // Hacher le mot de passe avant de l'ajouter à la base de données
         String hashedPassword = MdpHash.hashPassword(u.getMdp());
@@ -127,36 +137,37 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             System.out.println(e.getMessage());
         }
     }
+
     public List<Utilisateur> getAllUtilisateurs() {
         List<Utilisateur> utilisateurs = new ArrayList<>();
 
-            // Préparer la requête SQL pour récupérer tous les utilisateurs
-            String sql = "SELECT * FROM utilisateur";
-            try (PreparedStatement statement = cnx2.prepareStatement(sql)) {
-                // Exécuter la requête et récupérer le résultat
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    // Parcourir le résultat et ajouter chaque utilisateur à la liste
-                    while (resultSet.next()) {
-                        Utilisateur utilisateur = new Utilisateur();
-                        utilisateur.setId(resultSet.getInt("id"));
-                        utilisateur.setCin(resultSet.getInt("cin"));
-                        utilisateur.setNum_tel(resultSet.getInt("num_tel"));
-                        utilisateur.setNom(resultSet.getString("nom"));
-                        utilisateur.setPrenom(resultSet.getString("prenom"));
-                        utilisateur.setEmail(resultSet.getString("email"));
-                        utilisateur.setMdp(resultSet.getString("mdp"));
-                        String roleString = resultSet.getString("role");
-                        Role role = Role.valueOf(roleString);
-                        utilisateur.setRole(role);
-                        utilisateurs.add(utilisateur);
-                    }
+        // Préparer la requête SQL pour récupérer tous les utilisateurs
+        String sql = "SELECT * FROM utilisateur";
+        try (PreparedStatement statement = cnx2.prepareStatement(sql)) {
+            // Exécuter la requête et récupérer le résultat
+            try (ResultSet resultSet = statement.executeQuery()) {
+                // Parcourir le résultat et ajouter chaque utilisateur à la liste
+                while (resultSet.next()) {
+                    Utilisateur utilisateur = new Utilisateur();
+                    utilisateur.setId(resultSet.getInt("id"));
+                    utilisateur.setCin(resultSet.getInt("cin"));
+                    utilisateur.setNum_tel(resultSet.getInt("num_tel"));
+                    utilisateur.setNom(resultSet.getString("nom"));
+                    utilisateur.setPrenom(resultSet.getString("prenom"));
+                    utilisateur.setEmail(resultSet.getString("email"));
+                    utilisateur.setMdp(resultSet.getString("mdp"));
+                    String roleString = resultSet.getString("role");
+                    Role role = Role.valueOf(roleString);
+                    utilisateur.setRole(role);
+                    utilisateurs.add(utilisateur);
                 }
             }
-         catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return utilisateurs;
     }
+
     public Utilisateur getUtilisateurById(int id) {
         Utilisateur utilisateur = null;
         String query = "SELECT * FROM utilisateur WHERE id = ?";
@@ -192,6 +203,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         return registeredUsers.stream()
                 .anyMatch(user -> user.getEmail().equals(email) && user.getMdp().equals(password));
     }
+
     public boolean utilisateurExisteDeja(String cin, String email) {
 
 
@@ -246,6 +258,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         }
         return utilisateur;
     }
+
     public ObservableList<Utilisateur> getUtilisateursByRole(Role role) {
         List<Utilisateur> utilisateursFiltres = new ArrayList<>();
         for (Utilisateur utilisateur : getAllUtilisateurs()) {
@@ -254,6 +267,10 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             }
         }
         return FXCollections.observableArrayList(utilisateursFiltres);
+    }
+
+    public static String genererNouveauMdp() {
+        return MdpGen.genererMdp();
     }
 
 }
