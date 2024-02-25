@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import entities.Evenement;
 import entities.enums.GenreEv;
+import entities.enums.cityEV;
 import entities.enums.typeEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,6 +51,8 @@ public class AjouterEventController {
 
     @FXML
     private TextField lieuTextField;
+    @FXML
+    private TextField cityTextField;
 
     @FXML
     private TextField numTeleTextField;
@@ -68,7 +71,8 @@ public class AjouterEventController {
 
     @FXML
     private ComboBox<typeEvent> typeEventComboBox;
-
+    @FXML
+    private ComboBox<cityEV> cityEVComboBox;
     @FXML
     private TextField capaciteTextField;
 
@@ -115,7 +119,9 @@ public class AjouterEventController {
             // Populate GenreEv ComboBox with values from the enum
             ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
             genreEvenementComboBox.setItems(genreEvenementList);
-
+            // Populate cityEV ComboBox with values from the enum
+            ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
+            cityEVComboBox.setItems(cityEVList);
             // Set default values if needed
             typeEventComboBox.setValue(typeEvent.PublicEvent);
             genreEvenementComboBox.setValue(GenreEv.competition);
@@ -163,6 +169,7 @@ public class AjouterEventController {
         LocalDate dateFin = dateFinDatePicker.getValue();
         String heure = hoursComboBox.getValue() + ":" + minutesComboBox.getValue();
         String lieu = lieuTextField.getText();
+        cityEV city = cityEVComboBox.getValue();
         String numTele = numTeleTextField.getText();
         String email = emailTextField.getText();
         String fbLink = fbLinkTextField.getText();
@@ -173,7 +180,7 @@ public class AjouterEventController {
 
         // Create Evenement object
         Evenement newEvent = new Evenement(nomEvenement, Date.valueOf(dateDebut), Date.valueOf(dateFin), heure,
-                description, filePath, lieu, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite);
+                description, filePath, lieu,city, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite);
         System.out.println(newEvent);
         // Add the event to the database
         evenementCrud.ajouterEvent(newEvent);

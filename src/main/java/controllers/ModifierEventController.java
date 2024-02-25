@@ -18,6 +18,7 @@ import javafx.stage.FileChooser;
 import entities.Evenement;
 import entities.enums.GenreEv;
 import entities.enums.typeEvent;
+import entities.enums.cityEV;
 import javafx.stage.Stage;
 import services.EvenementCrud;
 
@@ -51,6 +52,7 @@ public class ModifierEventController {
     @FXML
     private TextField lieuTextField;
 
+
     @FXML
     private TextField numTeleTextField;
 
@@ -68,6 +70,8 @@ public class ModifierEventController {
 
     @FXML
     private ComboBox<typeEvent> typeEventComboBox;
+    @FXML
+    private ComboBox<cityEV> cityEVComboBox;
 
     @FXML
     private TextField capaciteTextField;
@@ -111,10 +115,14 @@ public class ModifierEventController {
         // Populate GenreEv ComboBox with values from the enum
         ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
         genreEvenementComboBox.setItems(genreEvenementList);
+        // Populate cityEV ComboBox with values from the enum
+        ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
+        cityEVComboBox.setItems(cityEVList);
 
         // Set default values if needed
         typeEventComboBox.setValue(typeEvent.PublicEvent);
         genreEvenementComboBox.setValue(GenreEv.competition);
+
         System.out.println("nomEvenementTextField: " + nomEvenementTextField);
         assert hoursComboBox != null : "fx:id=\"hoursComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
         assert minutesComboBox != null : "fx:id=\"minutesComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
@@ -187,6 +195,7 @@ public class ModifierEventController {
         igLinkTextField.setText(event.getIG_link());
         genreEvenementComboBox.setValue(event.getGenreEvenement());
         typeEventComboBox.setValue(event.getTypeEV());
+        cityEVComboBox.setValue(event.getCity());
         capaciteTextField.setText(String.valueOf(event.getCapacite()));
 
         // Load and display the image
@@ -208,8 +217,10 @@ public class ModifierEventController {
         String email = emailTextField.getText();
         String fbLink = fbLinkTextField.getText();
         String igLink = igLinkTextField.getText();
+        cityEV city = cityEVComboBox.getValue();
         GenreEv genreEvenement = genreEvenementComboBox.getValue();
         typeEvent typeEvenement = typeEventComboBox.getValue();
+
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
         // Update the event with new values
@@ -219,6 +230,7 @@ public class ModifierEventController {
         eventToModify.setDatedFinEV(Date.valueOf(dateFin));
         eventToModify.setHeureEV(heure);
         eventToModify.setLieu(lieu);
+        eventToModify.setCity(city);
         eventToModify.setTele(numTele);
         eventToModify.setEmail(email);
         eventToModify.setFB_link(fbLink);

@@ -16,19 +16,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1032.0" prefWidth="1087.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AllEventController">
-   <children>
-      <ScrollPane fx:id="scrollPane" layoutX="18.4" layoutY="204.8" prefHeight="828.0" prefWidth="1041.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="205.0">
-         <content>
-            <VBox alignment="CENTER" prefHeight="774.0" prefWidth="1038.0" spacing="10">
+<ScrollPane fx:id="scrollPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AllEventController">
+
+   <AnchorPane prefHeight="1002.0" prefWidth="1893.0">
+      <children>
+         <ImageView fitHeight="707.0" fitWidth="1371.0" layoutY="53.0">
+            <image>
+               <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/back.jpg" />
+            </image>
+         </ImageView>
+
+            <VBox alignment="CENTER" layoutX="22.0" layoutY="272.0" prefHeight="730.0" prefWidth="1312.0" spacing="10">
                <children>
-                  <FlowPane fx:id="eventFlowPane" hgap="10" prefHeight="672.0" prefWidth="1163.0" vgap="10">
+                  <Pagination fx:id="pagination" prefHeight="147.0" prefWidth="1279.0" />
+                  <FlowPane fx:id="eventFlowPane" hgap="10" prefHeight="537.0" prefWidth="1333.0" rowValignment="TOP" vgap="10">
          </FlowPane>
-                  <Pagination fx:id="pagination" prefHeight="45.0" prefWidth="966.0" />
                </children></VBox>
-         </content>
-      </ScrollPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="78.0" stroke="BLACK" strokeType="INSIDE" width="1086.0" />
+
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="91.0" layoutX="-270.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="2199.0" />
       <ImageView fitHeight="60.0" fitWidth="71.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
@@ -46,9 +51,10 @@
             <Insets bottom="10" left="10" right="10" top="10" />
          </padding>
          <ComboBox fx:id="typeFilter" promptText="Event Type" />
-         <ComboBox fx:id="cityFilter" promptText="City" />
-         <ComboBox fx:id="sportTypeFilter" promptText="Sport Type" />
+         <ComboBox fx:id="cityFilter" promptText="ville" />
          <ComboBox fx:id="monthFilter" promptText="Month" />
+         <Button text="Apply Filters" onAction="#filterEvents" />
       </HBox>
    </children>
 </AnchorPane>
+</ScrollPane>

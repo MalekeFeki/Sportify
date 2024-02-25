@@ -2,6 +2,7 @@ package entities;
 
 import entities.enums.GenreEv;
 import entities.enums.typeEvent;
+import entities.enums.cityEV;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class Evenement {
     private String DescrptionEv;
     private String Photo;
     private String lieu;
+    private cityEV city;
     private String Tele;
     private String Email;
     private String FB_link;
@@ -29,7 +31,7 @@ public class Evenement {
     public Evenement() {
     }
 
-    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
+    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city ,String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
         this.reservations = reservations;
         this.IDevent = IDevent;
         NomEv = nomEv;
@@ -39,6 +41,7 @@ public class Evenement {
         DescrptionEv = descrptionEv;
         Photo = photo;
         this.lieu = lieu;
+        this.city=city;
         Tele = tele;
         Email = email;
         this.FB_link = FB_link;
@@ -49,7 +52,7 @@ public class Evenement {
         Capacite = capacite;
     }
 
-    public Evenement(String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int capacite) {
+    public Evenement(String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int capacite) {
         NomEv = nomEv;
         DatedDebutEV = datedDebutEV;
         DatedFinEV = datedFinEV;
@@ -57,6 +60,7 @@ public class Evenement {
         DescrptionEv = descrptionEv;
         Photo = photo;
         this.lieu = lieu;
+        this.city=city;
         Tele = tele;
         Email = email;
         this.FB_link = FB_link;
@@ -78,6 +82,7 @@ public class Evenement {
                 ", DescrptionEv='" + DescrptionEv + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", lieu='" + lieu + '\'' +
+                ", city='" + city + '\'' +
                 ", Tele='" + Tele + '\'' +
                 ", Email='" + Email + '\'' +
                 ", FB_link='" + FB_link + '\'' +
@@ -159,6 +164,14 @@ public class Evenement {
 
     public void setLieu(String lieu) {
         this.lieu = lieu;
+    }
+
+    public cityEV getCity() {
+        return city;
+    }
+
+    public void setCity(cityEV city) {
+        this.city = city;
     }
 
     public String getTele() {

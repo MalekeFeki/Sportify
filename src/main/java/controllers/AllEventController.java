@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -32,8 +33,16 @@ public class AllEventController implements Initializable {
 
     private EvenementCrud evenementCrud = new EvenementCrud();
     private ObservableList<Evenement> allEvents;
+    @FXML
+    private ComboBox<String> typeFilter;
 
-    private static final int EVENTS_PER_PAGE = 1; // Set the number of events per page
+    @FXML
+    private ComboBox<String> cityFilter;
+
+    @FXML
+    private ComboBox<String> monthFilter;
+
+    private static final int EVENTS_PER_PAGE = 6; // Set the number of events per page
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,6 +56,7 @@ public class AllEventController implements Initializable {
         allEvents = FXCollections.observableArrayList(events);
         displayEvents(allEvents);
     }
+
 
     private void displayEvents(List<Evenement> events) {
         int pageCount = (int) Math.ceil((double) events.size() / EVENTS_PER_PAGE);
@@ -74,8 +84,13 @@ public class AllEventController implements Initializable {
 
     private VBox createEventBox(Evenement event) {
         Text eventNameText = new Text(event.getNomEv());
-        Text eventDescriptionText = new Text(event.getDescrptionEv());
-        eventDescriptionText.setWrappingWidth(200);
+        // Limit the displayed description to 200 characters
+        String eventDescription = event.getDescrptionEv();
+        if (eventDescription.length() > 200) {
+            eventDescription = eventDescription.substring(0, 20) + " ...";
+        }
+
+        Text eventDescriptionText = new Text(eventDescription);
 
         Button moreInfoButton = new Button("More Info");
 
@@ -88,7 +103,7 @@ public class AllEventController implements Initializable {
                 imageView
         );
         eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px;");
-        eventBox.setMinWidth(150);
+        eventBox.setMinWidth(50);
 
         return eventBox;
     }
@@ -100,7 +115,7 @@ public class AllEventController implements Initializable {
     private ScrollPane scrollPane;
     private void handleScroll(ScrollEvent event) {
         double deltaY = event.getDeltaY();
-        double scrollSpeed = 0.005; // You can adjust the scroll speed
+        double scrollSpeed = 0.01; // You can adjust the scroll speed
 
         scrollPane.setVvalue(scrollPane.getVvalue() - deltaY * scrollSpeed);
     }
@@ -108,4 +123,7 @@ public class AllEventController implements Initializable {
     private void configurePagination() {
         pagination.setPageFactory(pageIndex -> createPage(pageIndex));
     }
+
+
+
 }

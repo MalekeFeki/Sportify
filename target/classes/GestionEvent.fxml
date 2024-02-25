@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="765.0" prefWidth="938.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionEventController">
+<AnchorPane prefHeight="765.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionEventController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="58.0" stroke="BLACK" strokeType="INSIDE" width="938.0" />
+      <ImageView fitHeight="737.0" fitWidth="1128.0" layoutX="-7.0" layoutY="58.0">
+         <image>
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/back.jpg" />
+         </image>
+      </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="58.0" stroke="BLACK" strokeType="INSIDE" width="1122.0" />
         <ImageView fitHeight="51.0" fitWidth="61.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
             </image>
         </ImageView>
-        <Button fx:id="AjouterEvenement" layoutX="716.0" layoutY="92.0" mnemonicParsing="false" onAction="#redirectToAjouterEvenement" prefHeight="40.0" prefWidth="192.0" text="Ajouter Evenement" textAlignment="CENTER">
+        <Button fx:id="AjouterEvenement" layoutX="882.0" layoutY="102.0" mnemonicParsing="false" onAction="#redirectToAjouterEvenement" prefHeight="40.0" prefWidth="192.0" text="Ajouter Evenement" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Button>
-        <TableView fx:id="eventTableView" layoutX="21.0" layoutY="158.0" prefHeight="200.0" prefWidth="895.0" />
-        <Label layoutX="26.0" layoutY="92.0" prefHeight="40.0" prefWidth="214.0" text="GESTION EVENEMENT">
+        <TableView fx:id="eventTableView" layoutX="116.0" layoutY="167.0" prefHeight="472.0" prefWidth="895.0" />
+        <Label layoutX="26.0" layoutY="92.0" prefHeight="46.0" prefWidth="347.0" text="GESTION EVENEMENT">
             <font>
-                <Font name="System Bold" size="18.0" />
+                <Font name="System Bold" size="31.0" />
             </font>
         </Label>
         <Label layoutX="65.0" layoutY="17.0" text="SPORTIFY" textFill="WHITE">

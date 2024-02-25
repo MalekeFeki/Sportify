@@ -3,6 +3,7 @@ package services;
 import entities.Evenement;
 import entities.enums.GenreEv;
 import entities.enums.typeEvent;
+import entities.enums.cityEV;
 import tools.MyConnection;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     @Override
     public void ajouterEvent(Evenement u) {
 
-        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,city,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pst ;
         try {
             pst = cnx2.prepareStatement(req);
@@ -30,13 +31,14 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             pst.setString(5,u.getDescrptionEv());
             pst.setString(6,u.getPhoto());
             pst.setString(7,u.getLieu());
-            pst.setString(8,u.getTele());
-            pst.setString(9,u.getEmail());
-            pst.setString(10,u.getFB_link());
-            pst.setString(11,u.getIG_link());
-            pst.setString(12,u.getGenreEvenement().name());
-            pst.setString(13,u.getTypeEV().name());
-            pst.setInt(14,u.getNombrePersonneInteresse());
+            pst.setString(8,u.getCity().name());
+            pst.setString(9,u.getTele());
+            pst.setString(10,u.getEmail());
+            pst.setString(11,u.getFB_link());
+            pst.setString(12,u.getIG_link());
+            pst.setString(13,u.getGenreEvenement().name());
+            pst.setString(14,u.getTypeEV().name());
+            pst.setInt(15,u.getNombrePersonneInteresse());
             pst.executeUpdate();
 
         } catch (SQLException e) {
@@ -64,6 +66,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 p.setDescrptionEv(rs.getString("DescrptionEv"));
                 p.setPhoto(rs.getString("Photo"));
                 p.setLieu(rs.getString("lieu"));
+                p.setCity(cityEV.valueOf(rs.getString("city")));
                 p.setTele(rs.getString("Tele"));
                 p.setEmail(rs.getString("Email"));
                 p.setFB_link(rs.getString("FB_link"));
@@ -85,7 +88,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     @Override
     public void modifierEvent(Evenement u) {
         String req = "UPDATE Evenement SET NomEv=?, DatedDebutEV=?, DatedFinEV=?, HeureEV=?, DescrptionEv=?, " +
-                "Photo=?, lieu=?, Tele=?, Email=?, FB_link=?, IG_link=?, GenreEvenement=?, " +
+                "Photo=?, lieu=?,City=? ,Tele=?, Email=?, FB_link=?, IG_link=?, GenreEvenement=?, " +
                 "typeEV=?, Capacite=? WHERE IDevent=?";
 
         try (PreparedStatement ps = cnx2.prepareStatement(req)) {
@@ -96,14 +99,15 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             ps.setString(5, u.getDescrptionEv());
             ps.setString(6, u.getPhoto());
             ps.setString(7, u.getLieu());
-            ps.setString(8, u.getTele());
-            ps.setString(9, u.getEmail());
-            ps.setString(10, u.getFB_link());
-            ps.setString(11, u.getIG_link());
-            ps.setString(12, u.getGenreEvenement().toString());
-            ps.setString(13, u.getTypeEV().toString());
-            ps.setInt(14, u.getCapacite());
-            ps.setInt(15, u.getIDevent());
+            ps.setString(8, u.getCity().toString());
+            ps.setString(9, u.getTele());
+            ps.setString(10, u.getEmail());
+            ps.setString(11, u.getFB_link());
+            ps.setString(12, u.getIG_link());
+            ps.setString(13, u.getGenreEvenement().toString());
+            ps.setString(14, u.getTypeEV().toString());
+            ps.setInt(15, u.getCapacite());
+            ps.setInt(16, u.getIDevent());
 
             int r = ps.executeUpdate();
             if (r > 0) {
@@ -135,4 +139,77 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             System.err.println(e.getMessage());
         }
     }
+
+    public List<String> getEventTypes() {
+        List<String> eventTypes = new ArrayList<>();
+        // Query to get distinct event types from the database
+        String query = "SELECT DISTINCT GenreEvenement FROM Evenement";
+        try (Statement statement = cnx2.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                eventTypes.add(resultSet.getString("GenreEvenement"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+        return eventTypes;
+    }
+
+    public List<String> getCities() {
+        List<String> cities = new ArrayList<>();
+        // Query to get distinct cities from the database
+        String query = "SELECT DISTINCT city FROM Evenement";
+        try (Statement statement = cnx2.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                cities.add(resultSet.getString("city"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+        return cities;
+    }
+
+
+
+    public List<Evenement> filterEvents(String eventType, String city) {
+        List<Evenement> filteredEvents = new ArrayList<>();
+        // Construct the SQL query based on the provided parameters
+        String query = "SELECT * FROM Evenement WHERE GenreEvenement = ? AND city = ?";
+        try (PreparedStatement preparedStatement = cnx2.prepareStatement(query)) {
+            preparedStatement.setString(1, eventType);
+            preparedStatement.setString(2, city);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Evenement event = mapResultSetToEvent(resultSet);
+                    filteredEvents.add(event);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+        return filteredEvents;
+    }
+    private Evenement mapResultSetToEvent(ResultSet resultSet) throws SQLException {
+        Evenement event = new Evenement();
+        event.setIDevent(resultSet.getInt("IDevent"));
+        event.setNomEv(resultSet.getString("NomEv"));
+        event.setDatedDebutEV(resultSet.getDate("DatedDebutEV"));
+        event.setDatedFinEV(resultSet.getDate("DatedFinEV"));
+        event.setHeureEV(resultSet.getString("HeureEV"));
+        event.setDescrptionEv(resultSet.getString("DescrptionEv"));
+        event.setPhoto(resultSet.getString("Photo"));
+        event.setLieu(resultSet.getString("lieu"));
+        event.setCity(cityEV.valueOf(resultSet.getString("city")));
+        event.setTele(resultSet.getString("Tele"));
+        event.setEmail(resultSet.getString("Email"));
+        event.setFB_link(resultSet.getString("FB_link"));
+        event.setIG_link(resultSet.getString("IG_link"));
+        event.setGenreEvenement(GenreEv.valueOf(resultSet.getString("GenreEvenement")));
+        event.setTypeEV(typeEvent.valueOf(resultSet.getString("typeEV")));
+        event.setNombrePersonneInteresse(resultSet.getInt("nombrePersonneInteresse"));
+        event.setCapacite(resultSet.getInt("Capacite"));
+        return event;
+    }
+
 }
