@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Evenement;
@@ -83,13 +84,34 @@ public class GestionEventController {
             {
                 deleteButton.setOnAction(event -> {
                     Evenement eventToDelete = getTableView().getItems().get(getIndex());
-                    evenementCrud.supprimerEvent(eventToDelete.getIDevent());
-                    loadEvents(); // Refresh the TableView after deletion
-                    showAlert("Event Deleted", "Event has been deleted successfully.");
+
+                    // Display confirmation alert
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("Delete Event");
+                    alert.setContentText("Voulez-vous vraiment supprimer l'événement " + eventToDelete.getNomEv() + "?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        evenementCrud.supprimerEvent(eventToDelete.getIDevent());
+                        loadEvents(); // Refresh the TableView after deletion
+                        showAlert("Event Deleted", "Event has been deleted successfully.");
+                    }
                 });
+
                 modifyButton.setOnAction(event -> {
                     Evenement eventToModify = getTableView().getItems().get(getIndex());
-                    redirectToModifierEvent(eventToModify);
+
+                    // Display confirmation alert
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("Modify Event");
+                    alert.setContentText("Voulez-vous vraiment modifier l'événement " + eventToModify.getNomEv() + "?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        redirectToModifierEvent(eventToModify);
+                    }
                 });
             }
 
@@ -99,7 +121,7 @@ public class GestionEventController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox buttons = new HBox(deleteButton,modifyButton);
+                    HBox buttons = new HBox(deleteButton, modifyButton);
                     buttons.setSpacing(5);
                     setGraphic(buttons);
                 }

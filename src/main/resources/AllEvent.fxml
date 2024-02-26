@@ -18,7 +18,7 @@
 
 <ScrollPane fx:id="scrollPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AllEventController">
 
-   <AnchorPane prefHeight="1002.0" prefWidth="1893.0">
+   <AnchorPane prefHeight="761.0" prefWidth="1376.0">
       <children>
          <ImageView fitHeight="707.0" fitWidth="1371.0" layoutY="53.0">
             <image>
@@ -26,14 +26,14 @@
             </image>
          </ImageView>
 
-            <VBox alignment="CENTER" layoutX="22.0" layoutY="272.0" prefHeight="730.0" prefWidth="1312.0" spacing="10">
+            <VBox alignment="CENTER" layoutX="22.0" layoutY="272.0" prefHeight="487.0" prefWidth="1312.0" spacing="10">
                <children>
                   <Pagination fx:id="pagination" prefHeight="147.0" prefWidth="1279.0" />
-                  <FlowPane fx:id="eventFlowPane" hgap="10" prefHeight="537.0" prefWidth="1333.0" rowValignment="TOP" vgap="10">
+                  <FlowPane fx:id="eventFlowPane" hgap="10" prefHeight="90.0" prefWidth="1312.0" rowValignment="TOP" vgap="10">
          </FlowPane>
                </children></VBox>
 
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="91.0" layoutX="-270.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="2199.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="91.0" layoutX="-270.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="1633.0" />
       <ImageView fitHeight="60.0" fitWidth="71.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
@@ -44,16 +44,15 @@
             <Font name="System Bold" size="27.0" />
          </font>
       </Text>
-      <TextField layoutX="37.0" layoutY="149.0" prefHeight="39.0" prefWidth="190.0" />
-      <Button layoutX="245.0" layoutY="157.0" mnemonicParsing="false" text="SEARCH" />
-      <HBox layoutX="345.0" layoutY="147.0" spacing="10">
+      <TextField fx:id="textFieldSEARCH" layoutX="37.0" layoutY="149.0" prefHeight="39.0" prefWidth="190.0" promptText="recherche par nom d'événement" />
+         <Button layoutX="245.0" layoutY="157.0" mnemonicParsing="false" onAction="#searchEvents" text="SEARCH" />
+         <HBox layoutX="345.0" layoutY="147.0" spacing="10">
          <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
          </padding>
          <ComboBox fx:id="typeFilter" promptText="Event Type" />
          <ComboBox fx:id="cityFilter" promptText="ville" />
-         <ComboBox fx:id="monthFilter" promptText="Month" />
-         <Button text="Apply Filters" onAction="#filterEvents" />
+         <Button onAction="#filterEvents" text="Apply Filters" />
       </HBox>
    </children>
 </AnchorPane>

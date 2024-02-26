@@ -161,7 +161,14 @@ public class AjouterEventController {
     @FXML
     void ajouterEvent() {
         System.out.println("Submitting Event...");
+        if (!validateGeneralInput()) {
+            return; // Stop processing if general input validation fails
+        }
 
+        // Validate additional input constraints
+        if (!validateAdditionalInput()) {
+            return; // Stop processing if additional input validation fails
+        }
         // Get values from UI controls
         String nomEvenement = nomEvenementTextField.getText();
         String description = descriptionTextArea.getText();
@@ -209,6 +216,59 @@ public class AjouterEventController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private boolean validateGeneralInput() {
+        if (nomEvenementTextField.getText().isEmpty() || dateDebutDatePicker.getValue() == null ||
+                lieuTextField.getText().isEmpty() || numTeleTextField.getText().isEmpty() ||
+                emailTextField.getText().isEmpty() || fbLinkTextField.getText().isEmpty() ||
+                igLinkTextField.getText().isEmpty() || genreEvenementComboBox.getValue() == null ||
+                typeEventComboBox.getValue() == null || cityEVComboBox.getValue() == null ||
+                capaciteTextField.getText().isEmpty()) {
+
+            showAlert("Input Validation", "Please fill in all required fields.");
+            return false;
+        }
+
+        // Validate email format
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+        if (!emailTextField.getText().matches(emailRegex)) {
+            showAlert("Input Validation", "Please enter a valid email address.");
+            return false;
+        }
+
+        return true;
+    }
+    private boolean validateAdditionalInput() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        // Check if the end date is after the start date
+        LocalDate startDate = dateDebutDatePicker.getValue();
+        LocalDate endDate = dateFinDatePicker.getValue();
+        if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+            errorMessage.append("End date must be after start date.\n");
+        }
+
+        // Check if the phone number contains only numbers
+        String numTele = numTeleTextField.getText();
+        if (!numTele.matches("\\d+")) {
+            errorMessage.append("Phone number must contain only numbers.\n");
+        }
+
+        // Check if the capacity contains only numbers
+        String capacite = capaciteTextField.getText();
+        if (!capacite.matches("\\d+")) {
+            errorMessage.append("Capacity must contain only numbers.\n");
+        }
+
+        // Display error message if any validation failed
+        if (errorMessage.length() > 0) {
+            showAlert("Validation Error", errorMessage.toString());
+            return false;
+        }
+
+        return true; // Input is valid
     }
 
 }
