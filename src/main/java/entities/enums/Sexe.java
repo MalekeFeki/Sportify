@@ -1,2 +1,5 @@
-package entities.enums;public class Sexe {
+package entities.enums;
+public enum Sexe {
+    homme, femme
 }
+

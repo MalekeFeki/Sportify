@@ -1,2 +1,7 @@
-package entities.enums;public enum Seance {
+package entities.enums;
+
+public enum Seance {
+
+        a, b,c,d
+
 }

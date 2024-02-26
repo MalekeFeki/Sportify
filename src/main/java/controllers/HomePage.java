@@ -13,17 +13,21 @@ public class HomePage extends Application {
         launch(args);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        try {
-            Parent root= FXMLLoader.load(getClass().getResource("/inscription.fxml"));
-            primaryStage.setTitle("Inscription");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+
+        @Override
+        public void start(Stage primaryStage) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/coach.fxml"));
+                primaryStage.setTitle("Coach");
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                System.out.println("Erreur lors du chargement du fichier FXML : " + e.getMessage());
+                e.printStackTrace();
+            }
         }
 
+
     }
-    }
+
 
