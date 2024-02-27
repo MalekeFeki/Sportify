@@ -22,27 +22,9 @@
          <Image url="@../../../../../../../../../Downloads/background_2.png" />
       </image>
    </ImageView>
+    <TableView fx:id="avisTableView" layoutX="433.0" layoutY="141.0" prefHeight="408.0" prefWidth="431.0" />
 
-    <!-- TableView stylé -->
-    <TableView fx:id="avisTableView" layoutX="433.0" layoutY="141.0" prefHeight="408.0" prefWidth="431.0" styleClass="custom-table-view">
-        <columns>
-            <TableColumn fx:id="idA" prefWidth="75" text="ID">
-                <cellValueFactory>
-                    <PropertyValueFactory property="idA" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="100" text="Type">
-                <cellValueFactory>
-                    <PropertyValueFactory property="type" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="253.0" text="Description">
-                <cellValueFactory>
-                    <PropertyValueFactory property="description" />
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-    </TableView>
+
    <Rectangle arcHeight="5.0" arcWidth="5.0" height="62.0" stroke="BLACK" strokeType="INSIDE" width="870.0" />
    <PieChart layoutX="47.0" layoutY="151.0" prefHeight="260.0" prefWidth="273.0" />
    <StackedBarChart layoutX="40.0" layoutY="190.0" prefHeight="311.0" prefWidth="334.0">

@@ -2,13 +2,42 @@ package controllers;
 
 import entities.Avis;
 import entities.enums.TypeAvis;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import services.AvisCrud;
 
+import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.List;
-public class AfficherAvisController {
-    private AvisCrud avisCrud;
+import java.util.ResourceBundle;
 
-    public AfficherAvisController() {
+public class AfficherAvisController implements Initializable {
+    private AvisCrud avisCrud;
+     private TableColumn<Avis,Integer> idA ;
+    private TableColumn<Avis,TypeAvis> type ;
+    private TableColumn<Avis,String> description ;
+    @FXML
+    private TableView<Avis> avisTableView ;
+
+    @FXML
+    private ObservableList<Avis> observableAVIS = FXCollections.observableArrayList();
+    private void loadAvis() {
+        observableAVIS.clear(); // Clear existing items
+        List<Avis> events = avisCrud.afficherAvis();
+        observableAVIS.addAll(events);
+        System.out.println(observableAVIS);
+
+        // Set the items in the TableView
+        avisTableView.setItems(observableAVIS);
+    }
+
+
+    public AfficherAvisController()  {
         this.avisCrud = new AvisCrud();
     }
 
@@ -45,5 +74,17 @@ public class AfficherAvisController {
     public void calculerEtAfficherAvisMoyen(List<Avis> listeAvis) {
         Avis avisMoyen = avisCrud.calculerAvisMoyen(listeAvis);
         System.out.println(avisMoyen.toString());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TableColumn<Avis, Integer> idA = new TableColumn<>("idA");
+        TableColumn<Avis, String> type = new TableColumn<>("typeAvis");  // Corrected column name
+        TableColumn<Avis, String> description = new TableColumn<>("description");
+        idA.setCellValueFactory(new PropertyValueFactory<>("idA"));
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));  // Corrected field name
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        avisTableView.getColumns().addAll(idA,type,description);
+        loadAvis();
     }
 }

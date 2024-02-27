@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import entities.Avis;
 import entities.enums.TypeAvis;
+import services.AvisCrud;
 
 public class AvisController {
 
@@ -30,6 +31,8 @@ public class AvisController {
         Avis avis = new Avis();
         avis.setDescription(description);
         avis.setType(TypeAvis.valueOf(selectedRating));
+        AvisCrud avisCrud = new AvisCrud();
+        avisCrud.ajouterAvis(avis);
 
 
         showAlert(Alert.AlertType.INFORMATION, "Rating Submitted", "Your rating has been submitted successfully!");

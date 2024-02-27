@@ -26,11 +26,7 @@
                 <ChoiceBox fx:id="ratingChoiceBox" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="MEDIOCRE" />
-                            <String fx:value="PASSABLE" />
-                            <String fx:value="MOYEN" />
-                            <String fx:value="BIEN" />
-                            <String fx:value="EXCELLENT" />
+
                         </FXCollections>
                     </items>
                 </ChoiceBox>
