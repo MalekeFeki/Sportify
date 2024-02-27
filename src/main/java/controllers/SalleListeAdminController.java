@@ -1,29 +1,20 @@
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
-
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import entities.Salle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import services.SalleCrud;
 
 
-public class SalleListeController {
-
-    @FXML
-    private Button AdminButton;
+public class SalleListeAdminController {
 
     @FXML
     private ResourceBundle resources;
@@ -61,33 +52,11 @@ public class SalleListeController {
     @FXML
     private Button supprimerButton;
 
-    private Hyperlink hyperlink;
-
     private SalleCrud salleCrud;
     SalleCrud salleservices = new SalleCrud();
 
     @FXML
     void initialize() {
-        AdminButton.setOnAction(event -> {
-            try {
-                // Chargez la page d'authentification depuis le fichier FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListeAdmin.fxml"));
-                Parent root = loader.load();
-
-                // Créez une nouvelle scène et un nouveau stage
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-
-                // Affichez la nouvelle scène
-                stage.show();
-
-                // Fermez la fenêtre actuelle
-                ((Stage) hyperlink.getScene().getWindow()).close();
-            } catch (IOException e) {
-                e.printStackTrace(); // Gérez l'exception selon vos besoins
-            }
-        });
-
         salleCrud = new SalleCrud();
         // Set up cell value factories for each column
 
@@ -113,6 +82,57 @@ public class SalleListeController {
     }
 
 
+
+
+
+    @FXML
+    private void handleUpdateButtonAction() {
+        Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
+        if (salle == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une salle à modifier.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous vraiment modifier cette salle ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            salleCrud.modifierSalle(salle);
+            // Rafraîchissez les données dans la TableView après la mise à jour.
+            // refreshTableViewData();
+        }
+    }
+
+
+    @FXML
+    void buttonSupprimer(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous vraiment supprimer cette salle ?");
+
+        // No need to create a new instance of Salle here
+        // Salle salle = new Salle();
+
+        Optional<ButtonType> result = alert.showAndWait();
+        Salle selectedSalle = gymsTableView.getSelectionModel().getSelectedItem();
+
+        if (result.isPresent() && result.get() == ButtonType.OK && selectedSalle != null) {
+            salleservices.supprimerSalle(selectedSalle);
+            System.out.println("Supprimé du tableview");
+
+            // Mettre à jour l'affichage en supprimant la salle de la TableView
+            gymsTableView.getItems().remove(selectedSalle);
+        }
+    }
+
+
     private void loadGymsData() {
         // Retrieve gyms from the database
         ObservableList<Salle> gymsList = FXCollections.observableArrayList(salleCrud.getAllSalles());
@@ -131,25 +151,6 @@ public class SalleListeController {
         gymsTableView.getItems().addAll(allSalles);
     }
 
-    public void handleAdminButton(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader=new FXMLLoader(getClass().getResource("/SalleListeAdmin.fxml"));
-            Parent rootParent= loader.load();
-
-            Scene rootScene = new Scene(rootParent);
-
-            Stage stage = new Stage();
-            stage.setTitle("Salle Liste Admin");
-            stage.setScene(rootScene);
-
-            Stage cureentStage= (Stage) AdminButton.getScene().getWindow();
-            cureentStage.close();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     // Rafraîchir la TableView après la suppression

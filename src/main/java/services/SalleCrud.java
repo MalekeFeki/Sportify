@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SalleCrud implements ISalleCrud<Salle> {
-    static Connection cnx2;
+    Connection cnx2;
 
     public SalleCrud() {
 
@@ -25,6 +25,29 @@ public class SalleCrud implements ISalleCrud<Salle> {
         return instance;
     }
 
+
+//    @Override
+//    public void ajouterSalle(Salle s) {
+//        // Use a local connection variable
+//        try (Connection connection = MyConnection.getInstance().getCnx()) {
+//            // Assuming options is a Set<String> in your Salle class
+//            Set<String> options = s.getOptions();
+//            String optionsString = String.join(",", options);
+//            String req1 = "INSERT INTO salle (nom, adresse, region, options) " +
+//                    "VALUES (?, ?, ?, ?)";
+//
+//            try (PreparedStatement st = connection.prepareStatement(req1)) {
+//                st.setString(1, s.getNomS());
+//                st.setString(2, s.getAdresse());
+//                st.setString(3, s.getRegion());
+//                st.setString(4, optionsString);
+//                st.executeUpdate(req1);
+//                System.out.println("Salle ajoutée");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     @Override
     public void ajouterSalle(Salle s) {
@@ -46,7 +69,7 @@ public class SalleCrud implements ISalleCrud<Salle> {
     public List<Salle> afficherSalle() {
         List<Salle> salles = new ArrayList<>();
         String req3 = "SELECT * FROM salle";
-        try {
+        try (PreparedStatement pst = cnx2.prepareStatement(req3)){
             Statement stm = cnx2.createStatement();
             ResultSet rs = stm.executeQuery(req3);
             while (rs.next()) {

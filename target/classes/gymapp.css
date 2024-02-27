@@ -1,0 +1,59 @@
+* {
+    -fx-font-family: system, sans-serif;
+}
+
+.primary-color {
+    fill: #FF7F50;
+    text-fill: #FF7F50;
+}
+
+.background-white {
+    -fx-background-color: white;
+}
+
+.border-orange {
+    -fx-border-color: #FF7F50;
+}
+
+.label {
+    font-size: 14px;
+}
+
+.text-field {
+    font-size: 14px;
+}
+
+.table-view {
+    -fx-border-width: 2;
+}
+
+.table-view .table-column {
+    text-fill: black;
+}
+
+.button {
+    font-size: 14px;
+    -fx-border-width: 0;
+}
+
+/* Specific element styles */
+
+.app-title {
+    font-size: 24px;
+}
+
+.search-container {
+    padding: 5px;
+}
+
+.table-view .cell {
+    padding: 5px;
+}
+
+.action-buttons {
+    padding: 5px;
+}
+
+.action-buttons .button {
+    margin-right: 10px;
+}

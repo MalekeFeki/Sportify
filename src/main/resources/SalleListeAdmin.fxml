@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+        <?import java.net.URL?>
+        <?import javafx.scene.control.Button?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.TableColumn?>
+        <?import javafx.scene.control.TableView?>
+        <?import javafx.scene.control.TextField?>
+        <?import javafx.scene.image.Image?>
+        <?import javafx.scene.image.ImageView?>
+        <?import javafx.scene.layout.AnchorPane?>
+        <?import javafx.scene.layout.HBox?>
+        <?import javafx.scene.shape.Rectangle?>
+        <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeAdminController">
     <children>
         <ImageView fitHeight="400.0" fitWidth="707.0">
             <image>
@@ -33,6 +33,7 @@
         </HBox>
         <TableView fx:id="gymsTableView" editable="true" layoutX="66.0" layoutY="140.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
             <columns>
+                <TableColumn fx:id="idColumn" prefWidth="50.0" text="Id" />
                 <TableColumn fx:id="nomColumn" prefWidth="126.39996337890625" text="Nom" />
                 <TableColumn fx:id="adresseColumn" prefWidth="191.20001220703125" text="Adresse" />
                 <TableColumn fx:id="regionColumn" prefWidth="92.79998779296875" text="Région" />
@@ -42,7 +43,8 @@
         <HBox layoutX="27.0" layoutY="360.0" spacing="10.0">
             <children>
                 <Button fx:id="afficherButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
-            <Button fx:id="AdminButton" mnemonicParsing="false" onAction="#handleAdminButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Admin" />
+                <Button fx:id="modifierButton" mnemonicParsing="false"  style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
+                <Button fx:id="supprimerButton" mnemonicParsing="false"  style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer" />
             </children>
         </HBox>
         <ImageView fitHeight="61.0" fitWidth="122.0">
