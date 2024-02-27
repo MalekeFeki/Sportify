@@ -53,7 +53,9 @@
          <ComboBox fx:id="typeFilter" promptText="Event Type" />
          <ComboBox fx:id="cityFilter" promptText="ville" />
          <Button onAction="#filterEvents" text="Apply Filters" />
-      </HBox>
+            <Button fx:id="clearFiltersButton" text="Clear Filters" />
+
+         </HBox>
    </children>
 </AnchorPane>
 </ScrollPane>

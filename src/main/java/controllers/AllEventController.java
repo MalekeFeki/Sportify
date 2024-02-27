@@ -5,8 +5,11 @@ import entities.enums.cityEV;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,9 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import services.EvenementCrud;
 import entities.Evenement;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -41,7 +46,8 @@ public class AllEventController implements Initializable {
 
 
     private static final int EVENTS_PER_PAGE = 3; // Set the number of events per page
-
+    @FXML
+    private Button clearFiltersButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Populate GenreEv ComboBox with values from the enum
@@ -50,6 +56,7 @@ public class AllEventController implements Initializable {
         // Populate cityEV ComboBox with values from the enum
         ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
         cityFilter.setItems(cityEVList);
+        clearFiltersButton.setOnAction(event -> clearFiltersAndReload());
         loadEvents();
         configurePagination();
         configureScrollPane();
@@ -122,6 +129,7 @@ public class AllEventController implements Initializable {
         Text eventDescriptionText = new Text(eventDescription);
 
         Button moreInfoButton = new Button("More Info");
+        moreInfoButton.setOnAction(event1 -> showEventDetails(event));
 
         Button interestButton = new Button();
         updateInterestButtonText(interestButton, evenementCrud.getInterestStatus(event.getIDevent()));
@@ -206,6 +214,34 @@ public class AllEventController implements Initializable {
         System.out.println(searchResults);
         displayEvents(searchResults);
     }
+    private void clearFiltersAndReload() {
+        // Clear the selected values in ComboBoxes
+        typeFilter.getSelectionModel().clearSelection();
+        cityFilter.getSelectionModel().clearSelection();
+
+        // Load all events without filters
+        loadEvents();
+    }
+    private void showEventDetails(Evenement selectedEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EventINFO.fxml"));
+            Parent root = loader.load();
+            EventINFOController eventINFOController = loader.getController();
+            eventINFOController.setEventDetails(selectedEvent);
+            // Get the current stage
+            Stage stage = (Stage) eventFlowPane.getScene().getWindow();
+            // Set the new scene to the current stage
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading FXML: " + e.getMessage());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("FXML file not found: " + e.getMessage());
+        }
+    }
+
 
 
 
