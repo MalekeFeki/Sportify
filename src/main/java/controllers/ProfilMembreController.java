@@ -2,6 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -15,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
+import tools.MyConnection;
 
 public class ProfilMembreController {
 
@@ -67,19 +72,14 @@ public class ProfilMembreController {
     @FXML
     private TextField tfprenom;
 
-     private Utilisateur utilisateur;
+    private Utilisateur utilisateur;
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     private String email;
     private String password;
-    public void setMembre(Utilisateur utilisateur) {
-
-            tfnom.setText(utilisateur.getNom());
-            tfprenom.setText(utilisateur.getPrenom());
-            tfemail.setText(utilisateur.getEmail());
-            tfmdp.setText(utilisateur.getMdp());
-        //
-            // Définir d'autres champs avec les informations de l'utilisateur si nécessaire
-        }  // Populate the fields when the admin is set
+    public void setUtilisateur(Utilisateur utilisateur) throws SQLException {
+        this.utilisateur = utilisateur;
+        afficherDetailsProfil(utilisateur);
+    } // Populate the fields when the admin is set
 
 
     public void initData(String email, String password) {
@@ -89,6 +89,20 @@ public class ProfilMembreController {
 
     @FXML
     void initialize() {
+        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
+        if (utilisateur != null) {
+            tfcin.setText(String.valueOf(utilisateur.getCin()));
+            tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
+            tfnom.setText(utilisateur.getNom());
+            tfprenom.setText(utilisateur.getPrenom());
+            tfemail.setText(utilisateur.getEmail());
+            tfmdp.setText(utilisateur.getMdp());
+            rbproprietaire.setSelected(false);
+            rbmembre.setSelected(true);
+        } else {
+            // Handle the case where user details are not found
+            System.out.println("User details not found.");
+        }
         btn_deco2.setOnAction(event -> {
             // Display a confirmation dialog
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -138,15 +152,25 @@ public class ProfilMembreController {
             utilisateurCrud.modifierEntite(utilisateur);
         });
     }
-    public void afficherDetailsProfil(Utilisateur admin) {
-        tfcin.setText(String.valueOf(admin.getCin()));
-        tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
-        tfnom.setText(admin.getNom());
-        tfprenom.setText(admin.getPrenom());
-        tfemail.setText(admin.getEmail());
-        tfmdp.setText(admin.getMdp());
-        rbproprietaire.setSelected(false);
-        rbmembre.setSelected(true);
+    public void afficherDetailsProfil(Utilisateur admin) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String req = "SELECT * from utilisateur WHERE id =?";
+
+        PreparedStatement pst = cnx.prepareStatement(req);
+        pst.setInt(1,MyConnection.instance.getId());
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            tfcin.setText(String.valueOf(admin.getCin()));
+            tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
+            tfnom.setText(admin.getNom());
+            tfprenom.setText(admin.getPrenom());
+            tfemail.setText(admin.getEmail());
+            tfmdp.setText(admin.getMdp());
+            rbproprietaire.setSelected(false);
+            rbmembre.setSelected(true);
+        }
+
+
     }
 
 

@@ -92,6 +92,20 @@ public class ProfilPropController {
     }
 
     public void initialize() {
+        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
+        if (utilisateur != null) {
+            tfcin.setText(String.valueOf(utilisateur.getCin()));
+            tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
+            tfnom.setText(utilisateur.getNom());
+            tfprenom.setText(utilisateur.getPrenom());
+            tfemail.setText(utilisateur.getEmail());
+            tfmdp.setText(utilisateur.getMdp());
+            rbproprietaire.setSelected(false);
+            rbmembre.setSelected(true);
+        } else {
+            // Handle the case where user details are not found
+            System.out.println("User details not found.");
+        }
 
         // Récupérer l'ID de l'utilisateur authentifié depuis MyConnection
         int userId = MyConnection.getInstance().getId();
@@ -99,7 +113,7 @@ public class ProfilPropController {
         // Interroger la base de données pour récupérer les données du profil de l'utilisateur
         // Utiliser une méthode de service pour récupérer les données du profil en fonction de l'ID de l'utilisateur
         UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
-        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(userId);
+
 
         // Mettre à jour les champs de texte dans l'interface utilisateur avec les données du profil
         if (utilisateur != null) {

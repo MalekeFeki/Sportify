@@ -32,13 +32,13 @@
                   <Font name="System Bold" size="12.0" />
                </font></Button>
             <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="125.0" size="100" wrappingWidth="8.571428298950252" />
-            <Button fx:id="btn_deco3" alignment="CENTER" layoutX="36.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Membres" textFill="#fcf8f8">
+            <Button fx:id="btn_membres" alignment="CENTER" layoutX="36.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Membres" textFill="#fcf8f8">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="38.0" layoutY="303.0" size="23" />
-            <Button fx:id="btn_deco2" alignment="CENTER" layoutX="36.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Se déconnecter" textFill="#fcf8f8">
+            <Button fx:id="btn_deconn" alignment="CENTER" layoutX="36.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Se déconnecter" textFill="#fcf8f8">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -54,8 +54,8 @@
       <Label layoutX="256.0" layoutY="229.0" text="Email" />
       <Label layoutX="256.0" layoutY="266.0" text="Mot de passe" />
       <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
-      <RadioButton fx:id="rbproprietaire" layoutX="443.0" layoutY="302.0" mnemonicParsing="false" text="Propriétaire de salle" />
-      <RadioButton fx:id="rbmembre" layoutX="367.0" layoutY="302.0" mnemonicParsing="false" text="Membre" />
+      <RadioButton fx:id="rbproprietaire" disable="true" layoutX="443.0" layoutY="302.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton fx:id="rbmembre" disable="true" layoutX="367.0" layoutY="302.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="256.0" layoutY="302.0" text="Role" />
       <Button fx:id="btn_annul" layoutX="460.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Annuler" />
       <PasswordField fx:id="tfmdp" layoutX="366.0" layoutY="262.0" />

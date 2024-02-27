@@ -77,6 +77,31 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
         }
         return utilisateurs;
     }
+    public Utilisateur afficherUtilisateurByEmail(String email) {
+        Utilisateur utilisateur = null;
+        String req = "SELECT * FROM utilisateur WHERE email = ?";
+        try (PreparedStatement pst = cnx2.prepareStatement(req)) {
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                utilisateur = new Utilisateur();
+                utilisateur.setId(rs.getInt("id"));
+                utilisateur.setCin(rs.getInt("cin"));
+                utilisateur.setNum_tel(rs.getInt("num_tel"));
+                utilisateur.setNom(rs.getString("nom"));
+                utilisateur.setPrenom(rs.getString("prenom"));
+                utilisateur.setEmail(rs.getString("email"));
+                utilisateur.setMdp(rs.getString("mdp"));
+                String roleString = rs.getString("role");
+                Role role = Role.valueOf(roleString);
+                utilisateur.setRole(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateur;
+    }
+
 
     public void ajouterEntite2(Utilisateur u) {
         // Hacher le mot de passe avant de l'ajouter à la base de données
@@ -133,6 +158,11 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             pst.setInt(1, id);
             pst.executeUpdate();
             System.out.println("utilisateur supprimé");
+            // Réinitialiser la séquence d'auto-incrémentation
+            String resetSequenceQuery = "ALTER TABLE utilisateur AUTO_INCREMENT = 1";
+            PreparedStatement resetSequenceStatement = cnx2.prepareStatement(resetSequenceQuery);
+            resetSequenceStatement.executeUpdate();
+            System.out.println("Séquence réinitialisée");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -199,9 +229,23 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     }
 
     public boolean authenticateUser(String email, String password) {
-        // Check if there's a registered user with matching email and password
-        return registeredUsers.stream()
-                .anyMatch(user -> user.getEmail().equals(email) && user.getMdp().equals(password));
+        // Récupérer l'utilisateur correspondant à l'email spécifié
+        Utilisateur user = registeredUsers.stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        // Vérifier si l'utilisateur a été trouvé et si le mot de passe correspond
+        if (user != null) {
+            // Hacher le mot de passe fourni par l'utilisateur
+            String hashedPassword = MdpHash.hashPassword(password);
+
+            // Comparer le mot de passe haché avec celui stocké dans la base de données
+            return user.getMdp().equals(hashedPassword);
+        } else {
+            // L'utilisateur n'a pas été trouvé
+            return false;
+        }
     }
 
     public boolean utilisateurExisteDeja(String cin, String email) {
@@ -267,6 +311,37 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             }
         }
         return FXCollections.observableArrayList(utilisateursFiltres);
+    }
+    public Utilisateur getUtilisateurByEmail(String email) {
+        // Parcourir la liste des utilisateurs enregistrés pour trouver celui avec l'email correspondant
+        for (Utilisateur utilisateur : registeredUsers) {
+            if (utilisateur.getEmail().equals(email)) {
+                return utilisateur;
+            }
+        }
+        // Retourner null si aucun utilisateur avec l'email correspondant n'est trouvé
+        return null;
+    }
+    public int getUserIdByEmail(String email) {
+        int userId = -1; // Default value if user is not found
+        String query = "SELECT id FROM utilisateur WHERE email = ?";
+
+        try {
+            PreparedStatement statement = cnx2.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                userId = resultSet.getInt("id");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userId;
     }
 
     public static String genererNouveauMdp() {

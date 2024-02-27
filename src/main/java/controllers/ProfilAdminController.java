@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
+import tools.MyConnection;
 
 public class ProfilAdminController {
 
@@ -29,7 +30,7 @@ public class ProfilAdminController {
     private Button btn_annul;
 
     @FXML
-    private Button btn_deco2;
+    private Button btn_deconn;
 
     @FXML
     private Button btn_deco1;
@@ -38,7 +39,7 @@ public class ProfilAdminController {
     private Button btn_modif;
 
     @FXML
-    private Button btn_deco3;
+    private Button btn_membres;
 
     @FXML
     private Button btn_enregismodif;
@@ -117,7 +118,21 @@ public class ProfilAdminController {
     }
     @FXML
     void initialize() {
-        btn_deco2.setOnAction(event -> {
+        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
+        if (utilisateur != null) {
+            tfcin.setText(String.valueOf(utilisateur.getCin()));
+            tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
+            tfnom.setText(utilisateur.getNom());
+            tfprenom.setText(utilisateur.getPrenom());
+            tfemail.setText(utilisateur.getEmail());
+            tfmdp.setText(utilisateur.getMdp());
+            rbproprietaire.setSelected(false);
+            rbmembre.setSelected(true);
+        } else {
+            // Handle the case where user details are not found
+            System.out.println("User details not found.");
+        }
+        btn_deconn.setOnAction(event -> {
             // Display a confirmation dialog
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
@@ -127,7 +142,7 @@ public class ProfilAdminController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // If the user clicks "OK", close the current window and open the authentication page
-                Stage stage = (Stage) btn_deco2.getScene().getWindow();
+                Stage stage = (Stage) btn_deconn.getScene().getWindow();
                 stage.close();
 
                 try {
@@ -149,7 +164,7 @@ public class ProfilAdminController {
             afficherProprietairesSalles();
         });
 
-        btn_deco3.setOnAction(event -> {
+        btn_membres.setOnAction(event -> {
             try {
                 // Charger le fichier FXML de la page ListeUtilisateurs
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeUtilisateurs.fxml"));
@@ -177,6 +192,4 @@ public class ProfilAdminController {
         ObservableList<Utilisateur> utilisateurs = utilisateurCrud.getUtilisateursByRole(Role.PROPRIETAIRE);
         tableView.setItems(utilisateurs);
     }
-    }
-
-
+}

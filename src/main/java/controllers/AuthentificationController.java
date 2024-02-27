@@ -2,6 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
+import tools.MyConnection;
 
 public class AuthentificationController {
 
@@ -56,6 +61,7 @@ public class AuthentificationController {
         alert.setContentText("Connexion réussie !");
         alert.showAndWait();
     }
+    int idconnecte ;
     @FXML
     void initialize() {
 
@@ -66,15 +72,40 @@ public class AuthentificationController {
 
             // Appeler la fonction de login de votre classe UtilisateurCrud
             UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
-            Utilisateur utilisateur = utilisateurCrud.login(email, password);
 
-            // Si l'utilisateur est trouvé, afficher un message de succès
-            if (utilisateur != null) {
+            // Vérifier si les informations d'identification sont valides
+            if (utilisateurCrud.authenticateUser(email, password)) {
+                // Si l'utilisateur est trouvé, afficher un message de succès
                 showSuccessMessage();
-                redirectToProfile(utilisateur.getRole().toString());
+                Connection cnx2=MyConnection.instance.getCnx();
+                String reqUserId = "SELECT id FROM utilisateur WHERE email = ?";
+                PreparedStatement pstUserId = null;
+                try {
+                    pstUserId = cnx2.prepareStatement(reqUserId);
+                    pstUserId.setString(1, tfemail.getText());
+                    ResultSet rsUserId = pstUserId.executeQuery();
+                    rsUserId.next();
+                    idconnecte = rsUserId.getInt(1);
+                    MyConnection.getInstance().setId(idconnecte);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
+
+                // Rediriger vers le profil correspondant au rôle de l'utilisateur
+                redirectToProfile(utilisateurCrud.getUtilisateurByEmail(email).getRole().toString());
+
+
+
+
                 // Fermer la fenêtre d'authentification
                 Stage stage = (Stage) btn_auth.getScene().getWindow();
                 stage.close();
+            } else {
+                // Si l'authentification échoue, afficher un message d'erreur
+                showAlert("Email ou mot de passe incorrect !");
             }
         });
     }
