@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    public String url="jdbc:mysql://localhost:3306/sportify";
+    public String url="jdbc:mysql://localhost:3306/paiement";
     public String login="root";
     public String password="";
     Connection cnx;

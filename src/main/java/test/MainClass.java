@@ -15,5 +15,11 @@ public class MainClass {
         UtilisateurCrud pcd=new UtilisateurCrud();
          System.out.println(pcd.afficherEntite());
         pcd.ajouterEntite2(p);
+
+
+
+
+
+
     }
 }

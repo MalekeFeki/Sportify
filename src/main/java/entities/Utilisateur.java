@@ -18,7 +18,7 @@ public class Utilisateur {
     }
 
     public Utilisateur(int idC, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
-        this.id = id;
+        this.id = idC;
         this.cin=cin;
         this.num_tel=num_tel;
         this.nom = nom;
