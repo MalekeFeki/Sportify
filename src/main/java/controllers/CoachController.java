@@ -73,12 +73,17 @@ public class CoachController {
         tfSeance.getItems().addAll(Seance.values());
         chargerDonnees();
 
-
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colSexe.setCellValueFactory(new PropertyValueFactory<>("sexe"));
         colSeance.setCellValueFactory(new PropertyValueFactory<>("seance"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        Tab1.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                afficherCoachSelectionne(newSelection);
+            }
+        });
     }
 
     @FXML
@@ -93,19 +98,36 @@ public class CoachController {
     @FXML
     void modifierCoach(ActionEvent event) {
         Coach coach = creerCoachAPartirDesChamps();
-        coachCrud.modifierCoach(coach);
-        afficherMessage("Coach modifié avec succès");
-        viderChamps();
-        chargerDonnees();
+        if (coach != null) {
+            // Vérifier si un coach est sélectionné dans le TableView
+            Coach coachSelectionne = Tab1.getSelectionModel().getSelectedItem();
+            if (coachSelectionne != null) {
+                // Récupérer le nom du coach sélectionné
+                String ancienNom = coachSelectionne.getNom();
+                // Modifier le coach avec l'ancien nom
+                coachCrud.modifierCoach(coach, ancienNom);
+                afficherMessage("Coach modifié avec succès");
+                viderChamps();
+                chargerDonnees();
+            } else {
+                afficherMessageErreur("Veuillez sélectionner un coach à modifier.");
+            }
+        }
     }
+
 
     @FXML
     void supprimerCoach(ActionEvent event) {
-        String nom = tfNom.getText();
-        coachCrud.supprimerCoach(nom);
-        afficherMessage("Coach supprimé avec succès");
-        viderChamps();
-        chargerDonnees();
+        Coach coachSelectionne = Tab1.getSelectionModel().getSelectedItem();
+        if (coachSelectionne != null) {
+            String nom = coachSelectionne.getNom();
+            coachCrud.supprimerCoach(nom);
+            afficherMessage("Coach supprimé avec succès");
+            viderChamps();
+            chargerDonnees();
+        } else {
+            afficherMessageErreur("Veuillez sélectionner un coach à supprimer.");
+        }
     }
 
     private Coach creerCoachAPartirDesChamps() {
@@ -114,7 +136,10 @@ public class CoachController {
         String description = tfDiscription.getText();
         Sexe sexe = tfSexe.getValue();
         Seance seance = tfSeance.getValue();
-        return new Coach(nom, prenom, description, sexe, seance);
+        if (!nom.isEmpty()) {
+            return new Coach(nom, prenom, description, sexe, seance);
+        }
+        return null;
     }
 
     private void chargerDonnees() {
@@ -134,5 +159,21 @@ public class CoachController {
     private void afficherMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
         alert.show();
+    }
+
+    private void afficherMessageErreur(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.show();
+    }
+
+    @FXML
+    void afficherCoachSelectionne(Coach newSelection) {
+        if (newSelection != null) {
+            tfNom.setText(newSelection.getNom());
+            tfPrenom.setText(newSelection.getPrenom());
+            tfDiscription.setText(newSelection.getDescription());
+            tfSexe.setValue(newSelection.getSexe());
+            tfSeance.setValue(newSelection.getSeance());
+        }
     }
 }
