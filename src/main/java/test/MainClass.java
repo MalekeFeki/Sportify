@@ -1,19 +1,32 @@
 package test;
 
-import entities.Utilisateur;
-import entities.enums.Role;
-import services.UtilisateurCrud;
+import entities.Salle;
+import services.SalleCrud;
 import tools.MyConnection;
 
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainClass {
     public static void main(String[] args) {
-        MyConnection mc=MyConnection.getInstance();
-        MyConnection mc2=MyConnection.getInstance();
-        System.out.println(mc.hashCode()+"-"+mc2.hashCode());
-        Utilisateur p=new Utilisateur(14505878,53378560,"feki","malek","malekfeki18@gmail.com","", Role.MEMBRE);
-        UtilisateurCrud pcd=new UtilisateurCrud();
-         System.out.println(pcd.afficherEntite());
-        pcd.ajouterEntite2(p);
+        MyConnection mc = MyConnection.getInstance();
+        MyConnection mc2 = MyConnection.getInstance();
+        System.out.println(mc.hashCode() + "-" + mc2.hashCode());
+
+        Set<String> options = new HashSet<>();
+        options.add("wifi");
+        options.add("parking");
+        options.add("nutritionniste");
+
+        Salle p = new Salle("La piscine", "hay amal", "gabes",options);
+        SalleCrud sc = new SalleCrud();
+
+        // Print information about the Salle object
+        System.out.println(p.toString()+ p.getOptions());
+
+
+
+        // Print information about all Salle objects using SalleCrud
+        System.out.println(sc.afficherSalle());
     }
 }

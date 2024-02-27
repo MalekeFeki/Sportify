@@ -93,6 +93,7 @@ public class InscriptionController {
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
 
+
                 // Affichez la nouvelle scène
                 stage.show();
 

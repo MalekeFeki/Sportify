@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleAjoutController">
+    <children>
+        <ImageView fitHeight="342.0" fitWidth="607.0" layoutY="59.0">
+            <image>
+                <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/Background.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="607.0" />
+        <HBox layoutX="22.0" layoutY="64.0" spacing="10.0">
+            <children>
+                <Label text="Ajouter votre salle">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <VBox layoutX="22.0" layoutY="100.0" spacing="15.0">
+            <children>
+                <Label text="Nom">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="nomTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <Label text="Adresse">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="adresseTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <Label text="Région">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <HBox layoutX="230.0" layoutY="139.0" spacing="10.0">
+            <children>
+                <CheckBox fx:id="wifiCheckBox" text="Wifi" />
+                <CheckBox fx:id="parkingCheckBox" text="Parking" />
+                <CheckBox fx:id="nutritionnisteCheckBox" text="Nutritionniste" />
+                <CheckBox fx:id="climatisationCheckBox" text="Climatisation" />
+            </children>
+        </HBox>
+        <HBox layoutX="424.0" layoutY="351.0" spacing="10.0">
+            <children>
+                <Button fx:id="annulerButton" mnemonicParsing="false" onAction="#handleAnnulerButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Annuler" />
+                <Button fx:id="enregistrerButton" mnemonicParsing="false" onAction="#saveSalle" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Enregistrer" />
+            </children>
+        </HBox>
+        <TextField fx:id="regionTextField" layoutX="22.0" layoutY="290.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+        <Label layoutX="230.0" layoutY="100.0" text="Options">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="74.0" fitWidth="145.0" layoutX="-10.0" layoutY="-12.0">
+            <image>
+                <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/LogoBlack.png" />
+            </image>
+        </ImageView>
+
+    </children>
+</AnchorPane>
