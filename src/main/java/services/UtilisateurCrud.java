@@ -187,11 +187,31 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             String resetSequenceQuery = "ALTER TABLE utilisateur AUTO_INCREMENT = 1";
             PreparedStatement resetSequenceStatement = cnx2.prepareStatement(resetSequenceQuery);
             resetSequenceStatement.executeUpdate();
-            System.out.println("Séquence réinitialisée");
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
+    @Override
+    public void modifier2(Utilisateur e) {
+
+
+            try {
+                String req = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=? WHERE id=?";
+                PreparedStatement pst = cnx2.prepareStatement(req);
+                pst.setInt(1, e.getCin());
+                pst.setInt(2, e.getNum_tel());
+                pst.setString(3, e.getNom());
+                pst.setString(4, e.getPrenom());
+                pst.setInt(5, e.getId());
+                pst.executeUpdate();
+                System.out.println("Votre profil est modifié !");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
 
     public List<Utilisateur> getAllUtilisateurs() {
         List<Utilisateur> utilisateurs = new ArrayList<>();

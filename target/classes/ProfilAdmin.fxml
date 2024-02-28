@@ -26,7 +26,7 @@
       <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
-            <Text layoutX="75.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" />
+            <Text layoutX="70.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
             <Line endX="71.29287719726562" endY="-1.52587890625E-5" layoutX="99.0" layoutY="184.0" startX="-66.09998321533203" startY="-1.52587890625E-5" />
             <Button fx:id="btn_deco1" alignment="CENTER_RIGHT" layoutX="36.0" layoutY="247.0" mnemonicParsing="false" onAction="#afficherProprietairesSalles" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text=" Propriétaires salles" textFill="#fcf8f8">
                <font>
@@ -45,6 +45,7 @@
                </font>
             </Button>
             <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" layoutX="38.0" layoutY="341.0" size="25" />
+            <Label fx:id="nomUtilisateur" layoutX="87.0" layoutY="162.0" text="\${tfnom.text}&quot;" />
          </children>
       </Pane>
       <Label layoutX="257.0" layoutY="137.0" text="Nom" />
@@ -54,7 +55,7 @@
       <TextField fx:id="tfemail" layoutX="366.0" layoutY="225.0" />
       <Label layoutX="256.0" layoutY="229.0" text="Email" />
       <Label layoutX="256.0" layoutY="266.0" text="Mot de passe" />
-      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
       <RadioButton fx:id="rbproprietaire" disable="true" layoutX="443.0" layoutY="302.0" mnemonicParsing="false" text="Propriétaire de salle" />
       <RadioButton fx:id="rbmembre" disable="true" layoutX="367.0" layoutY="302.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="256.0" layoutY="302.0" text="Role" />

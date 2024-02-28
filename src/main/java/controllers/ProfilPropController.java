@@ -67,6 +67,9 @@ public class ProfilPropController {
     @FXML
     private TextField tfprenom;
 
+    @FXML
+    private Label nomUtilisateur;
+
     private Utilisateur utilisateur;
 
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
@@ -92,6 +95,9 @@ public class ProfilPropController {
     }
 
     public void initialize() {
+        // Effectuer la liaison bidirectionnelle entre le texte de tfnom et le texte de nomUtilisateur
+        nomUtilisateur.textProperty().bindBidirectional(tfnom.textProperty());
+
         Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
         if (utilisateur != null) {
             tfcin.setText(String.valueOf(utilisateur.getCin()));

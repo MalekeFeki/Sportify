@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import entities.Utilisateur;
 import entities.enums.Role;
@@ -64,7 +66,10 @@ public class ListeUtilisateursController {
     @FXML
     private Label totalUtilisateurs;
 
-
+    @FXML
+    private Label totalAdmins;
+    @FXML
+    private TextField tfrecherche;
     @FXML
     private TableColumn<Utilisateur, Void> colAction;
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
@@ -98,6 +103,11 @@ public class ListeUtilisateursController {
     @FXML
     void initialize() {
 
+        // Ajouter un écouteur de changement de texte pour le champ de recherche
+        tfrecherche.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Filtrer la TableView en fonction du texte de recherche
+            filterTableView(newValue);
+        });
 
 
         // Récupérer le nombre de membres
@@ -109,6 +119,7 @@ public class ListeUtilisateursController {
         totalProprietaires.setText(String.valueOf(proprietaires));
         // Récupérer le nombre d'administrateurs
         int administrateurs = utilisateurCrud.countUsersByRole("ADMIN");
+        totalAdmins.setText(String.valueOf(administrateurs));
 
 
 
@@ -187,6 +198,22 @@ public class ListeUtilisateursController {
             }
         });
 
+    }
+    private void filterTableView(String searchText) {
+        // Créer un prédicat pour filtrer les éléments de la TableView
+        Predicate<Utilisateur> predicate = utilisateur ->
+                utilisateur.getNom().toLowerCase().contains(searchText.toLowerCase());
+
+        // Créer une liste filtrée à partir de la liste originale des utilisateurs
+        List<Utilisateur> filteredList = utilisateurCrud.getAllUtilisateurs().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+
+        // Effacer toutes les lignes existantes dans la TableView
+        tableView.getItems().clear();
+
+        // Ajouter les éléments filtrés à la TableView
+        tableView.getItems().addAll(filteredList);
     }
     private void addActionButtonToTable() {
         colAction.setCellFactory(param -> new TableCell<Utilisateur, Void>() {

@@ -25,7 +25,6 @@
       <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
-            <Text layoutX="75.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Membre" />
             <Button fx:id="btn_deco2" alignment="CENTER" layoutX="27.0" layoutY="347.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Se déconnecter" textFill="#fcf8f8">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -67,5 +66,7 @@
       <TextField fx:id="tfcin" layoutX="378.0" layoutY="54.0" />
       <Label layoutX="266.0" layoutY="58.0" text="Cin" />
       <Label layoutX="266.0" layoutY="103.0" text="Numéro téléphone" />
+      <Text layoutX="58.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
+      <Label fx:id="nomUtilisateur" layoutX="75.0" layoutY="167.0" text="\${tfnom.text}&quot;" />
    </children>
 </AnchorPane>

@@ -76,6 +76,8 @@ public class ProfilMembreController {
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     private String email;
     private String password;
+    @FXML
+    private Label nomUtilisateur;
     public void setUtilisateur(Utilisateur utilisateur) throws SQLException {
         this.utilisateur = utilisateur;
         afficherDetailsProfil(utilisateur);
@@ -89,6 +91,9 @@ public class ProfilMembreController {
 
     @FXML
     void initialize() {
+        // Effectuer la liaison bidirectionnelle entre le texte de tfnom et le texte de nomUtilisateur
+        nomUtilisateur.textProperty().bindBidirectional(tfnom.textProperty());
+
         Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
         if (utilisateur != null) {
             tfcin.setText(String.valueOf(utilisateur.getCin()));

@@ -132,7 +132,9 @@ public class InscriptionController {
         Role selectedRole = p.getRole();
         List<Utilisateur> allUsers = uc.getAllUtilisateurs();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
-        alert.show();
+        alert.showAndWait();
+        // Redirection vers la page d'authentification
+        redirectToAuthPage();
         // Envoi de l'e-mail de bienvenue à l'utilisateur nouvellement inscrit
 
 
@@ -217,7 +219,7 @@ public class InscriptionController {
     }
 
     @FXML
-    private void redirectToAuthPage(ActionEvent event) {
+    private void redirectToAuthPage() {
         try {
             // Load the authentication FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));

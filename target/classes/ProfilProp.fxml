@@ -26,7 +26,6 @@
       <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
-            <Text layoutX="59.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proprietaire Salle" />
             <Line endX="67.20002746582031" endY="-1.52587890625E-5" layoutX="100.0" layoutY="184.0" startX="-70.0999755859375" startY="-1.52587890625E-5" />
             <Button fx:id="btn_deco1" alignment="CENTER" layoutX="32.0" layoutY="284.0" mnemonicParsing="false" onAction="#savePerson" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Coachs" textFill="#fcf8f8">
                <font>
@@ -56,6 +55,8 @@
             <FontAwesomeIconView fill="WHITE" glyphName="MONEY" layoutX="36.0" layoutY="345.0" size="23" />
             <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="128.0" size="100" wrappingWidth="8.571428298950252" />
             <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="36.0" layoutY="305.0" size="22" wrappingWidth="17.59999999999991" />
+            <Text layoutX="63.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
+            <Label fx:id="nomUtilisateur" layoutX="80.0" layoutY="164.0" text="\${tfnom.text}&quot;" />
          </children>
       </Pane>
       <Label layoutX="247.0" layoutY="127.0" text="Nom" />
