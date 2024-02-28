@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import entities.Mailing;
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.fxml.FXML;
@@ -45,6 +46,8 @@ public class AuthentificationController {
     private String prenom;
     private String email;
     private String mdp;
+    @FXML
+    private Hyperlink hyperlink;
 
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
         this.registeredUsers = registeredUsers;
@@ -91,14 +94,8 @@ public class AuthentificationController {
                     throw new RuntimeException(e);
                 }
 
-
-
-
                 // Rediriger vers le profil correspondant au rôle de l'utilisateur
                 redirectToProfile(utilisateurCrud.getUtilisateurByEmail(email).getRole().toString());
-
-
-
 
                 // Fermer la fenêtre d'authentification
                 Stage stage = (Stage) btn_auth.getScene().getWindow();
@@ -107,6 +104,11 @@ public class AuthentificationController {
                 // Si l'authentification échoue, afficher un message d'erreur
                 showAlert("Email ou mot de passe incorrect !");
             }
+          /*  hyperlink.setOnAction(actionEvent -> {
+                // Call the method to send the email
+                Mailing.envoyerEmailNouveauMdp(destinataire, nouveauMdp, emailUtilisateur, motDePasseUtilisateur);
+            });*/
+
         });
     }
     public void redirectToProfile(String role) {
@@ -148,5 +150,6 @@ public class AuthentificationController {
             e.printStackTrace();
         }
     }
+
 
 }

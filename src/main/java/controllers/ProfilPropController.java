@@ -117,6 +117,7 @@ public class ProfilPropController {
 
         // Mettre à jour les champs de texte dans l'interface utilisateur avec les données du profil
         if (utilisateur != null) {
+            tfcin.setText(String.valueOf(utilisateur.getCin()));
             tfnom.setText(utilisateur.getNom());
             tfprenom.setText(utilisateur.getPrenom());
             tfemail.setText(utilisateur.getEmail());

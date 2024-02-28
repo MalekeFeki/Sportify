@@ -57,11 +57,11 @@
       <TextField fx:id="tfemail" layoutX="376.0" layoutY="235.0" />
       <Label layoutX="266.0" layoutY="239.0" text="Email" />
       <Label layoutX="266.0" layoutY="276.0" text="Mot de passe" />
-      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="376.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="376.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
       <RadioButton fx:id="rbproprietaire" layoutX="453.0" layoutY="312.0" mnemonicParsing="false" text="Propriétaire de salle" />
       <RadioButton fx:id="rbmembre" layoutX="377.0" layoutY="312.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="266.0" layoutY="312.0" text="Role" />
-      <Button fx:id="btn_annul" layoutX="470.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Annuler" />
+      <Button fx:id="btn_annul" layoutX="483.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler" />
       <PasswordField fx:id="tfmdp" layoutX="376.0" layoutY="272.0" />
       <TextField fx:id="tfnum_tel" layoutX="378.0" layoutY="99.0" />
       <TextField fx:id="tfcin" layoutX="378.0" layoutY="54.0" />

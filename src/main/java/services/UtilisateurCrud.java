@@ -9,15 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import tools.MyConnection;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
 
 
 public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
@@ -128,9 +122,6 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
 
     @Override
     public void modifierEntite(Utilisateur u) {
-        // Hacher le nouveau mot de passe avant de le mettre à jour dans la base de données
-        //String hashedPassword = MdpHash.hashPassword(u.getMdp());
-        //u.setMdp(hashedPassword);
 
         String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
         try {
@@ -148,6 +139,40 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             System.out.println(e.getMessage());
         }
     }
+    @Override
+    public void modifierProfil(Utilisateur u) {
+        // Assurez-vous d'avoir une connexion à la base de données valide
+        Connection cnx2 = MyConnection.instance.getCnx();
+
+        // Requête SQL pour mettre à jour l'utilisateur
+        String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
+
+        try {
+            // Préparer la requête SQL avec les paramètres
+            PreparedStatement pst = cnx2.prepareStatement(req2);
+            pst.setInt(1, u.getCin());
+            pst.setInt(2, u.getNum_tel());
+            pst.setString(3, u.getNom());
+            pst.setString(4, u.getPrenom());
+            pst.setString(5, u.getEmail());
+            pst.setString(6, u.getMdp());
+            pst.setInt(7, u.getId()); // Supposant que 'id' est la clé primaire
+
+            // Exécuter la requête de mise à jour
+            int rowsAffected = pst.executeUpdate();
+
+            // Vérifier si des lignes ont été affectées par la mise à jour
+            if (rowsAffected > 0) {
+                System.out.println("Utilisateur modifié avec succès.");
+            } else {
+                System.out.println("Aucune modification effectuée pour l'utilisateur.");
+            }
+        } catch (SQLException e) {
+            // Gérer toute exception SQL
+            System.out.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
+        }
+    }
+
 
 
     @Override
@@ -206,7 +231,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
                     utilisateur = new Utilisateur();
-                    utilisateur.setId(rs.getInt("cin"));
+                    utilisateur.setCin(rs.getInt("cin"));
                     utilisateur.setNum_tel(rs.getInt("num_tel"));
                     utilisateur.setNom(rs.getString("nom"));
                     utilisateur.setPrenom(rs.getString("prenom"));
@@ -306,7 +331,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     public ObservableList<Utilisateur> getUtilisateursByRole(Role role) {
         List<Utilisateur> utilisateursFiltres = new ArrayList<>();
         for (Utilisateur utilisateur : getAllUtilisateurs()) {
-            if (utilisateur.getRole() == role) {
+            if (utilisateur.getRole().equals(role)) {
                 utilisateursFiltres.add(utilisateur);
             }
         }
@@ -343,6 +368,23 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
 
         return userId;
     }
+    // Méthode pour calculer le nombre d'utilisateurs selon leur rôle
+    public int countUsersByRole(String role) {
+        Connection cnx = MyConnection.instance.getCnx();
+        String req = "SELECT COUNT(*) FROM utilisateur WHERE role=?";
+        try {
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setString(1, role);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     public static String genererNouveauMdp() {
         return MdpGen.genererMdp();

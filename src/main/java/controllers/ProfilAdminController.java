@@ -2,6 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -14,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
 import tools.MyConnection;
@@ -98,7 +103,7 @@ public class ProfilAdminController {
     private TableColumn<Utilisateur, Void> colAction;
 
 
-    public void setAdmin(Utilisateur admin) {
+    public void setAdmin(Utilisateur admin) throws SQLException {
         this.admin = admin;
         afficherDetailsProfil(admin);  // Populate the fields when the admin is set
     }
@@ -106,15 +111,31 @@ public class ProfilAdminController {
         this.email = email;
         this.password = password;
     }
-    public void afficherDetailsProfil(Utilisateur admin) {
-        tfcin.setText(String.valueOf(admin.getCin()));
-        tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
-        tfnom.setText(admin.getNom());
-        tfprenom.setText(admin.getPrenom());
-        tfemail.setText(admin.getEmail());
-        tfmdp.setText(admin.getMdp());
-        rbproprietaire.setSelected(false);
-        rbmembre.setSelected(false);
+    public void afficherDetailsProfil(Utilisateur admin) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String req = "SELECT * from utilisateur WHERE id =?";
+
+        PreparedStatement pst = cnx.prepareStatement(req);
+        pst.setInt(1,MyConnection.instance.getId());
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            tfcin.setText(String.valueOf(admin.getCin()));
+            tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
+            tfnom.setText(admin.getNom());
+            tfprenom.setText(admin.getPrenom());
+            tfemail.setText(admin.getEmail());
+            tfmdp.setText(admin.getMdp());
+            rbproprietaire.setSelected(false);
+            rbmembre.setSelected(false);
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     @FXML
     void initialize() {
@@ -158,10 +179,40 @@ public class ProfilAdminController {
                 // maysir chay
             }
         });
+        // Gérer l'événement du bouton "Modifier profil"
+        btn_enregismodif.setOnAction(event -> {
+            // Récupérer les nouvelles valeurs des champs de texte
+            int cin = Integer.parseInt(tfcin.getText());
+            int num_tel = Integer.parseInt(tfnum_tel.getText());
+            String nom = tfnom.getText();
+            String prenom = tfprenom.getText();
+            String email = tfemail.getText();
+            String mdp = tfmdp.getText();
 
+            // Créer un objet Utilisateur avec les nouvelles valeurs
 
-        btn_deco1.setOnAction(event -> {
-            afficherProprietairesSalles();
+            utilisateur.setCin(cin);
+            utilisateur.setNum_tel(num_tel);
+            utilisateur.setNom(nom);
+            utilisateur.setPrenom(prenom);
+            utilisateur.setEmail(email);
+            utilisateur.setMdp(mdp);
+// Afficher une alerte de confirmation
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Voulez-vous vraiment modifier cet utilisateur ?");
+
+            // Attendre la réponse de l'utilisateur
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Si l'utilisateur a confirmé, mettre à jour l'utilisateur
+                utilisateurCrud.modifierEntite(utilisateur);
+                // Afficher un message de succès
+                showAlert("Utilisateur modifié avec succès.");
+                // Vous pouvez également ajouter du code ici pour rafraîchir les champs de texte si nécessaire
+            }
+
         });
 
         btn_membres.setOnAction(event -> {
@@ -190,6 +241,7 @@ public class ProfilAdminController {
     @FXML
     void afficherProprietairesSalles() {
         ObservableList<Utilisateur> utilisateurs = utilisateurCrud.getUtilisateursByRole(Role.PROPRIETAIRE);
+// Mettre à jour les éléments affichés dans la TableView
         tableView.setItems(utilisateurs);
     }
 }

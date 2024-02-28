@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -22,7 +23,7 @@
             <Image url="file:/C:/Users/Malek/Desktop/esprit/background_2.png" />
          </image>
       </ImageView>
-      <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;">
+      <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
             <Text layoutX="59.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proprietaire Salle" />
@@ -64,11 +65,15 @@
       <TextField fx:id="tfemail" layoutX="356.0" layoutY="215.0" />
       <Label layoutX="246.0" layoutY="219.0" text="Email" />
       <Label layoutX="246.0" layoutY="256.0" text="Mot de passe" />
-      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="356.0" layoutY="330.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #FF6100;" text="Modifier profil" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="356.0" layoutY="330.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
       <RadioButton fx:id="rbproprietaire" layoutX="433.0" layoutY="292.0" mnemonicParsing="false" text="Propriétaire de salle" />
       <RadioButton fx:id="rbmembre" layoutX="357.0" layoutY="292.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="246.0" layoutY="292.0" text="Role" />
-      <Button fx:id="btn_annul" layoutX="450.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Annuler" />
+      <Button fx:id="btn_annul" layoutX="463.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler">
+         <styleClass>
+            <String fx:value="close" />
+            <String fx:value="clear-btn" />
+         </styleClass></Button>
       <PasswordField fx:id="tfmdp" layoutX="356.0" layoutY="252.0" />
       <TextField fx:id="tfnum_tel" layoutX="358.0" layoutY="79.0" />
       <TextField fx:id="tfcin" layoutX="358.0" layoutY="34.0" />

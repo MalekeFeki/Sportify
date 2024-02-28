@@ -36,6 +36,15 @@ public class Utilisateur {
         this.mdp = mdp;
         this.role=role;
     }
+    public Utilisateur(int cin, int num_tel,String nom, String prenom, String email, String mdp) {
+        this.cin=cin;
+        this.num_tel=num_tel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
+
+    }
 
     public int getId() {
         return id;

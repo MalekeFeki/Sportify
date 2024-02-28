@@ -55,6 +55,14 @@ public class ListeUtilisateursController {
     @FXML
     private TableColumn<Utilisateur, Role> colRole;
     private Connection connection;
+    @FXML
+    private Label totalMembres;
+
+    @FXML
+    private Label totalProprietaires;
+
+    @FXML
+    private Label totalUtilisateurs;
 
 
     @FXML
@@ -89,6 +97,29 @@ public class ListeUtilisateursController {
 
     @FXML
     void initialize() {
+
+
+
+        // Récupérer le nombre de membres
+        int membres = utilisateurCrud.countUsersByRole("MEMBRE");
+        totalMembres.setText(String.valueOf(membres));
+
+        // Récupérer le nombre de propriétaires
+        int proprietaires = utilisateurCrud.countUsersByRole("PROPRIETAIRE");
+        totalProprietaires.setText(String.valueOf(proprietaires));
+        // Récupérer le nombre d'administrateurs
+        int administrateurs = utilisateurCrud.countUsersByRole("ADMIN");
+
+
+
+// Calculer le nombre total d'utilisateurs
+        int utilisateurs = membres + proprietaires + administrateurs;
+        totalUtilisateurs.setText(String.valueOf(utilisateurs));
+
+
+
+
+
 // Initialiser la connexion
         MyConnection myConnection = MyConnection.getInstance();
         connection = myConnection.getCnx();

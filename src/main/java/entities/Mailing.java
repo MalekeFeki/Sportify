@@ -6,40 +6,58 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Mailing {
-    public static void envoyerEmailNouveauMdp(String destinataire, String nouveauMdp, String emailUtilisateur, char[] motDePasseUtilisateur) {
-        // Configuration pour l'envoi d'e-mails
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
 
 
 
-        // Session pour l'envoi d'e-mails
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(emailUtilisateur, new String(motDePasseUtilisateur));
+
+    public class EmailSender {
+
+        public static void sendEmail(String recipient, String subject, String body) {
+            // Email sender configuration
+            String senderEmail = "pidev2024@gmail.com"; // Your email address
+            String senderPassword = "2024pideV"; // Your email password
+            String smtpHost = "smtp.gmail.com"; // Your SMTP server host
+            int smtpPort = 587; // Your SMTP server port (e.g., 587 for TLS)
+
+            // Email properties
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", smtpHost);
+            props.put("mail.smtp.port", smtpPort);
+
+            // Create a session with authentication
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(senderEmail, senderPassword);
+                }
+            });
+
+            try {
+                // Create a MIME message
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(senderEmail));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+                message.setSubject(subject);
+                message.setText(body);
+
+                // Send the email
+                Transport.send(message);
+
+                System.out.println("Email sent successfully.");
+            } catch (MessagingException e) {
+                System.err.println("Error sending email: " + e.getMessage());
             }
-        });
+        }
 
-        try {
-            // Création du message
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(emailUtilisateur));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinataire));
-            message.setSubject("Nouveau mot de passe");
+        public static void main(String[] args) {
+            String recipient = "recipient@example.com"; // Recipient's email address
+            String subject = "Test Email";
+            String body = "This is a test email sent using JavaMail API.";
 
-            message.setText("Votre nouveau mot de passe est : " + nouveauMdp);
-
-            // Envoi du message
-            Transport.send(message);
-
-            System.out.println("E-mail envoyé avec succès.");
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            // Send the email
+            sendEmail(recipient, subject, body);
         }
     }
 
