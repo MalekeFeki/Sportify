@@ -2,7 +2,6 @@
 
 <!-- <?import com.gluonhq.charm.glisten.control.BottomNavigation?> -->
 
-<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -43,7 +42,7 @@
       <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
       <ImageView fitHeight="71.0" fitWidth="133.0">
          <image>
-            <Image url="@../../../../../../../../../Downloads/Sportify__2_-removebg-preview_1.png" />
+            <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
          </image>
       </ImageView>
       <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />

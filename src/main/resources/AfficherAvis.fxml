@@ -5,10 +5,8 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,10 +17,10 @@
 <AnchorPane prefHeight="562.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherAvisController">
    <ImageView fitHeight="505.0" fitWidth="870.0" layoutY="57.0">
       <image>
-         <Image url="@../../../../../../../../../Downloads/background_2.png" />
+         <Image url="file:/C:/Users/msi/Downloads/background_2.png" />
       </image>
    </ImageView>
-    <TableView fx:id="avisTableView" layoutX="433.0" layoutY="141.0" prefHeight="408.0" prefWidth="431.0" />
+    <TableView fx:id="avisTableView" layoutX="387.0" layoutY="86.0" prefHeight="463.0" prefWidth="429.0" />
 
 
    <Rectangle arcHeight="5.0" arcWidth="5.0" height="62.0" stroke="BLACK" strokeType="INSIDE" width="870.0" />
@@ -44,19 +42,9 @@
    <Label layoutX="714.0" layoutY="21.0" text="Home" textFill="WHITE" />
    <ImageView fitHeight="71.0" fitWidth="133.0" layoutX="19.0" layoutY="-4.0">
       <image>
-         <Image url="@../../../../../../../../../Downloads/Sportify__2_-removebg-preview_1.png" />
+         <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
       </image>
    </ImageView>
    <TextArea layoutX="82.0" layoutY="122.0" prefHeight="21.0" prefWidth="156.0" text="NOM SALLE" />
-   <Text fill="#868686" layoutX="433.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier mon avis">
-      <font>
-         <Font name="Calibri Italic" size="16.0" />
-      </font>
-   </Text>
-   <Text fill="#868686" layoutX="579.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supprimer mon avis">
-      <font>
-         <Font name="Calibri Italic" size="16.0" />
-      </font>
-   </Text>
 
 </AnchorPane>
