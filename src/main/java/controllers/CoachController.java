@@ -88,12 +88,24 @@ public class CoachController {
 
     @FXML
     void ajouterCoach(ActionEvent event) {
-        Coach coach = creerCoachAPartirDesChamps();
+        String nom = tfNom.getText();
+        String prenom = tfPrenom.getText();
+        String description = tfDiscription.getText();
+        Sexe sexe = tfSexe.getValue();
+        Seance seance = tfSeance.getValue();
+
+        if (nom.isEmpty() || prenom.isEmpty() || description.isEmpty() || sexe == null || seance == null) {
+            afficherMessageErreur("Veuillez remplir tous les champs.");
+            return;
+        }
+
+        Coach coach = new Coach(nom, prenom, description, sexe, seance);
         coachCrud.ajouterCoach(coach);
         afficherMessage("Coach ajouté avec succès");
         viderChamps();
         chargerDonnees();
     }
+
 
     @FXML
     void modifierCoach(ActionEvent event) {

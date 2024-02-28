@@ -37,6 +37,10 @@ public class ReclamationCoachController {
 
     private ReclamationCrud reclamationCrud;
     private ObservableList<Reclamation> reclamationsObservableList;
+    private int nombreTentativesAjout = 0;
+    private final int MAX_TENTATIVES_AJOUT = 3;
+    private int nombreTentativesModification = 0;
+    private final int MAX_TENTATIVES_MODIFICATION = 3;
 
     @FXML
     public void initialize() {
@@ -52,47 +56,61 @@ public class ReclamationCoachController {
         });
     }
 
+
+
     @FXML
     void ajouterReclamation(ActionEvent event) {
-        String texteReclamation = texte_reclamation.getText();
-        if (!texteReclamation.isEmpty()) {
-            Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
-            reclamationCrud.ajouterReclamation(nouvelleReclamation);
-            afficherMessage("Réclamation ajoutée avec succès");
-            viderChamps();
-            chargerDonnees();
+        if (nombreTentativesAjout < MAX_TENTATIVES_AJOUT) {
+            String texteReclamation = texte_reclamation.getText();
+            if (!texteReclamation.isEmpty()) {
+                if (texteReclamation.length() <= 20) {
+                    Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
+                    reclamationCrud.ajouterReclamation(nouvelleReclamation);
+                    afficherMessage("Réclamation ajoutée avec succès");
+                    viderChamps();
+                    chargerDonnees();
+                    nombreTentativesAjout++;
+                } else {
+                    afficherMessageErreur("La réclamation ne doit pas dépasser 20 caractères.");
+                }
+            } else {
+                afficherMessageErreur("Veuillez saisir une réclamation");
+            }
         } else {
-            afficherMessageErreur("Veuillez saisir une réclamation");
+            afficherMessageErreur("Vous avez atteint le nombre maximum de tentatives d'ajout (3)");
         }
     }
+
+
+
+
 
 
     @FXML
     void modifierReclamation(ActionEvent event) {
-        Reclamation reclamation = tableViewReclamations.getSelectionModel().getSelectedItem();
-        if (reclamation != null) {
-            String nouveauTexteReclamation = texte_reclamation.getText();
-            if (!nouveauTexteReclamation.isEmpty()) {
-
-                String ancienTexteReclamation = reclamation.getTexte();
-
-
-                reclamation.setTexte(nouveauTexteReclamation);
-                reclamationCrud.modifierReclamation(reclamation, ancienTexteReclamation);
-
-
-                afficherMessage("Réclamation modifiée avec succès");
-
-
-                viderChamps();
-                chargerDonnees();
+        if (nombreTentativesModification < MAX_TENTATIVES_MODIFICATION) {
+            Reclamation reclamation = tableViewReclamations.getSelectionModel().getSelectedItem();
+            if (reclamation != null) {
+                String nouveauTexteReclamation = texte_reclamation.getText();
+                if (!nouveauTexteReclamation.isEmpty()) {
+                    String ancienTexteReclamation = reclamation.getTexte();
+                    reclamation.setTexte(nouveauTexteReclamation);
+                    reclamationCrud.modifierReclamation(reclamation, ancienTexteReclamation);
+                    afficherMessage("Réclamation modifiée avec succès");
+                    viderChamps();
+                    chargerDonnees();
+                    nombreTentativesModification++;
+                } else {
+                    afficherMessageErreur("Veuillez saisir le nouveau texte de la réclamation");
+                }
             } else {
-                afficherMessageErreur("Veuillez saisir le nouveau texte de la réclamation");
+                afficherMessageErreur("Veuillez sélectionner une réclamation à modifier");
             }
         } else {
-            afficherMessageErreur("Veuillez sélectionner une réclamation à modifier");
+            afficherMessageErreur("Vous avez atteint le nombre maximum de tentatives de modification (3)");
         }
     }
+
 
 
     @FXML
