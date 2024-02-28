@@ -117,7 +117,8 @@ public class AllEventController implements Initializable {
 
         return new VBox(pageFlowPane);
     }
-
+    @FXML
+    private Button reserveButton; // Add this
     private VBox createEventBox(Evenement event) {
         Text eventNameText = new Text(event.getNomEv());
         // Limit the displayed description to 20 characters
@@ -130,7 +131,8 @@ public class AllEventController implements Initializable {
 
         Button moreInfoButton = new Button("More Info");
         moreInfoButton.setOnAction(event1 -> showEventDetails(event));
-
+        Button reserveButton = new Button("reserve");
+        reserveButton.setOnAction(event1 -> redirectToReservationForm(event));
         Button interestButton = new Button();
         updateInterestButtonText(interestButton, evenementCrud.getInterestStatus(event.getIDevent()));
 
@@ -148,10 +150,10 @@ public class AllEventController implements Initializable {
         imageView.setFitHeight(200);
 
         VBox eventBox = new VBox(
-                new VBox(eventNameText, eventDescriptionText, moreInfoButton, interestButton),
+                new VBox(eventNameText, eventDescriptionText, moreInfoButton, interestButton,reserveButton),
                 imageView
         );
-        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px;");
+        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
         eventBox.setMinWidth(100);
 
         return eventBox;
@@ -228,6 +230,7 @@ public class AllEventController implements Initializable {
             Parent root = loader.load();
             EventINFOController eventINFOController = loader.getController();
             eventINFOController.setEventDetails(selectedEvent);
+
             // Get the current stage
             Stage stage = (Stage) eventFlowPane.getScene().getWindow();
             // Set the new scene to the current stage
@@ -242,6 +245,29 @@ public class AllEventController implements Initializable {
         }
     }
 
+    private void redirectToReservationForm(Evenement selectedEvent) {
+        // Ensure that selectedEvent is not null before redirecting
+        if (selectedEvent != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormReserverEvent.fxml"));
+                Parent root = loader.load();
+                // Get the controller of the FormReserverEvent
+                FormReserverEventController formController = loader.getController();
+                // Set the event ID in FormReserverEventController
+                formController.setEvent(selectedEvent);
+
+                // Get the current stage
+                Stage currentStage = (Stage) clearFiltersButton.getScene().getWindow();
+                // Update the scene with the new content
+                currentStage.setScene(new Scene(root));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("selectedEvent is null. Make sure setEventDetails is called before redirectToReservationForm.");
+        }
+    }
 
 
 

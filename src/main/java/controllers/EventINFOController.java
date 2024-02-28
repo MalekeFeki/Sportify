@@ -2,7 +2,10 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,8 +13,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import entities.Evenement;
+import javafx.stage.Stage;
 import services.EvenementCrud;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,9 +55,13 @@ public class EventINFOController implements Initializable {
     @FXML
     private Button interestButton1; // Reference the button in FXML
 
-    private Evenement selectedEvent; // Declare the variable here
+    public Evenement selectedEvent; // Declare the variable here
 
     private EvenementCrud evenementCrud = new EvenementCrud();
+    @FXML
+    private Button reserveButton; // Add this
+
+
 
     public void setEventDetails(Evenement event) {
         // Set event details to the UI components
@@ -106,6 +115,8 @@ public class EventINFOController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         interestButton1.setOnAction(this::handleInterestButtonClick);
         updateInterestButtonText(interestButton1, 0);
+        System.out.println(selectedEvent);
+
     }
     @FXML
     private void handleInterestButtonClick(ActionEvent event) {
@@ -116,4 +127,46 @@ public class EventINFOController implements Initializable {
         // Update the button text
         updateInterestButtonText(interestButton1, newInterestCount);
     }
+    @FXML
+    private Button returntolist;
+    @FXML
+    private void redirectToAllEvent() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllEvent.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) returntolist.getScene().getWindow(); // Get the current stage
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void redirectToReservationForm() {
+        // Ensure that selectedEvent is not null before redirecting
+        if (selectedEvent != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormReserverEvent.fxml"));
+                Parent root = loader.load();
+                // Get the controller of the FormReserverEvent
+                FormReserverEventController formController = loader.getController();
+                // Set the event ID in FormReserverEventController
+                formController.setEvent(selectedEvent);
+
+                // Get the current stage
+                Stage currentStage = (Stage) eventImageView.getScene().getWindow();
+
+                // Update the scene with the new content
+                currentStage.setScene(new Scene(root));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("selectedEvent is null. Make sure setEventDetails is called before redirectToReservationForm.");
+        }
+    }
+
 }

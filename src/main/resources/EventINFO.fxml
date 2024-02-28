@@ -25,7 +25,7 @@
          </image>
       </ImageView>
       <ImageView fx:id="eventImageView" fitHeight="136.0" fitWidth="225.0" layoutX="519.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
-      <Text fx:id="title" layoutX="32.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="title" wrappingWidth="431.73676109313965">
+      <Text fx:id="title" layoutX="34.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="title" wrappingWidth="431.73676109313965">
          <font>
             <Font name="Bodoni MT Bold" size="32.0" />
          </font>
@@ -46,6 +46,8 @@
       <Text fx:id="genreevent" layoutX="42.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre : competition" underline="true" />
       <Text fx:id="typeevent" layoutX="164.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" underline="true" />
       <Button fx:id="interestButton1" layoutX="308.0" layoutY="140.0" onAction="#handleInterestButtonClick" text="Show Interest" />
+      <Button fx:id="returntolist" layoutX="25.0" layoutY="65.0" mnemonicParsing="false" onAction="#redirectToAllEvent" prefHeight="16.0" prefWidth="55.0" text="return" />
+      <Button fx:id="reserveButton" layoutX="416.0" layoutY="140.0" onAction="#redirectToReservationForm" text="Reserve Event" />
 
    </children>
 </AnchorPane>

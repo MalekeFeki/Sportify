@@ -13,6 +13,16 @@ public class EventReservation {
     public EventReservation() {
     }
 
+    public EventReservation(int eventId, int reservationId, String nom, String prenom, int cin, String email, int num_tele) {
+        this.eventId = eventId;
+        this.reservationId = reservationId;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.cin = cin;
+        Email = email;
+        this.num_tele = num_tele;
+    }
+
     public EventReservation(int eventId, Evenement event, int reservationId, String nom, String prenom, int cin, String email, int num_tele) {
         this.eventId = eventId;
         this.event = event;
