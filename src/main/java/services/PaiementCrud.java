@@ -66,39 +66,39 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
         return paiements;
     }
 
-    @Override
-    public void update(Paiement p) {
-        String req = "UPDATE paiement SET numeroCarteBancaire=?, ccv=?, expirationDate=?, datePayment=?, hourPayment=?,PromoCode=? WHERE idPayment = ? AND userId = ?";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setString(1, p.getNumeroCarteBancaire());
-            pst.setString(2, p.getCcv());
-            pst.setDate(3, Date.valueOf(p.getExpirationDate()));
-            pst.setDate(4, Date.valueOf(p.getDatePayment()));
-            pst.setTime(5, Time.valueOf(p.getHourPayment()));
-            pst.setInt(6, p.getIdPayment());
-            pst.setInt(7, p.getUserId());
-            pst.setString(8, p.getPromoCode());
-            pst.executeUpdate();
-            System.out.println("Paiement modifié");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+    //@Override
+    // public void update(Paiement p) {
+    //   String req = "UPDATE paiement SET numeroCarteBancaire=?, ccv=?, expirationDate=?, datePayment=?, hourPayment=?,PromoCode=? WHERE idPayment = ? AND userId = ?";
+    //  try {
+    //    PreparedStatement pst = cnx.prepareStatement(req);
+    //       pst.setString(1, p.getNumeroCarteBancaire());
+    //       pst.setString(2, p.getCcv());
+    //       pst.setDate(3, Date.valueOf(p.getExpirationDate()));
+    //       pst.setDate(4, Date.valueOf(p.getDatePayment()));
+    //        pst.setTime(5, Time.valueOf(p.getHourPayment()));
+    //       pst.setInt(6, p.getIdPayment());
+    //       pst.setInt(7, p.getUserId());
+    //       pst.setString(8, p.getPromoCode());
+    //       pst.executeUpdate();
+    //       System.out.println("Paiement modifié");
+    //    } catch (SQLException e) {
+    //       System.out.println(e.getMessage());
+    //    }
+    //  }
 
-    @Override
-    public void delete(int idPayment, int userId) {
-        String req = "DELETE FROM paiement WHERE idPayment = ? AND userId = ?";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setInt(1, idPayment);
-            pst.setInt(2, userId);
-            pst.executeUpdate();
-            System.out.println("Paiement supprimé");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+    //@Override
+    // public void delete(int idPayment, int userId) {
+    //  String req = "DELETE FROM paiement WHERE idPayment = ? AND userId = ?";
+    //   try {
+    //        PreparedStatement pst = cnx.prepareStatement(req);
+    //      pst.setInt(1, idPayment);
+    //      pst.setInt(2, userId);
+    //      pst.executeUpdate();
+    //       System.out.println("Paiement supprimé");
+    //   } catch (SQLException e) {
+    //        System.out.println(e.getMessage());
+    //   }
+    //  }
 
     // Helper method to check if a user with the given ID exists
     private boolean userExists(int userId) throws SQLException {

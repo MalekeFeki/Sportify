@@ -13,6 +13,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import services.PaiementCrud;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -41,11 +45,31 @@ public class PaiementController {
     @FXML
     private Button btn_cancel;
 
+    @FXML
+    private Button btn_Show ;
+
     private PaiementCrud paiementCrud = new PaiementCrud();
 
     // Setter method for PaiementCrud
     public void setPaiementCrud(PaiementCrud paiementCrud) {
         this.paiementCrud = paiementCrud;
+    }
+
+    private static String hashStringWithMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashText = no.toString(16);
+            // Pad with leading zeros to ensure the hash has a consistent length
+            while (hashText.length() < 32) {
+                hashText = "0" + hashText;
+            }
+            return hashText;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @FXML
@@ -57,6 +81,9 @@ public class PaiementController {
             String expirationInput = tfexpiration.getText().trim();
             String ccv = tfccv.getText().trim();
             String promocode = tfpromocode.getText().trim();
+            String hashedCardNumberMd5 = hashStringWithMD5(promocode);
+            String hashedCvvMd5 = hashStringWithMD5(ccv);
+
             // Validate postal code
             if (postalCodeStr.length() != 4 || !postalCodeStr.matches("\\d{4}")) {
                 showAlert(AlertType.ERROR, "Error", "Postal Code must be a 4-digit number!");
@@ -98,7 +125,8 @@ public class PaiementController {
             }
 
             // Create a new Paiement object with the retrieved values
-            Paiement paiement = new Paiement(cardNumber, ccv, expiration, promocode, postalCode);
+            Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode);
+
 
             // Check if PaiementCrud is initialized
             if (paiementCrud != null) {
@@ -118,24 +146,35 @@ public class PaiementController {
 
     @FXML
     public void cancelPayment() {
+        // Get the stage from the current button
+        Stage stage = (Stage) btn_cancel.getScene().getWindow();
+
+        // Close the stage
+        stage.close();
+    }
+    public void ShowPayments() {
         try {
             // Load the FXML file for the new interface
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("your_other_fxml_file.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
             Parent root = loader.load();
 
             // Get the stage from the current button
-            Stage stage = (Stage) btn_cancel.getScene().getWindow();
+            Stage stage = (Stage) btn_Show.getScene().getWindow();
 
             // Set the new scene
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            // FXML file loading failed
+            System.err.println("Error loading FXML file: " + e.getMessage());
             e.printStackTrace();
-            // Handle any exceptions that occur while loading the new interface
+        } catch (Exception e) {
+            // Other unexpected exceptions
+            System.err.println("Unexpected error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

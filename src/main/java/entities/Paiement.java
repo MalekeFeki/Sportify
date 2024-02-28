@@ -11,7 +11,6 @@ public class Paiement {
 
     private int idPayment;
     private String numeroCarteBancaire;
-    private String hashedCardNumber = hashStringWithMD5(numeroCarteBancaire);
     private String ccv;
     private LocalDate expirationDate;
     private LocalDate datePayment = LocalDate.now();
@@ -153,20 +152,5 @@ public class Paiement {
                 ", PromoCode=" + PromoCode;
     }
 
-    private static String hashStringWithMD5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger no = new BigInteger(1, messageDigest);
-            String hashText = no.toString(16);
-            // Pad with leading zeros to ensure the hash has a consistent length
-            while (hashText.length() < 32) {
-                hashText = "0" + hashText;
-            }
-            return hashText;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 }

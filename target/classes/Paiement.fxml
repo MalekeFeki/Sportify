@@ -42,6 +42,7 @@
 
         <!-- Buttons -->
         <Button fx:id="btn_proceed" layoutX="191.0" layoutY="337.0" mnemonicParsing="false" onAction="#proceedPayment" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Valider" />
-        <Button fx:id="btn_cancel" layoutX="307.0" layoutY="337.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Annuler " />
+        <Button fx:id="btn_cancel" layoutX="307.0" layoutY="337.0" mnemonicParsing="false"  onAction="#cancelPayment"   prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Annuler " />
+      <Button fx:id="btn_Show" layoutX="440.0" layoutY="337.0" mnemonicParsing="false" onAction="#ShowPayments" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Afficher" />
     </children>
 </AnchorPane>
