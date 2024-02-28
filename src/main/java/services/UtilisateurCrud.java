@@ -123,6 +123,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     @Override
     public void modifierEntite(Utilisateur u) {
 
+        System.out.println(u);
         String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
         try {
             PreparedStatement pst = cnx2.prepareStatement(req2);
@@ -132,7 +133,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             pst.setString(4, u.getPrenom());
             pst.setString(5, u.getEmail());
             pst.setString(6, u.getMdp());
-            pst.setInt(7, u.getId()); // Assuming id is the primary key
+            pst.setInt(7, u.getId());// Assuming id is the primary key
             pst.executeUpdate();
             System.out.println("utilisateur modifié");
         } catch (SQLException e) {
@@ -141,11 +142,13 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     }
     @Override
     public void modifierProfil(Utilisateur u) {
+        u.setRole(Role.MEMBRE);
+        System.out.println(u);
         // Assurez-vous d'avoir une connexion à la base de données valide
         Connection cnx2 = MyConnection.instance.getCnx();
 
         // Requête SQL pour mettre à jour l'utilisateur
-        String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
+        String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=?, role=? WHERE id=?";
 
         try {
             // Préparer la requête SQL avec les paramètres
@@ -156,7 +159,8 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             pst.setString(4, u.getPrenom());
             pst.setString(5, u.getEmail());
             pst.setString(6, u.getMdp());
-            pst.setInt(7, u.getId()); // Supposant que 'id' est la clé primaire
+            pst.setString(7, u.getRole().toString());
+            pst.setInt(8, u.getId()); // Supposant que 'id' est la clé primaire
 
             // Exécuter la requête de mise à jour
             int rowsAffected = pst.executeUpdate();
@@ -251,6 +255,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
                     utilisateur = new Utilisateur();
+                    utilisateur.setId(rs.getInt("id"));
                     utilisateur.setCin(rs.getInt("cin"));
                     utilisateur.setNum_tel(rs.getInt("num_tel"));
                     utilisateur.setNom(rs.getString("nom"));

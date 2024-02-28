@@ -58,7 +58,7 @@
       <Label layoutX="266.0" layoutY="276.0" text="Mot de passe" />
       <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="376.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
       <RadioButton fx:id="rbproprietaire" layoutX="453.0" layoutY="312.0" mnemonicParsing="false" text="Propriétaire de salle" />
-      <RadioButton fx:id="rbmembre" layoutX="377.0" layoutY="312.0" mnemonicParsing="false" text="Membre" />
+      <RadioButton fx:id="rbmembre" layoutX="377.0" layoutY="312.0" mnemonicParsing="false" selected="true" text="Membre" />
       <Label layoutX="266.0" layoutY="312.0" text="Role" />
       <Button fx:id="btn_annul" layoutX="483.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler" />
       <PasswordField fx:id="tfmdp" layoutX="376.0" layoutY="272.0" />
@@ -68,5 +68,6 @@
       <Label layoutX="266.0" layoutY="103.0" text="Numéro téléphone" />
       <Text layoutX="58.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
       <Label fx:id="nomUtilisateur" layoutX="75.0" layoutY="167.0" text="\${tfnom.text}&quot;" />
+      <TextField fx:id="tfid" layoutX="292.0" layoutY="368.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
    </children>
 </AnchorPane>

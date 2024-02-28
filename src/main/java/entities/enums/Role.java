@@ -5,8 +5,5 @@ public enum Role {
     PROPRIETAIRE,
     ADMIN;
 
-    @Override
-    public String toString() {
-        return name();
-    }
+
 }

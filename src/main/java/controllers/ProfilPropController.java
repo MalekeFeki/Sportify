@@ -75,6 +75,8 @@ public class ProfilPropController {
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     private String email;
     private String password;
+    @FXML
+    private TextField tfid;
     public void initData(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
 

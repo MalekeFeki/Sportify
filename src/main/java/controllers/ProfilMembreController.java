@@ -77,6 +77,8 @@ public class ProfilMembreController {
     private String email;
     private String password;
     @FXML
+    private TextField tfid;
+    @FXML
     private Label nomUtilisateur;
     public void setUtilisateur(Utilisateur utilisateur) throws SQLException {
         this.utilisateur = utilisateur;
@@ -96,6 +98,7 @@ public class ProfilMembreController {
 
         Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
         if (utilisateur != null) {
+            tfid.setText(String.valueOf(utilisateur.getId()));
             tfcin.setText(String.valueOf(utilisateur.getCin()));
             tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
             tfnom.setText(utilisateur.getNom());
@@ -136,28 +139,10 @@ public class ProfilMembreController {
         });
 
         // Gérer l'événement du bouton "Modifier profil"
-        btn_enregismodif.setOnAction(event -> {
-            // Récupérer les nouvelles valeurs des champs de texte
-            int cin = Integer.parseInt(tfcin.getText());
-            int num_tel = Integer.parseInt(tfnum_tel.getText());
-            String nom = tfnom.getText();
-            String prenom = tfprenom.getText();
-            String email = tfemail.getText();
-            String mdp = tfmdp.getText();
+        btn_enregismodif.setOnAction(event -> modifierProfil());
 
-            // Mettre à jour les propriétés de l'utilisateur
-            utilisateur.setCin(cin);
-            utilisateur.setNum_tel(num_tel);
-            utilisateur.setNom(nom);
-            utilisateur.setPrenom(prenom);
-            utilisateur.setEmail(email);
-            utilisateur.setMdp(mdp);
-
-            // Appeler la méthode de votre classe UtilisateurCrud pour mettre à jour les informations de l'utilisateur dans la base de données
-            utilisateurCrud.modifierEntite(utilisateur);
-        });
     }
-    public void afficherDetailsProfil(Utilisateur admin) throws SQLException {
+    public void afficherDetailsProfil(Utilisateur membre) throws SQLException {
         Connection cnx = MyConnection.getInstance().getCnx();
         String req = "SELECT * from utilisateur WHERE id =?";
 
@@ -165,17 +150,37 @@ public class ProfilMembreController {
         pst.setInt(1,MyConnection.instance.getId());
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
-            tfcin.setText(String.valueOf(admin.getCin()));
-            tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
-            tfnom.setText(admin.getNom());
-            tfprenom.setText(admin.getPrenom());
-            tfemail.setText(admin.getEmail());
-            tfmdp.setText(admin.getMdp());
+            tfid.setText(String.valueOf(membre.getId()));
+            tfcin.setText(String.valueOf(membre.getCin()));
+            tfnum_tel.setText(String.valueOf(membre.getNum_tel()));
+            tfnom.setText(membre.getNom());
+            tfprenom.setText(membre.getPrenom());
+            tfemail.setText(membre.getEmail());
+            tfmdp.setText(membre.getMdp());
             rbproprietaire.setSelected(false);
             rbmembre.setSelected(true);
+            nomUtilisateur.setText(tfnom.getText());
         }
 
 
+    }
+    @FXML
+    private void modifierProfil() {
+        // Récupérer les valeurs des champs de texte
+        int id=Integer.parseInt(tfid.getText());
+        int cin = Integer.parseInt(tfcin.getText());
+        int num_tel = Integer.parseInt(tfnum_tel.getText());
+        String nom = tfnom.getText();
+        String prenom = tfprenom.getText();
+        String email = tfemail.getText();
+        String mdp = tfmdp.getText();
+        Role role = Role.MEMBRE;
+
+        // Créer un nouvel objet Utilisateur avec les valeurs récupérées
+        Utilisateur u = new Utilisateur(id,cin, num_tel, nom, prenom, email, mdp,role);
+
+        // Appeler la méthode de mise à jour appropriée du CRUD Utilisateur
+        utilisateurCrud.modifierEntite(u);
     }
 
 

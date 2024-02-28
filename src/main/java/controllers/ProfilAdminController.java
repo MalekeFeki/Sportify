@@ -61,6 +61,8 @@ public class ProfilAdminController {
 
     @FXML
     private TextField tfemail;
+    @FXML
+    private TextField tfid;
 
     @FXML
     private PasswordField tfmdp;
@@ -105,7 +107,7 @@ public class ProfilAdminController {
     @FXML
     private Label nomUtilisateur;
 
-
+    private Utilisateur utilisateur;
     public void setAdmin(Utilisateur admin) throws SQLException {
         this.admin = admin;
         if (this.admin != null) {
@@ -125,6 +127,7 @@ public class ProfilAdminController {
         pst.setInt(1,MyConnection.instance.getId());
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
+            tfid.setText(String.valueOf(admin.getId()));
             tfcin.setText(String.valueOf(admin.getCin()));
             tfnum_tel.setText(String.valueOf(admin.getNum_tel()));
             tfnom.setText(admin.getNom());
@@ -132,8 +135,7 @@ public class ProfilAdminController {
             tfemail.setText(admin.getEmail());
             tfmdp.setText(admin.getMdp());
             nomUtilisateur.setText(tfnom.getText());
-            rbproprietaire.setSelected(false);
-            rbmembre.setSelected(false);
+
         }
     }
 
@@ -144,22 +146,23 @@ public class ProfilAdminController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     void initialize() {
 
         // Effectuer la liaison bidirectionnelle entre le texte de tfnom et le texte de nomUtilisateur
         nomUtilisateur.textProperty().bindBidirectional(tfnom.textProperty());
 
-        Utilisateur utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
+        utilisateur = utilisateurCrud.getUtilisateurById(MyConnection.instance.getId());
         if (utilisateur != null) {
+            tfid.setText(String.valueOf(utilisateur.getId()));
             tfcin.setText(String.valueOf(utilisateur.getCin()));
             tfnum_tel.setText(String.valueOf(utilisateur.getNum_tel()));
             tfnom.setText(utilisateur.getNom());
             tfprenom.setText(utilisateur.getPrenom());
             tfemail.setText(utilisateur.getEmail());
             tfmdp.setText(utilisateur.getMdp());
-            rbproprietaire.setSelected(false);
-            rbmembre.setSelected(true);
+
         } else {
             // Handle the case where user details are not found
             System.out.println("User details not found.");
@@ -260,6 +263,7 @@ public class ProfilAdminController {
     @FXML
     private void modifierProfil() {
         // Récupérer les valeurs des champs de texte
+        int id=Integer.parseInt(tfid.getText());
         int cin = Integer.parseInt(tfcin.getText());
         int num_tel = Integer.parseInt(tfnum_tel.getText());
         String nom = tfnom.getText();
@@ -268,10 +272,10 @@ public class ProfilAdminController {
         String mdp = tfmdp.getText();
 
         // Créer un nouvel objet Utilisateur avec les valeurs récupérées
-        Utilisateur utilisateur = new Utilisateur(cin, num_tel, nom, prenom, email, mdp);
+        Utilisateur u = new Utilisateur(id,cin, num_tel, nom, prenom, email, mdp);
 
         // Appeler la méthode de mise à jour appropriée du CRUD Utilisateur
-        utilisateurCrud.modifierEntite(utilisateur);
+        utilisateurCrud.modifierEntite(u);
     }
 
 }

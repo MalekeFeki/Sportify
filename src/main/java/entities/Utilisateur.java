@@ -36,7 +36,8 @@ public class Utilisateur {
         this.mdp = mdp;
         this.role=role;
     }
-    public Utilisateur(int cin, int num_tel,String nom, String prenom, String email, String mdp) {
+    public Utilisateur(int id,int cin, int num_tel,String nom, String prenom, String email, String mdp) {
+        this.id=id;
         this.cin=cin;
         this.num_tel=num_tel;
         this.nom = nom;
@@ -136,7 +137,7 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "idC=" + id +
+                "id=" + id +
                 ", cin=" + cin +
                 ", num_tel=" + num_tel +
                 ", nom='" + nom + '\'' +

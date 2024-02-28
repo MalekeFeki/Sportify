@@ -50,16 +50,14 @@
       </Pane>
       <Label layoutX="257.0" layoutY="137.0" text="Nom" />
       <Label layoutX="256.0" layoutY="184.0" text="Prénom" />
+      <TextField fx:id="tfid" layoutX="388.0" layoutY="364.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
       <TextField fx:id="tfnom" layoutX="366.0" layoutY="133.0" />
       <TextField fx:id="tfprenom" layoutX="366.0" layoutY="181.0" />
       <TextField fx:id="tfemail" layoutX="366.0" layoutY="225.0" />
       <Label layoutX="256.0" layoutY="229.0" text="Email" />
       <Label layoutX="256.0" layoutY="266.0" text="Mot de passe" />
-      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="366.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="Modifier profil" />
-      <RadioButton fx:id="rbproprietaire" disable="true" layoutX="443.0" layoutY="302.0" mnemonicParsing="false" text="Propriétaire de salle" />
-      <RadioButton fx:id="rbmembre" disable="true" layoutX="367.0" layoutY="302.0" mnemonicParsing="false" text="Membre" />
-      <Label layoutX="256.0" layoutY="302.0" text="Role" />
-      <Button fx:id="btn_annul" layoutX="477.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler">
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="357.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
+      <Button fx:id="btn_annul" layoutX="463.0" layoutY="340.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler">
          <styleClass>
             <String fx:value="close" />
             <String fx:value="delete-btn" />
@@ -77,5 +75,8 @@
       </Button>
       <FontAwesomeIconView fill="WHITE" glyphName="EDIT" layoutX="39.0" layoutY="232.0" size="23" wrappingWidth="17.59999999999991" />
       <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="38.0" layoutY="266.0" size="23" />
+      <RadioButton fx:id="rbproprietaire" disable="true" layoutX="442.0" layoutY="313.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton fx:id="rbmembre" disable="true" layoutX="366.0" layoutY="313.0" mnemonicParsing="false" text="Membre" />
+      <Label layoutX="258.0" layoutY="304.0" text="Role" />
    </children>
 </AnchorPane>

@@ -67,7 +67,7 @@
       <Label layoutX="246.0" layoutY="219.0" text="Email" />
       <Label layoutX="246.0" layoutY="256.0" text="Mot de passe" />
       <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="356.0" layoutY="330.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
-      <RadioButton fx:id="rbproprietaire" layoutX="433.0" layoutY="292.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton fx:id="rbproprietaire" layoutX="433.0" layoutY="292.0" mnemonicParsing="false" selected="true" text="Propriétaire de salle" />
       <RadioButton fx:id="rbmembre" layoutX="357.0" layoutY="292.0" mnemonicParsing="false" text="Membre" />
       <Label layoutX="246.0" layoutY="292.0" text="Role" />
       <Button fx:id="btn_annul" layoutX="463.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler">
@@ -80,5 +80,6 @@
       <TextField fx:id="tfcin" layoutX="358.0" layoutY="34.0" />
       <Label layoutX="246.0" layoutY="38.0" text="Cin" />
       <Label layoutX="246.0" layoutY="83.0" text="Numéro téléphone" />
+      <TextField fx:id="tfid" layoutX="292.0" layoutY="368.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
    </children>
 </AnchorPane>
