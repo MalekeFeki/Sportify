@@ -36,12 +36,12 @@ public class CoachCrud {
         String requete = "UPDATE coach SET NomCo=?, PrenomCo=?, Description=?, Sexe=?, Seance=? WHERE NomCo=?";
         try {
             PreparedStatement pst = cnx.prepareStatement(requete);
-            pst.setString(1, c.getNom()); // Nouveau nom du coach
+            pst.setString(1, c.getNom());
             pst.setString(2, c.getPrenom());
             pst.setString(3, c.getDescription());
             pst.setString(4, c.getSexe().name());
             pst.setString(5, c.getSeance().name());
-            pst.setString(6, ancienNom); // Ancien nom du coach
+            pst.setString(6, ancienNom);
 
             pst.executeUpdate();
             System.out.println("Coach modifié avec succès");

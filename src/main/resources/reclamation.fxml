@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.reclamationCoachController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReclamationCoachController">
    <children>
       <Pane layoutX="8.0" layoutY="10.0" prefHeight="380.0" prefWidth="150.0" style="-fx-background-color: #FF6100;" stylesheets="@dashboard.css">
          <styleClass>
@@ -40,14 +40,14 @@
          </styleClass>
          <children>
             <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="réclamation :" />
-            <TextField fx:id="tfreclamation" layoutX="92.0" layoutY="43.0" prefHeight="58.0" prefWidth="260.0" />
-            <Button fx:id="tfajoutreclamation" layoutX="92.0" layoutY="117.0" mnemonicParsing="false" text="ajouter" />
-            <Button fx:id="tfmodifreclamation" layoutX="187.0" layoutY="117.0" mnemonicParsing="false" text="modifier" />
-            <Button fx:id="tfsuppressionreclamation" layoutX="294.0" layoutY="117.0" mnemonicParsing="false" text="supprimer" />
-            <TableView fx:id="tfvoirreclamation" layoutX="6.0" layoutY="163.0" prefHeight="130.0" prefWidth="411.0">
+            <TextField fx:id="texte_reclamation" layoutX="92.0" layoutY="43.0" prefHeight="58.0" prefWidth="260.0" />
+            
+            <Button fx:id="tfajoutreclamation" layoutX="92.0" layoutY="117.0" mnemonicParsing="false" text="ajouter" onAction="#ajouterReclamation"  />
+            <Button fx:id="tfmodifreclamation" layoutX="187.0" layoutY="117.0" mnemonicParsing="false" text="modifier" onAction="#modifierReclamation"  />
+            <Button fx:id="tfsuppressionreclamation" layoutX="294.0" layoutY="117.0" mnemonicParsing="false" text="supprimer"  onAction="#supprimerReclamation" />
+            <TableView fx:id="tableViewReclamations" layoutX="6.0" layoutY="163.0" prefHeight="130.0" prefWidth="411.0">
               <columns>
-                <TableColumn prefWidth="259.0" text="Votre réclamation" />
-                  <TableColumn prefWidth="150.0" text="Action" />
+                <TableColumn fx:id="colReclamation" prefWidth="410.0" text="Votre réclamation" />
               </columns>
             </TableView>
          </children></AnchorPane>

@@ -99,12 +99,12 @@ public class CoachController {
     void modifierCoach(ActionEvent event) {
         Coach coach = creerCoachAPartirDesChamps();
         if (coach != null) {
-            // Vérifier si un coach est sélectionné dans le TableView
+
             Coach coachSelectionne = Tab1.getSelectionModel().getSelectedItem();
             if (coachSelectionne != null) {
-                // Récupérer le nom du coach sélectionné
+
                 String ancienNom = coachSelectionne.getNom();
-                // Modifier le coach avec l'ancien nom
+
                 coachCrud.modifierCoach(coach, ancienNom);
                 afficherMessage("Coach modifié avec succès");
                 viderChamps();
