@@ -23,25 +23,22 @@ public class HomePage extends Application {
 
 
         // Add elements to the list
-        fxml1.add("/AjouterEvent.fxml");
-        fxml1.add("/AllEvent.fxml");
-        fxml1.add("/EventINFO.fxml");
-        fxml1.add("/FormReserverEvent.fxml");
-        fxml1.add("/GestionEvent.fxml");
-        fxml1.add("/ModifierEvent.fxml");
-        for (String a :
-                fxml1) {
-            try {
-                Parent root= FXMLLoader.load(getClass().getResource("a"));
+        fxml1.add("AjouterEvent.fxml");
+        fxml1.add("AllEvent.fxml");
+        fxml1.add("EventINFO.fxml");
+        fxml1.add("FormReserverEvent.fxml");
+        fxml1.add("GestionEvent.fxml");
+        fxml1.add("ModifierEvent.fxml");
 
-                primaryStage.setTitle("GestionEvent");
-                primaryStage.setScene(new Scene(root));
-                primaryStage.show();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+        try {
+            Parent root= FXMLLoader.load(getClass().getResource("/EventINFO.fxml"));
+
+            primaryStage.setTitle("GestionEvent");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-
 
     }
     }

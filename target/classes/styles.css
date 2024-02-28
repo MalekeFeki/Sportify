@@ -1,0 +1,47 @@
+/* styles.css */
+
+#infoVBox {
+    -fx-background-color: #f0f0f0; /* Light gray background color */
+    -fx-padding: 10px; /* Padding around the VBox */
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.description {
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.value {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 0; /* Vertical padding for labels */
+}
+
+/* Additional styles for specific labels */
+#emailLabel {
+    -fx-text-fill: #3366cc; /* Blue color for email label */
+}
+
+#numTeleLabel {
+    -fx-text-fill: #009900; /* Green color for phone label */
+}
+
+#CityLabel {
+    -fx-text-fill: #990099; /* Purple color for city label */
+}
+
+#LieuLabel {
+    -fx-text-fill: #fe6100; /* Orange color for location label */
+}
+
+/* Chart graphic color */
+.chart {
+    -fx-background-color: #fe6100; /* Orange color for chart graphic */
+}
