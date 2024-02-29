@@ -15,12 +15,32 @@ public class Paiement {
     private LocalDate expirationDate;
     private LocalDate datePayment = LocalDate.now();
     private LocalTime hourPayment = LocalTime.now();
+
+    private LocalDate dateDebutAbonnement;
+    private LocalDate dateFinAbonnement;
+    private double price;
+
     private int userId=1;
     private String PromoCode;
 
     private int PostalCode ;
 
-    public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, int userId,String PromoCode,int PostalCode) {
+    public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, LocalDate dateDebutAbonnement, LocalDate dateFinAbonnement, double price, int userId, String promoCode, int postalCode) {
+        this.idPayment = idPayment;
+        this.numeroCarteBancaire = numeroCarteBancaire;
+        this.ccv = ccv;
+        this.expirationDate = expirationDate;
+        this.datePayment = datePayment;
+        this.hourPayment = hourPayment;
+        this.dateDebutAbonnement = dateDebutAbonnement;
+        this.dateFinAbonnement = dateFinAbonnement;
+        this.price = price;
+        this.userId = userId;
+        PromoCode = promoCode;
+        PostalCode = postalCode;
+    }
+
+    public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, int userId, String PromoCode, int PostalCode) {
         this.idPayment = idPayment;
         this.numeroCarteBancaire = numeroCarteBancaire;
         this.ccv = ccv;
@@ -47,6 +67,17 @@ public class Paiement {
    this.expirationDate = expiration ;
    this.PromoCode = promocode ;
    this.PostalCode = postalCode ;
+    }
+
+    public Paiement(String numeroCarteBancaire, String ccv, LocalDate expiration, String promocode, int postalCode, LocalDate dateDebut, LocalDate dateFin, Double price) {
+        this.numeroCarteBancaire = numeroCarteBancaire ;
+        this.ccv= ccv ;
+        this.expirationDate = expiration ;
+        this.PromoCode = promocode ;
+        this.PostalCode = postalCode;
+        this.dateDebutAbonnement = dateDebut;
+        this.dateFinAbonnement = dateFin;
+        this.price = price;
     }
 
     public int getIdPayment() {
@@ -117,6 +148,18 @@ public class Paiement {
 
     public void setPostalCode(int postalCode) {
         PostalCode = postalCode;
+    }
+
+    public LocalDate getDateDebutAbonnement() {
+        return dateDebutAbonnement;
+    }
+
+    public LocalDate getDateFinAbonnement() {
+        return dateFinAbonnement;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override

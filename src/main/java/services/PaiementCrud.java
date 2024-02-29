@@ -16,7 +16,7 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
 
     @Override
     public void create(Paiement p) {
-        String req = "INSERT INTO paiement(numeroCarteBancaire, ccv, expirationDate, datePayment, hourPayment, userId, PromoCode, PostalCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO paiement(numeroCarteBancaire, ccv, expirationDate, datePayment, hourPayment, userId, PromoCode, PostalCode, dateDebutAbonnement, dateFinAbonnement, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             // Check if the provided userId exists in the users table
             if (userExists(p.getUserId())) {
@@ -29,6 +29,11 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
                 pst.setInt(6, p.getUserId());
                 pst.setString(7, p.getPromoCode());
                 pst.setInt(8, p.getPostalCode());
+                pst.setDate(9, Date.valueOf(p.getDateDebutAbonnement()));
+                pst.setDate(10, Date.valueOf(p.getDateFinAbonnement()));
+                pst.setDouble(11, p.getPrice());
+
+
                 pst.executeUpdate();
                 System.out.println("Paiement ajouté");
             } else {
@@ -54,10 +59,13 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
                         rs.getDate("expirationDate").toLocalDate(),
                         rs.getDate("datePayment").toLocalDate(),
                         rs.getTime("hourPayment").toLocalTime(),
+                        rs.getDate("dateDebutAbonnement").toLocalDate(),
+                        rs.getDate("dateFinAbonnement").toLocalDate(),
+                        rs.getDouble("price"),
                         rs.getInt("userId"),
                         rs.getString("PromoCode"),
                         rs.getInt("PostalCode")
-                );
+                        );
                 paiements.add(p);
             }
         } catch (SQLException e) {

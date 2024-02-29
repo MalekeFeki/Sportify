@@ -16,8 +16,8 @@ public class HomePage extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            Parent root= FXMLLoader.load(getClass().getResource("/Paiement.fxml"));
-            primaryStage.setTitle("Inscription");
+            Parent root= FXMLLoader.load(getClass().getResource("/Adhesion.fxml"));
+            primaryStage.setTitle("Adhésion");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {

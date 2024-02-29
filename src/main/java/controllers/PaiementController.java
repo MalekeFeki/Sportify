@@ -1,14 +1,12 @@
 package controllers;
 
+import entities.Adhesion;
 import entities.Paiement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import services.PaiementCrud;
@@ -48,11 +46,44 @@ public class PaiementController {
     @FXML
     private Button btn_Show ;
 
+    @FXML
+    private TextField debutDateLabel;
+
+    @FXML
+    private TextField endDateLabel;
+
+    @FXML
+    private TextField priceLabel ;
+
     private PaiementCrud paiementCrud = new PaiementCrud();
 
-    // Setter method for PaiementCrud
-    public void setPaiementCrud(PaiementCrud paiementCrud) {
-        this.paiementCrud = paiementCrud;
+    public void initialize() {
+        // Set text field event listeners for input validation
+        tfPostalCode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 4) {
+                tfPostalCode.setText(oldValue);
+            }
+        });
+
+        tfccv.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 3) {
+                tfccv.setText(oldValue);
+            }
+        });
+
+        tfpromocode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 9) {
+                tfpromocode.setText(oldValue);
+            }
+
+        });
+    }
+
+    public void initData(Adhesion adhesionInfo) {
+        // Set labels with data from MembershipData object
+        debutDateLabel.setText("Debut Date: " + adhesionInfo.getDateDebut());
+        endDateLabel.setText("End Date: " + adhesionInfo.getDateFin());
+        priceLabel.setText("Price: $" + String.format("%.2f", adhesionInfo.getPrice()));
     }
 
     private static String hashStringWithMD5(String input) {
@@ -81,14 +112,17 @@ public class PaiementController {
             String expirationInput = tfexpiration.getText().trim();
             String ccv = tfccv.getText().trim();
             String promocode = tfpromocode.getText().trim();
-            String hashedCardNumberMd5 = hashStringWithMD5(promocode);
+            String hashedCardNumberMd5 = hashStringWithMD5(cardNumber);
             String hashedCvvMd5 = hashStringWithMD5(ccv);
+            String dateDebut = debutDateLabel.getText();
+            String dateFin = endDateLabel.getText();
+            String price = priceLabel.getText().trim();
 
             // Validate postal code
-            if (postalCodeStr.length() != 4 || !postalCodeStr.matches("\\d{4}")) {
-                showAlert(AlertType.ERROR, "Error", "Postal Code must be a 4-digit number!");
-                return;
+            if (postalCodeStr.length() > 4) {
+                postalCodeStr = postalCodeStr.substring(0, 4); // Take the first four characters only
             }
+
             int postalCode = Integer.parseInt(postalCodeStr);
 
             // Validate card number, expiration, and ccv
@@ -100,6 +134,7 @@ public class PaiementController {
 
             // Validate and parse the expiration date
             LocalDate expiration = null;
+
             if (!expirationInput.isEmpty()) {
                 // Define the expected date format
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -113,19 +148,20 @@ public class PaiementController {
 
             }
             // Validate CCV
-            if (ccv.length() != 3 || !ccv.matches("\\d{3}")) {
-                showAlert(AlertType.ERROR, "Error", "CCV must be a 3-digit number!");
-                return;
+            if (ccv.length() > 3 || !ccv.matches("\\d{1,3}")) {
+                ccv = ccv.substring(0, Math.min(ccv.length(), 3)); // Take the first three digits only
             }
 
             // Validate promocode
-            if (promocode.length() != 9) {
-                showAlert(AlertType.ERROR, "Error", "PromoCode must be 9 characters long!");
-                return;
+            if (promocode.length() > 9) {
+                promocode = promocode.substring(0, 9); // Take the first nine characters only
             }
 
+            LocalDate dateDebutAbo = LocalDate.parse(dateDebut);
+            LocalDate dateFinAbo =   LocalDate.parse(dateFin);
+            double newPriceFormat = Double.parseDouble(price);
             // Create a new Paiement object with the retrieved values
-            Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode);
+            Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode,dateDebutAbo,dateFinAbo,newPriceFormat);
 
 
             // Check if PaiementCrud is initialized
@@ -182,4 +218,6 @@ public class PaiementController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }
