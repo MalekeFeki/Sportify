@@ -36,7 +36,7 @@ public class AvisController {
     }
 
     @FXML
-    void ajouterAvis(ActionEvent event) {
+    void ajouterAvis(ActionEvent avis1) {
         String description = descriptionTextArea.getText();
         String selectedRating = ratingChoiceBox.getValue();
 

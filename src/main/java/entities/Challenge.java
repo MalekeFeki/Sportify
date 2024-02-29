@@ -8,10 +8,13 @@ public class Challenge {
     private TypeDifficulty difficulty;
     private String description;
 
-    public Challenge(TypeDifficulty difficulty, String description) {
+    public Challenge(int idC, TypeDifficulty difficulty, String description) {
         this.idC = idC;
         this.difficulty = difficulty;
         this.description = description;
+    }
+
+    public Challenge() {
     }
 
     public int getIdC() {

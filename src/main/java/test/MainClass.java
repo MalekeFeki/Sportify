@@ -1,8 +1,11 @@
 package test;
 
 import entities.Avis;
+import entities.Challenge;
 import entities.enums.TypeAvis;
+import entities.enums.TypeDifficulty;
 import services.AvisCrud;
+import services.ChallengeCrud;
 import tools.MyConnection;
 
 public class MainClass {
@@ -12,18 +15,18 @@ public class MainClass {
         System.out.println(mc.hashCode() + "-" + mc2.hashCode());
 
 
-        Avis avis = new Avis(1, TypeAvis.BIEN, "This is a good review.");
+        Challenge challenge = new Challenge(1, TypeDifficulty.SIMPLE, "This is a good review.");
 
 
-        AvisCrud avisCrud = new AvisCrud();
+        ChallengeCrud ChallengeCrud = new ChallengeCrud();
 
 
-        avisCrud.ajouterAvis(avis);
-        System.out.println("Avis ajouté.");
+        ChallengeCrud.ajouterChallenge(challenge);
+        System.out.println("Challenge ajouté.");
 
 
         System.out.println("Liste des avis:");
-        avisCrud.afficherAvis().forEach(System.out::println);
+        ChallengeCrud.afficherChallenges().forEach(System.out::println);
 
 
        /*avis.setDescription("Updated review content.");

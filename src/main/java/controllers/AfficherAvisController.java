@@ -34,8 +34,8 @@ public class AfficherAvisController implements Initializable {
     private ObservableList<Avis> observableAVIS = FXCollections.observableArrayList();
     private void loadAvis() {
         observableAVIS.clear();
-        List<Avis> events = avisCrud.afficherAvis();
-        observableAVIS.addAll(events);
+        List<Avis> avis = avisCrud.afficherAvis();
+        observableAVIS.addAll(avis);
         System.out.println(observableAVIS);
         avisTableView.setItems(observableAVIS);
     }
@@ -70,10 +70,7 @@ public class AfficherAvisController implements Initializable {
         avisCrud.supprimerAvis(id);
     }
 
-    public void filterBadWordsAndPrint(String description) {
-        String filteredDescription = avisCrud.filterBadWords(description);
-        System.out.println(filteredDescription);
-    }
+
 
     public void calculerEtAfficherAvisMoyen(List<Avis> listeAvis) {
         Avis avisMoyen = avisCrud.calculerAvisMoyen(listeAvis);

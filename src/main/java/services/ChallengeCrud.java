@@ -1,6 +1,7 @@
 package services;
 
 import entities.Challenge;
+import entities.enums.TypeAvis;
 import entities.enums.TypeDifficulty;
 import tools.MyConnection;
 
@@ -35,11 +36,11 @@ public class ChallengeCrud implements IChallengeCrud<Challenge> {
         try (Statement stm = connection.createStatement();
              ResultSet rs = stm.executeQuery(req3)) {
             while (rs.next()) {
-                Challenge challenge = new Challenge(
-                        TypeDifficulty.valueOf(rs.getString("difficulty")),
-                        rs.getString("description")
-                );
-                challenge.setIdC(rs.getInt("idC"));
+                Challenge challenge = new Challenge();
+                        challenge.setIdC(rs.getInt(1));
+                challenge.setDifficulty(TypeDifficulty.valueOf(rs.getString("difficulty").toUpperCase()));
+                challenge.setDescription(rs.getString("description"));
+
                 challengeList.add(challenge);
             }
         } catch (SQLException e) {
@@ -74,4 +75,5 @@ public class ChallengeCrud implements IChallengeCrud<Challenge> {
             System.out.println("Error while deleting challenge: " + e.getMessage());
         }
     }
+
 }
