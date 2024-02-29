@@ -55,6 +55,12 @@ public class ModifierChallengeController {
         System.out.println("Modifying Challenge...");
         TypeDifficulty typeDifficulty = difficultyChoiceBox.getValue();
         String description = descriptionTextArea.getText();
+
+        if (description.trim().isEmpty() || typeDifficulty == null) {
+            showAlert("Challenge non modifié", "La description et la difficulté ne peuvent pas être vides.");
+            return;
+        }
+
         if (contientMotsInterdits(description)) {
             showAlert("Challenge non modifié", "La description contient des mots interdits.");
             return;
@@ -66,6 +72,7 @@ public class ModifierChallengeController {
         showAlert("Challenge Modified", "Challenge has been successfully modified.");
         redirectToAfficherChallenge();
     }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -80,9 +87,9 @@ public class ModifierChallengeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherChallenge.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) returnToListButton.getScene().getWindow();
+            Stage stage = (Stage) descriptionTextArea.getScene().getWindow();
             stage.setScene(new Scene(root));
-            AfficherChallengeController afficherChallengesController = loader.getController();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

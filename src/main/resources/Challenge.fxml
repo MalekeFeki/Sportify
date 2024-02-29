@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import java.net.URL?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -16,6 +17,11 @@
     <children>
         <VBox alignment="CENTER" prefHeight="561.0" prefWidth="853.0" spacing="20" styleClass="container">
             <children>
+            <ImageView fitHeight="75.0" fitWidth="130.0">
+               <image>
+                  <Image url="file:/C:/Users/msi/Downloads/png-clipart-computer-icons-symbol-community-challenge-miscellaneous-orange-removebg-preview.png" />
+               </image>
+            </ImageView>
                 <Label styleClass="label" text="Challenge Difficulty" />
                 <ChoiceBox fx:id="difficultyChoiceBox" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
                     <items>

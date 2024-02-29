@@ -17,6 +17,11 @@
     <children>
         <VBox alignment="CENTER" prefHeight="561.0" prefWidth="853.0" spacing="20" styleClass="container">
             <children>
+            <ImageView fitHeight="57.0" fitWidth="58.0">
+               <image>
+                  <Image url="file:/C:/Users/msi/Downloads/9186619.png" />
+               </image>
+            </ImageView>
                 <!--   <BottomNavigation /> -->
                 <Label styleClass="label" text="Current Challenge Difficulty" />
                 <ChoiceBox fx:id="difficultyChoiceBox" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
@@ -30,8 +35,8 @@
                 <Label styleClass="label" text="Current Description:" />
                 <TextArea fx:id="descriptionTextArea" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
                 <!-- Submit Rating Button -->
-                <Button fx:id="submitChallengeButton" mnemonicParsing="false" onAction="#modifierChallenge" styleClass="submit-button" text="Modify Challenge" />
-                <Button fx:id="returntolist" mnemonicParsing="false" onAction="#redirectToAfficherChallenge" styleClass="submit-button" text="Return To Challenge" />
+                <Button fx:id="submitModificationButton" mnemonicParsing="false" onAction="#modifierChallenge" styleClass="submit-button" text="Modify Challenge" />
+                <Button fx:id="returnToListButton" mnemonicParsing="false" onAction="#redirectToAfficherChallenge" styleClass="submit-button" text="Return To Challenge" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -40,7 +45,7 @@
         <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
         <ImageView fitHeight="71.0" fitWidth="133.0">
             <image>
-                <Image url="@../../../../../../../../../Downloads/Sportify__2_-removebg-preview_1.png" />
+                <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
             </image>
         </ImageView>
         <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />

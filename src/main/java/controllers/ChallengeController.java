@@ -29,7 +29,7 @@ public class ChallengeController {
     @FXML
     private Button submitButton;
 
-    private static final List<String> motsInterdits = Arrays.asList("mot1", "mot2", "mot3");
+    private static final List<String> motsInterdits = Arrays.asList("Chat", "Chien", "Animal");
 
     @FXML
     void initialize() {
@@ -40,6 +40,11 @@ public class ChallengeController {
     void ajouterChallenge(ActionEvent challenge1) {
         String description = descriptionTextArea.getText();
         String selectedDifficulty = difficultyChoiceBox.getValue();
+
+        if (description.trim().isEmpty() || selectedDifficulty == null) {
+            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "La description et la difficulté ne peuvent pas être vides.");
+            return;
+        }
 
         if (contientMotsInterdits(description)) {
             showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "La description contient des mots interdits.");
@@ -53,6 +58,7 @@ public class ChallengeController {
         showAlert(Alert.AlertType.INFORMATION, "Challenge Added", "The challenge has been added successfully!");
         redirectToAfficherChallenge();
     }
+
 
     private boolean contientMotsInterdits(String description) {
         for (String mot : motsInterdits) {

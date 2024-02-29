@@ -54,6 +54,12 @@ public class ModifierAvisController {
         System.out.println("Modifying Avis...");
         TypeAvis typeAvis = ratingChoiceBox.getValue();
         String description = descriptionTextArea.getText();
+
+        if (description.trim().isEmpty() || typeAvis == null) {
+            showAlert("Avis non modifié", "La description et le type d'avis ne peuvent pas être vides.");
+            return;
+        }
+
         if (contientMotsVulgaires(description)) {
             showAlert("Avis non modifié", "La description contient des mots vulgaires.");
             return;
@@ -65,6 +71,7 @@ public class ModifierAvisController {
         showAlert("Avis Modified", "Avis has been successfully modified.");
         redirectToAfficherAvis();
     }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

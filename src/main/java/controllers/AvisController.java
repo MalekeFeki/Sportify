@@ -39,6 +39,10 @@ public class AvisController {
     void ajouterAvis(ActionEvent avis1) {
         String description = descriptionTextArea.getText();
         String selectedRating = ratingChoiceBox.getValue();
+        if (description.trim().isEmpty() || selectedRating == null) {
+            showAlert(Alert.AlertType.WARNING, "Avis non ajouté", "La description et le type d'avis ne peuvent pas être vides.");
+            return;
+        }
 
         if (contientMotsVulgaires(description)) {
             showAlert(Alert.AlertType.WARNING, "Avis non ajouté", "La description contient des mots vulgaires.");
@@ -54,6 +58,7 @@ public class AvisController {
         showAlert(Alert.AlertType.INFORMATION, "Rating Submitted", "Your rating has been submitted successfully!");
         redirectToAfficherAvis();
     }
+
 
     private boolean contientMotsVulgaires(String description) {
         for (String mot : motsVulgaires) {
