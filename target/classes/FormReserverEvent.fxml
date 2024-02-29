@@ -9,7 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="528.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormReserverEventController">
+    <stylesheets>
+        <URL value="@styles.css" />
+        <URL value="@STYLES2.css" />
+    </stylesheets>
+
     <children>
       <ImageView fitHeight="527.0" fitWidth="822.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -43,7 +49,7 @@
             <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
          </image>
       </ImageView>
-        <Button layoutX="370.0" layoutY="405.0" onAction="#handleReserverButton" text="Reserve" />
+        <Button fx:id="Reserve" layoutX="370.0" layoutY="405.0" onAction="#handleReserverButton" text="Reserve" />
         <Button fx:id="returntoevent" layoutX="55.0" layoutY="95.0" onAction="#returntoEventDetails" text="return" />
     </children>
 </AnchorPane>

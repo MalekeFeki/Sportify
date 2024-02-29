@@ -2,28 +2,35 @@ package controllers;
 
 import entities.enums.GenreEv;
 import entities.enums.cityEV;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import services.EvenementCrud;
 import entities.Evenement;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,27 +52,27 @@ public class AllEventController implements Initializable {
 
 
 
-    private static final int EVENTS_PER_PAGE = 3; // Set the number of events per page
+    private static final int EVENTS_PER_PAGE = 3;
     @FXML
     private Button clearFiltersButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Populate GenreEv ComboBox with values from the enum
         ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
         typeFilter.setItems(genreEvenementList);
-        // Populate cityEV ComboBox with values from the enum
         ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
         cityFilter.setItems(cityEVList);
         clearFiltersButton.setOnAction(event -> clearFiltersAndReload());
         loadEvents();
         configurePagination();
         configureScrollPane();
+
     }
 
     private void loadEvents() {
         List<Evenement> events = evenementCrud.afficherEvent();
         allEvents = FXCollections.observableArrayList(events);
         displayEvents(allEvents);
+
     }
 
 
@@ -74,7 +81,6 @@ public class AllEventController implements Initializable {
         int pageCount = (int) Math.ceil((double) events.size() / EVENTS_PER_PAGE);
         pagination.setPageCount(pageCount);
         pagination.setPageFactory(pageIndex -> createPage(pageIndex, events));
-
     }
 
     private VBox createPage(int pageIndex, List<Evenement> events) {
@@ -92,7 +98,6 @@ public class AllEventController implements Initializable {
             pageFlowPane.getChildren().add(eventBox);
         }
 
-        // Clear existing children and add the new FlowPane
 //        eventFlowPane.getChildren().clear();
 //        eventFlowPane.getChildren().add(pageFlowPane);
 
@@ -118,10 +123,11 @@ public class AllEventController implements Initializable {
         return new VBox(pageFlowPane);
     }
     @FXML
-    private Button reserveButton; // Add this
+    private Button reserveButton;
     private VBox createEventBox(Evenement event) {
         Text eventNameText = new Text(event.getNomEv());
-        // Limit the displayed description to 20 characters
+        eventNameText.getStyleClass().add("event-title");
+
         String eventDescription = event.getDescrptionEv();
         if (eventDescription.length() > 100) {
             eventDescription = eventDescription.substring(0, 20) + " ...";
@@ -130,10 +136,13 @@ public class AllEventController implements Initializable {
         Text eventDescriptionText = new Text(eventDescription);
 
         Button moreInfoButton = new Button("More Info");
+        moreInfoButton.getStyleClass().add("info-button");
         moreInfoButton.setOnAction(event1 -> showEventDetails(event));
         Button reserveButton = new Button("reserve");
+        reserveButton.getStyleClass().add("reserve-button");
         reserveButton.setOnAction(event1 -> redirectToReservationForm(event));
         Button interestButton = new Button();
+        interestButton.getStyleClass().add("interest-button");
         updateInterestButtonText(interestButton, evenementCrud.getInterestStatus(event.getIDevent()));
 
         interestButton.setOnAction(event1 -> {
@@ -149,17 +158,53 @@ public class AllEventController implements Initializable {
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
 
-        VBox eventBox = new VBox(
-                new VBox(eventNameText, eventDescriptionText, moreInfoButton, interestButton,reserveButton),
-                imageView
+        Label countdownLabel = new Label();
+        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getHeureEV());
+        countdownLabel.getStyleClass().add("countdown-label");
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getHeureEV()))
         );
-        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+        HBox buttonsHBox = new HBox(10, moreInfoButton, reserveButton, interestButton);
+        buttonsHBox.getStyleClass().add("buttons-hbox");
+
+        StackPane buttonsStackPane = new StackPane(buttonsHBox);
+        StackPane.setAlignment(buttonsHBox, Pos.CENTER_RIGHT);
+
+        VBox eventBox = new VBox(
+                new VBox(eventNameText, eventDescriptionText, buttonsStackPane),
+                imageView ,countdownLabel
+        );
+        eventBox.getStyleClass().add("event-box");
+//        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
         eventBox.setMinWidth(100);
 
         return eventBox;
     }
-    // Add this helper method
-    // Add this helper method
+    @FXML
+    private Label countdownLabel;
+
+    private void updateCountdownLabel(Label countdownLabel, Date eventDate, String heureEV) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalTime eventTime = LocalTime.parse(heureEV, formatter);
+        LocalDateTime eventDateTime = LocalDateTime.of(eventDate.toLocalDate(), eventTime);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        long seconds = ChronoUnit.SECONDS.between(currentDateTime, eventDateTime);
+        long days = seconds / (24 * 60 * 60);
+        long hours = (seconds % (24 * 60 * 60)) / 3600;
+        long minutes = ((seconds % (24 * 60 * 60)) % 3600) / 60;
+        seconds = ((seconds % (24 * 60 * 60)) % 3600) % 60;
+
+        String countdownText = String.format("Time left: %02d days %02d:%02d:%02d", days, hours, minutes, seconds);
+        countdownLabel.setText(countdownText);
+    }
+
+
+
     private void updateInterestButtonText(Button interestButton, int interestCount) {
         interestButton.setText((interestCount > 0) ? "Remove Interest" : "Show Interest");
     }
@@ -172,7 +217,7 @@ public class AllEventController implements Initializable {
     private ScrollPane scrollPane;
     private void handleScroll(ScrollEvent event) {
         double deltaY = event.getDeltaY();
-        double scrollSpeed = 0.01; // You can adjust the scroll speed
+        double scrollSpeed = 0.01;
 
         scrollPane.setVvalue(scrollPane.getVvalue() - deltaY * scrollSpeed);
     }
@@ -186,23 +231,19 @@ public class AllEventController implements Initializable {
         String selectedEventType = typeFilter.getValue() != null ? typeFilter.getValue().name() : null;
         String selectedCity = cityFilter.getValue() != null ? cityFilter.getValue().name() : null;
         System.out.println(selectedEventType+selectedCity);
-
         if (selectedEventType != null && selectedCity != null) {
             List<Evenement> filteredEvents = evenementCrud.filterEvents(selectedEventType, selectedCity);
             System.out.println("selectedEventType et selectedCity"+filteredEvents);
             displayEvents(filteredEvents);
         } else if (selectedEventType != null) {
-            // Only event type is selected
             List<Evenement> filteredEvents = evenementCrud.filterEventsByEventType(selectedEventType);
             System.out.println("selectedEventType"+filteredEvents);
             displayEvents(filteredEvents);
         } else if (selectedCity != null) {
-            // Only city is selected
             List<Evenement> filteredEvents = evenementCrud.filterEventsByCity(selectedCity);
             System.out.println("selectedCity"+filteredEvents);
             displayEvents(filteredEvents);
         } else {
-            // If neither EventType nor City is selected, load all events
             loadEvents();
         }
     }
@@ -217,11 +258,8 @@ public class AllEventController implements Initializable {
         displayEvents(searchResults);
     }
     private void clearFiltersAndReload() {
-        // Clear the selected values in ComboBoxes
         typeFilter.getSelectionModel().clearSelection();
         cityFilter.getSelectionModel().clearSelection();
-
-        // Load all events without filters
         loadEvents();
     }
     private void showEventDetails(Evenement selectedEvent) {
@@ -230,10 +268,7 @@ public class AllEventController implements Initializable {
             Parent root = loader.load();
             EventINFOController eventINFOController = loader.getController();
             eventINFOController.setEventDetails(selectedEvent);
-
-            // Get the current stage
             Stage stage = (Stage) eventFlowPane.getScene().getWindow();
-            // Set the new scene to the current stage
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -246,26 +281,21 @@ public class AllEventController implements Initializable {
     }
 
     private void redirectToReservationForm(Evenement selectedEvent) {
-        // Ensure that selectedEvent is not null before redirecting
+
         if (selectedEvent != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormReserverEvent.fxml"));
                 Parent root = loader.load();
-                // Get the controller of the FormReserverEvent
                 FormReserverEventController formController = loader.getController();
-                // Set the event ID in FormReserverEventController
                 formController.setEvent(selectedEvent);
-
-                // Get the current stage
                 Stage currentStage = (Stage) clearFiltersButton.getScene().getWindow();
-                // Update the scene with the new content
                 currentStage.setScene(new Scene(root));
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            System.err.println("selectedEvent is null. Make sure setEventDetails is called before redirectToReservationForm.");
+            System.err.println("Event null.");
         }
     }
 

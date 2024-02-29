@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -17,7 +19,10 @@
 <?import javafx.scene.text.Text?>
 
 <ScrollPane fx:id="scrollPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AllEventController">
-
+   <stylesheets>
+      <URL value="@styles.css" />
+      <URL value="@STYLES2.css" />
+   </stylesheets>
    <AnchorPane prefHeight="761.0" prefWidth="1376.0">
       <children>
          <ImageView fitHeight="707.0" fitWidth="1371.0" layoutY="53.0">
@@ -45,17 +50,20 @@
          </font>
       </Text>
       <TextField fx:id="textFieldSEARCH" layoutX="37.0" layoutY="149.0" prefHeight="39.0" prefWidth="190.0" promptText="recherche par nom d'événement" />
-         <Button layoutX="245.0" layoutY="157.0" mnemonicParsing="false" onAction="#searchEvents" text="SEARCH" />
-         <HBox layoutX="345.0" layoutY="147.0" spacing="10">
+         <Button fx:id="rnd" layoutX="245.0" layoutY="151.0" mnemonicParsing="true" onAction="#searchEvents" prefHeight="36.0" prefWidth="70.0" text="SEARCH" />
+         <HBox layoutX="345.0" layoutY="147.0" prefHeight="66.0" prefWidth="426.0" spacing="10">
          <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
          </padding>
-         <ComboBox fx:id="typeFilter" promptText="Event Type" />
-         <ComboBox fx:id="cityFilter" promptText="ville" />
-         <Button onAction="#filterEvents" text="Apply Filters" />
-            <Button fx:id="clearFiltersButton" text="Clear Filters" />
+            <ComboBox fx:id="typeFilter" prefHeight="34.0" prefWidth="118.0" promptText="Event Type" style="-fx-fill: white" styleClass="orange-combobox" />
+            <ComboBox fx:id="cityFilter" prefHeight="33.0" prefWidth="76.0" promptText="ville" styleClass="orange-combobox" />
+            <Button fx:id="rnd1" mnemonicParsing="false" onAction="#filterEvents" prefHeight="33.0" prefWidth="85.0" text="Apply Filters" />
+            <Button fx:id="clearFiltersButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="95.0" text="Clear Filters" />
+
 
          </HBox>
-   </children>
+         <Label fx:id="countdownLabel" />
+
+      </children>
 </AnchorPane>
 </ScrollPane>

@@ -1,23 +1,35 @@
 package controllers;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import entities.Evenement;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import services.EvenementCrud;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class EventINFOController implements Initializable {
@@ -47,32 +59,31 @@ public class EventINFOController implements Initializable {
     private Label LieuLabel;
 
     @FXML
-    private Text genreevent; // Add this
+    private Text genreevent;
 
     @FXML
-    private Text typeevent; // Add this
+    private Text typeevent;
 
     @FXML
-    private Button interestButton1; // Reference the button in FXML
+    private Button interestButton1;
 
-    public Evenement selectedEvent; // Declare the variable here
+    public Evenement selectedEvent;
 
     private EvenementCrud evenementCrud = new EvenementCrud();
     @FXML
-    private Button reserveButton; // Add this
+    private Button reserveButton;
 
 
 
     public void setEventDetails(Evenement event) {
-        // Set event details to the UI components
-        selectedEvent = event; // Set the selectedEvent here
+        selectedEvent = event;
         title.setText(event.getNomEv());
         description.setText(event.getDescrptionEv());
 
-        // Set event image
+
         eventImageView.setImage(new Image("file:" + event.getPhoto()));
 
-        // Set additional details in the VBox labels
+
         emailLabel.setText("Email: " + event.getEmail());
         numTeleLabel.setText("Num Tele: " + event.getTele());
         CityLabel.setText("City: " + event.getCity());
@@ -85,26 +96,62 @@ public class EventINFOController implements Initializable {
         CityLabel.getStyleClass().add("label");
         LieuLabel.getStyleClass().add("label");
 
-        // Apply specific styles to labels
+
         emailLabel.getStyleClass().add("value");
         numTeleLabel.getStyleClass().add("value");
         CityLabel.getStyleClass().add("value");
         LieuLabel.getStyleClass().add("value");
 
-        // Set genre and type
+
         genreevent.setText("Genre: " + event.getGenreEvenement().toString());
         typeevent.setText("Type: " + event.getTypeEV().toString());
 
-        // Set interest button text and action
+
         updateInterestButtonText(interestButton1, evenementCrud.getInterestStatus(event.getIDevent()));
         interestButton1.setOnAction(event1 -> {
             int newInterestCount = (interestButton1.getText().equals("Show Interest")) ? 1 : -1;
 
             evenementCrud.updateInterestStatus(selectedEvent.getIDevent(), newInterestCount);
 
-            // Update the button text
+
             updateInterestButtonText(interestButton1, newInterestCount);
         });
+
+
+        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getHeureEV());
+        countdownLabel.getStyleClass().add("countdown-label");
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getHeureEV()))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+        VBox eventBox = new VBox(
+                new VBox(countdownLabel)
+        );
+        eventBox.getStyleClass().add("event-box");
+//        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
+        eventBox.setMinWidth(100);
+
+    }
+    @FXML
+    private Label countdownLabel;
+    private void updateCountdownLabel(Label countdownLabel, Date eventDate, String heureEV) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalTime eventTime = LocalTime.parse(heureEV, formatter);
+        LocalDateTime eventDateTime = LocalDateTime.of(eventDate.toLocalDate(), eventTime);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        long seconds = ChronoUnit.SECONDS.between(currentDateTime, eventDateTime);
+        long days = seconds / (24 * 60 * 60);
+        long hours = (seconds % (24 * 60 * 60)) / 3600;
+        long minutes = ((seconds % (24 * 60 * 60)) % 3600) / 60;
+        seconds = ((seconds % (24 * 60 * 60)) % 3600) % 60;
+
+        String countdownText = String.format("Time left: %02d days %02d:%02d:%02d", days, hours, minutes, seconds);
+        countdownLabel.setText(countdownText);
     }
 
     private void updateInterestButtonText(Button interestButton, int interestCount) {
@@ -117,6 +164,8 @@ public class EventINFOController implements Initializable {
         updateInterestButtonText(interestButton1, 0);
         System.out.println(selectedEvent);
 
+
+
     }
     @FXML
     private void handleInterestButtonClick(ActionEvent event) {
@@ -124,7 +173,6 @@ public class EventINFOController implements Initializable {
 
         evenementCrud.updateInterestStatus(selectedEvent.getIDevent(), newInterestCount);
 
-        // Update the button text
         updateInterestButtonText(interestButton1, newInterestCount);
     }
     @FXML
@@ -134,7 +182,7 @@ public class EventINFOController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllEvent.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) returntolist.getScene().getWindow(); // Get the current stage
+            Stage stage = (Stage) returntolist.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -145,20 +193,15 @@ public class EventINFOController implements Initializable {
 
     @FXML
     private void redirectToReservationForm() {
-        // Ensure that selectedEvent is not null before redirecting
         if (selectedEvent != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FormReserverEvent.fxml"));
                 Parent root = loader.load();
-                // Get the controller of the FormReserverEvent
                 FormReserverEventController formController = loader.getController();
-                // Set the event ID in FormReserverEventController
                 formController.setEvent(selectedEvent);
 
-                // Get the current stage
                 Stage currentStage = (Stage) eventImageView.getScene().getWindow();
 
-                // Update the scene with the new content
                 currentStage.setScene(new Scene(root));
 
             } catch (IOException e) {
@@ -168,5 +211,6 @@ public class EventINFOController implements Initializable {
             System.err.println("selectedEvent is null. Make sure setEventDetails is called before redirectToReservationForm.");
         }
     }
+
 
 }

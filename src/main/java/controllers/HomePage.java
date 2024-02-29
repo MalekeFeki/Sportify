@@ -31,7 +31,7 @@ public class HomePage extends Application {
         fxml1.add("ModifierEvent.fxml");
 
         try {
-            Parent root= FXMLLoader.load(getClass().getResource("/EventINFO.fxml"));
+            Parent root= FXMLLoader.load(getClass().getResource("/GestionEvent.fxml"));
 
             primaryStage.setTitle("GestionEvent");
             primaryStage.setScene(new Scene(root));

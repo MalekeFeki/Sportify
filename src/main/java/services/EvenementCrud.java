@@ -126,26 +126,48 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
 
     @Override
     public void supprimerEvent(int id) {
-        String req = "DELETE FROM Evenement WHERE IDevent=?";
+        try {
+            cnx2.setAutoCommit(false);
 
-        try (PreparedStatement ps = cnx2.prepareStatement(req)) {
-            ps.setInt(1, id);
-
-            int r= ps.executeUpdate();
-            if (r > 0) {
-                System.out.println("Event deleted");
-            } else {
-                System.out.println("No event");
+            String deleteReservationsQuery = "DELETE FROM EventReservation WHERE eventId=?";
+            try (PreparedStatement deleteReservationsStatement = cnx2.prepareStatement(deleteReservationsQuery)) {
+                deleteReservationsStatement.setInt(1, id);
+                deleteReservationsStatement.executeUpdate();
             }
 
+            String deleteEventQuery = "DELETE FROM Evenement WHERE IDevent=?";
+            try (PreparedStatement deleteEventStatement = cnx2.prepareStatement(deleteEventQuery)) {
+                deleteEventStatement.setInt(1, id);
+                int rowsAffected = deleteEventStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Event and associated reservations deleted");
+                } else {
+                    System.out.println("No event found");
+                }
+            }
+
+            cnx2.commit();
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            try {
+                cnx2.rollback();
+            } catch (SQLException rollbackException) {
+                System.err.println("Error rolling back transaction: " + rollbackException.getMessage());
+            }
+
+            System.err.println("Error deleting event: " + e.getMessage());
+        } finally {
+            try {
+                cnx2.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.err.println("Error setting auto-commit back to true: " + e.getMessage());
+            }
         }
     }
 
+
     public List<String> getEventTypes() {
         List<String> eventTypes = new ArrayList<>();
-        // Query to get distinct event types from the database
         String query = "SELECT DISTINCT GenreEvenement FROM Evenement";
         try (Statement statement = cnx2.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -153,14 +175,13 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 eventTypes.add(resultSet.getString("GenreEvenement"));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
         return eventTypes;
     }
 
     public List<String> getCities() {
         List<String> cities = new ArrayList<>();
-        // Query to get distinct cities from the database
         String query = "SELECT DISTINCT city FROM Evenement";
         try (Statement statement = cnx2.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -168,7 +189,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 cities.add(resultSet.getString("city"));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
         return cities;
     }
@@ -178,7 +199,6 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     public List<Evenement> filterEvents(String eventType, String city) {
         List<Evenement> filteredEvents = new ArrayList<>();
 
-        // Construct the SQL query based on the provided parameters
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Evenement WHERE 1=1");
 
         if (eventType != null) {
@@ -208,7 +228,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
 //                System.out.println(filteredEvents);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
 
         return filteredEvents;
@@ -255,7 +275,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
         System.out.println(searchResults);
         return searchResults;
@@ -267,13 +287,10 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     }
 
     public void updateInterestStatus(int eventId, int increment) {
-        // Debugging: Print information about the update
         System.out.println("Updating interest status for event ID " + eventId + " with an increment of " + increment);
 
-        // Retrieve the current interest status from the database
         int currentInterest = getCurrentInterestStatus(eventId);
 
-        // Update the database
         String query = "UPDATE Evenement SET nombrePersonneInteresse = ? WHERE IDevent = ?";
         try (PreparedStatement preparedStatement = cnx2.prepareStatement(query)) {
             preparedStatement.setInt(1, currentInterest + increment);
@@ -281,16 +298,14 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             preparedStatement.executeUpdate();
             System.out.println("Database updated successfully");
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
             System.err.println("Error updating the database");
         }
 
-        // Update the interest status map
         interestStatusMap.put(eventId, currentInterest + increment);
     }
 
     private int getCurrentInterestStatus(int eventId) {
-        // Retrieve the current interest status from the database
         String query = "SELECT nombrePersonneInteresse FROM Evenement WHERE IDevent = ?";
         try (PreparedStatement preparedStatement = cnx2.prepareStatement(query)) {
             preparedStatement.setInt(1, eventId);
@@ -300,10 +315,10 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
             System.err.println("Error retrieving interest status from the database");
         }
-        return 0; // Default to 0 if there's an issue
+        return 0;
     }
 
 

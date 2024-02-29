@@ -27,10 +27,10 @@ public class EventReservationCrud implements IEventReservationCrud<EventReservat
             pst.setString(6, u.getEmail());
             pst.setInt(7, u.getNum_tele());
             int rowsAffected = pst.executeUpdate();
-            return rowsAffected > 0;  // Returns true if at least one row was affected (success)
+            return rowsAffected > 0;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return false;  // Return false in case of exception
+            return false;
         }
     }
 }

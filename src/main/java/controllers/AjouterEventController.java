@@ -92,7 +92,6 @@ public class AjouterEventController {
 
         @FXML
         private void initialize() {
-            // Populate hours ComboBox with values 00 to 23
             ObservableList<String> hoursList = FXCollections.observableArrayList();
             for (int i = 0; i <= 23; i++) {
                 String formattedHours = String.format("%02d", i);
@@ -100,7 +99,6 @@ public class AjouterEventController {
             }
             hoursComboBox.setItems(hoursList);
 
-            // Populate minutes ComboBox with values 00 to 59 in multiples of 2
             ObservableList<String> minutesList = FXCollections.observableArrayList();
             for (int i = 0; i <= 59; i += 2) {
                 String formattedMinutes = String.format("%02d", i);
@@ -108,21 +106,16 @@ public class AjouterEventController {
             }
             minutesComboBox.setItems(minutesList);
 
-            // Set default values if needed
             hoursComboBox.setValue("00");
             minutesComboBox.setValue("00");
 
-            // Populate typeEvent ComboBox with values from the enum
             ObservableList<typeEvent> typeEventList = FXCollections.observableArrayList(typeEvent.values());
             typeEventComboBox.setItems(typeEventList);
 
-            // Populate GenreEv ComboBox with values from the enum
             ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
             genreEvenementComboBox.setItems(genreEvenementList);
-            // Populate cityEV ComboBox with values from the enum
             ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
             cityEVComboBox.setItems(cityEVList);
-            // Set default values if needed
             typeEventComboBox.setValue(typeEvent.PublicEvent);
             genreEvenementComboBox.setValue(GenreEv.competition);
             System.out.println("nomEvenementTextField: " + nomEvenementTextField);
@@ -138,11 +131,9 @@ public class AjouterEventController {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            // Load the selected image into the ImageView
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
 
-            // You can save the file path or perform other actions with the image
             filePath = selectedFile.getAbsolutePath();
             System.out.println("Selected Image Path: " + filePath);
         } else {
@@ -160,16 +151,17 @@ public class AjouterEventController {
 
     @FXML
     void ajouterEvent() {
+
         System.out.println("Submitting Event...");
         if (!validateGeneralInput()) {
-            return; // Stop processing if general input validation fails
+            return;
         }
 
-        // Validate additional input constraints
+
         if (!validateAdditionalInput()) {
-            return; // Stop processing if additional input validation fails
+            return;
         }
-        // Get values from UI controls
+
         String nomEvenement = nomEvenementTextField.getText();
         String description = descriptionTextArea.getText();
         LocalDate dateDebut = dateDebutDatePicker.getValue();
@@ -185,14 +177,14 @@ public class AjouterEventController {
         typeEvent typeEvenement = typeEventComboBox.getValue();
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
-        // Create Evenement object
+
         Evenement newEvent = new Evenement(nomEvenement, Date.valueOf(dateDebut), Date.valueOf(dateFin), heure,
                 description, filePath, lieu,city, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite);
         System.out.println(newEvent);
-        // Add the event to the database
+
         evenementCrud.ajouterEvent(newEvent);
 
-        // Display success message
+
         showAlert1("Event Added", "Event has been successfully added to the database.");
         redirectToGestionEvent();
     }
@@ -209,10 +201,10 @@ public class AjouterEventController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionEvent.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) returntolist.getScene().getWindow(); // Get the current stage
+            Stage stage = (Stage) returntolist.getScene().getWindow();
             stage.setScene(new Scene(root));
             AjouterEventController ajouterEventController = loader.getController();
-            ajouterEventController.initialize(); // Call the initialize method if needed
+            ajouterEventController.initialize();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,7 +223,7 @@ public class AjouterEventController {
             return false;
         }
 
-        // Validate email format
+
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
         if (!emailTextField.getText().matches(emailRegex)) {
             showAlert("Input Validation", "Please enter a valid email address.");
@@ -243,33 +235,39 @@ public class AjouterEventController {
     private boolean validateAdditionalInput() {
         StringBuilder errorMessage = new StringBuilder();
 
-        // Check if the end date is after the start date
+
         LocalDate startDate = dateDebutDatePicker.getValue();
         LocalDate endDate = dateFinDatePicker.getValue();
         if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
             errorMessage.append("End date must be after start date.\n");
         }
 
-        // Check if the phone number contains only numbers
+
+        if (startDate != null && startDate.isBefore(LocalDate.now())) {
+            errorMessage.append("Start date must not be in the past.\n");
+        }
+
+
         String numTele = numTeleTextField.getText();
         if (!numTele.matches("\\d+")) {
             errorMessage.append("Phone number must contain only numbers.\n");
         }
 
-        // Check if the capacity contains only numbers
+
         String capacite = capaciteTextField.getText();
         if (!capacite.matches("\\d+")) {
             errorMessage.append("Capacity must contain only numbers.\n");
         }
 
-        // Display error message if any validation failed
+
         if (errorMessage.length() > 0) {
             showAlert("Validation Error", errorMessage.toString());
             return false;
         }
 
-        return true; // Input is valid
+        return true;
     }
+
 
 }
 

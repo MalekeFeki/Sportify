@@ -88,7 +88,6 @@ public class ModifierEventController {
     private Button returntolist;
     @FXML
     private void initialize() {
-        // Populate hours ComboBox with values 00 to 23
         ObservableList<String> hoursList = FXCollections.observableArrayList();
         for (int i = 0; i <= 23; i++) {
             String formattedHours = String.format("%02d", i);
@@ -96,7 +95,6 @@ public class ModifierEventController {
         }
         hoursComboBox.setItems(hoursList);
 
-        // Populate minutes ComboBox with values 00 to 59 in multiples of 2
         ObservableList<String> minutesList = FXCollections.observableArrayList();
         for (int i = 0; i <= 59; i += 2) {
             String formattedMinutes = String.format("%02d", i);
@@ -104,22 +102,17 @@ public class ModifierEventController {
         }
         minutesComboBox.setItems(minutesList);
 
-        // Set default values if needed
         hoursComboBox.setValue("00");
         minutesComboBox.setValue("00");
 
-        // Populate typeEvent ComboBox with values from the enum
         ObservableList<typeEvent> typeEventList = FXCollections.observableArrayList(typeEvent.values());
         typeEventComboBox.setItems(typeEventList);
 
-        // Populate GenreEv ComboBox with values from the enum
         ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
         genreEvenementComboBox.setItems(genreEvenementList);
-        // Populate cityEV ComboBox with values from the enum
         ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
         cityEVComboBox.setItems(cityEVList);
 
-        // Set default values if needed
         typeEventComboBox.setValue(typeEvent.PublicEvent);
         genreEvenementComboBox.setValue(GenreEv.competition);
 
@@ -137,11 +130,9 @@ public class ModifierEventController {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            // Load the selected image into the ImageView
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
 
-            // You can save the file path or perform other actions with the image
             filePath = selectedFile.getAbsolutePath();
             System.out.println("Selected Image Path: " + filePath);
         } else {
@@ -159,15 +150,14 @@ public class ModifierEventController {
 
 
     @FXML
-
     private void redirectToGestionEvent() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GestionEvent.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) returntolist.getScene().getWindow(); // Get the current stage
+            Stage stage = (Stage) returntolist.getScene().getWindow();
             stage.setScene(new Scene(root));
             ModifierEventController modifierEventController = loader.getController();
-            modifierEventController.initialize(); // Call the initialize method if needed
+            modifierEventController.initialize();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,12 +166,10 @@ public class ModifierEventController {
         this.eventToModify = event;
         LocalDate datedDebutLocalDate = event.getDatedDebutEV().toLocalDate();
         LocalDate datedFinLocalDate = event.getDatedFinEV().toLocalDate();
-        // Set values from event to UI controls
         nomEvenementTextField.setText(event.getNomEv());
         descriptionTextArea.setText(event.getDescrptionEv());
         dateDebutDatePicker.setValue(datedDebutLocalDate);
         dateFinDatePicker.setValue(datedFinLocalDate);
-        // Extract hour and minute from the event's heure
         String[] heureParts = event.getHeureEV().split(":");
         if (heureParts.length == 2) {
             hoursComboBox.setValue(heureParts[0]);
@@ -198,15 +186,20 @@ public class ModifierEventController {
         cityEVComboBox.setValue(event.getCity());
         capaciteTextField.setText(String.valueOf(event.getCapacite()));
 
-        // Load and display the image
         Image image = new Image("file:" + event.getPhoto());
         imageView.setImage(image);
     }
     @FXML
     void modifierEvent() {
         System.out.println("Modifying Event...");
+        if (!validateGeneralInput()) {
+            return;
+        }
 
-        // Get values from UI controls
+
+        if (!validateAdditionalInput()) {
+            return;
+        }
         String nomEvenement = nomEvenementTextField.getText();
         String description = descriptionTextArea.getText();
         LocalDate dateDebut = dateDebutDatePicker.getValue();
@@ -223,7 +216,6 @@ public class ModifierEventController {
 
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
-        // Update the event with new values
         eventToModify.setNomEv(nomEvenement);
         eventToModify.setDescrptionEv(description);
         eventToModify.setDatedDebutEV(Date.valueOf(dateDebut));
@@ -239,12 +231,61 @@ public class ModifierEventController {
         eventToModify.setTypeEV(typeEvenement);
         eventToModify.setCapacite(capacite);
 
-        // Implement the code to update the event in the database
         evenementCrud.modifierEvent(eventToModify);
 
-        // Display success message
         showAlert("Event Modified", "Event has been successfully modified.");
         redirectToGestionEvent();
+    }
+    private boolean validateGeneralInput() {
+        if (nomEvenementTextField.getText().isEmpty() || dateDebutDatePicker.getValue() == null ||
+                lieuTextField.getText().isEmpty() || numTeleTextField.getText().isEmpty() ||
+                emailTextField.getText().isEmpty() || fbLinkTextField.getText().isEmpty() ||
+                igLinkTextField.getText().isEmpty() || genreEvenementComboBox.getValue() == null ||
+                typeEventComboBox.getValue() == null || cityEVComboBox.getValue() == null ||
+                capaciteTextField.getText().isEmpty()) {
+
+            showAlert("Input Validation", "Please fill in all required fields.");
+            return false;
+        }
+
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+        if (!emailTextField.getText().matches(emailRegex)) {
+            showAlert("Input Validation", "Please enter a valid email address.");
+            return false;
+        }
+
+        return true;
+    }
+    private boolean validateAdditionalInput() {
+        StringBuilder errorMessage1 = new StringBuilder();
+
+        LocalDate startDate = dateDebutDatePicker.getValue();
+        LocalDate endDate = dateFinDatePicker.getValue();
+        if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+            errorMessage1.append("End date must be after start date.\n");
+        }
+
+        if (startDate != null && startDate.isBefore(LocalDate.now())) {
+            errorMessage1.append("Start date must not be in the past.\n");
+        }
+
+        String numTele = numTeleTextField.getText();
+        if (!numTele.matches("\\d+")) {
+            errorMessage1.append("Phone number must contain only numbers.\n");
+        }
+
+        String capacite = capaciteTextField.getText();
+        if (!capacite.matches("\\d+")) {
+            errorMessage1.append("Capacity must contain only numbers.\n");
+        }
+
+
+        if (errorMessage1.length() > 0) {
+            showAlert("Validation Error", errorMessage1.toString());
+            return false;
+        }
+
+        return true;
     }
 
 }

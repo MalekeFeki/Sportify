@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -15,7 +16,13 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="514.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterEventController">
+
+   <stylesheets>
+      <URL value="@styles.css" />
+      <URL value="@STYLES2.css" />
+   </stylesheets>
    <children>
+
       <ImageView fitHeight="449.0" fitWidth="799.0" layoutX="-1.0" layoutY="63.0">
          <image>
             <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/back.jpg" />
@@ -82,10 +89,11 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="uploadimage" layoutX="502.0" layoutY="399.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
-      <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="617.0" layoutY="385.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="ajouterEventButton" layoutX="632.0" layoutY="449.0" mnemonicParsing="false" onAction="#ajouterEvent" prefHeight="34.0" prefWidth="74.0" text="Submit" />
-      <Button fx:id="returntolist" layoutX="548.0" layoutY="449.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
+      <Button fx:id="uploadimage" layoutX="443.0" layoutY="395.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
+      <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="600.0" layoutY="383.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="ajouterEventButton" layoutX="611.0" layoutY="449.0" mnemonicParsing="false" onAction="#ajouterEvent" prefHeight="42.0" prefWidth="82.0" text="Submit" />
+      <Button fx:id="returntolist" layoutX="517.0" layoutY="449.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
 
    </children>
+
 </AnchorPane>

@@ -36,8 +36,8 @@ public class FormReserverEventController {
 
     private EventReservationCrud eventReservationCrud = new EventReservationCrud();
 
-    private Evenement event1; // This will be set before showing the form
-    private int reservationId; // Auto-incremented in the database
+    private Evenement event1;
+    private int reservationId;
 
     public void setEvent(Evenement event1) {
         this.event1 = event1;
@@ -48,27 +48,27 @@ public class FormReserverEventController {
     @FXML
     void handleReserverButton(ActionEvent event) {
         if (!validateGeneralInput()) {
-            return; // Stop processing if general input validation fails
+            return;
         }
 
-        // Validate additional input constraints
+
         if (!validateAdditionalInput()) {
-            return; // Stop processing if additional input validation fails
+            return;
         }
-        // Retrieve data from the form
+
         String nom = nomField.getText();
         String prenom = prenomField.getText();
         int cin = Integer.parseInt(cinField.getText());
         String email = emailField.getText();
         int numTele = Integer.parseInt(numTeleField.getText());
 
-        // Create an EventReservation object
+
         EventReservation reservation = new EventReservation(event1.getIDevent(), reservationId, nom, prenom, cin, email, numTele);
 
-        // Call the CRUD method to add the reservation
+
         eventReservationCrud.ajouterReservation(reservation);
 
-        // Show appropriate message based on reservation success
+
         showAlert("Success", "Reservation successful!", Alert.AlertType.INFORMATION);
         closeForm();
     }
@@ -81,7 +81,7 @@ public class FormReserverEventController {
             return false;
         }
 
-        // Validate email format
+
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
         if (!emailField.getText().matches(emailRegex)) {
             showAlert("Input Validation", "Please enter a valid email address.");
@@ -93,7 +93,7 @@ public class FormReserverEventController {
     private boolean validateAdditionalInput() {
         StringBuilder errorMessage = new StringBuilder();
 
-        // Check if the phone number contains only numbers
+
         String numTele = numTeleField.getText();
         if (!numTele.matches("\\d+")) {
             errorMessage.append("Phone number must contain only numbers.\n");
@@ -103,22 +103,22 @@ public class FormReserverEventController {
             errorMessage.append("Phone number must contain only numbers.\n");
         }
 
-        // Display error message if any validation failed
+
         if (errorMessage.length() > 0) {
             showAlert("Validation Error", errorMessage.toString());
             return false;
         }
 
-        return true; // Input is valid
+        return true;
     }
-    // Close the reservation form
+
     private void closeForm() {
         Stage stage = (Stage) nomField.getScene().getWindow();
 //        stage.close();
         returntoEventDetails();
     }
 
-    // Display an alert with the given title, content, and alert type
+
     private void showAlert(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -138,23 +138,18 @@ public class FormReserverEventController {
     private Button returntoevent;
     @FXML
     private void returntoEventDetails() {
-        // Fetch the details of the selected event using the eventId
         Evenement selectedEvent = event1 ;
 
-        // Check if the event details are not null
         if (selectedEvent != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/EventINFO.fxml"));
                 Parent root = loader.load();
 
-                // Get the controller of the EventINFO.fxml
                 EventINFOController eventINFOController = loader.getController();
                 eventINFOController.setEventDetails(selectedEvent);
 
-                // Get the current stage
                 Stage stage = (Stage) returntoevent.getScene().getWindow();
 
-                // Set the new scene to the current stage
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
