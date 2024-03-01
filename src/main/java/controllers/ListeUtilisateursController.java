@@ -2,9 +2,6 @@ package controllers;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -13,8 +10,6 @@ import java.util.stream.Collectors;
 
 import entities.Utilisateur;
 import entities.enums.Role;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -122,13 +117,9 @@ public class ListeUtilisateursController {
         totalAdmins.setText(String.valueOf(administrateurs));
 
 
-
 // Calculer le nombre total d'utilisateurs
         int utilisateurs = membres + proprietaires + administrateurs;
         totalUtilisateurs.setText(String.valueOf(utilisateurs));
-
-
-
 
 
 // Initialiser la connexion
@@ -285,6 +276,8 @@ public class ListeUtilisateursController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             utilisateurCrud.supprimerEntite(user.getId());
+            // Mettre à jour les compteurs après la suppression
+            updateCounters();
             // Mettre à jour l'affichage en supprimant l'utilisateur de la TableView
             tableView.getItems().remove(user);
             // Rafraîchir la TableView après la suppression
@@ -292,37 +285,8 @@ public class ListeUtilisateursController {
             refreshTableViewData();
 
         }
-            // Exécuter la requête TRUNCATE pour réinitialiser la table
-            //executeTruncateQuery();
+
         }
-        // Exécuter la requête TRUNCATE pour réinitialiser la table
-        //executeTruncateQuery();
-
- /*  private void truncateAndReorderUserIds() {
-    // Supprimer l'utilisateur souhaité (vous avez déjà cette partie dans votre code)
-    //utilisateurCrud.supprimerEntite(user.getId);
-
-    // Exécuter la commande TRUNCATE pour réinitialiser les valeurs d'auto-incrémentation des IDs
-    String truncateQuery = "TRUNCATE TABLE utilisateur";
-    try (Statement statement = connection.createStatement()) {
-        statement.executeUpdate(truncateQuery);
-        System.out.println("Table utilisateur tronquée avec succès.");
-    } catch (SQLException e) {
-        System.out.println("Erreur lors de la troncature de la table utilisateur : " + e.getMessage());
-    }
-
-    // Requérir les données des utilisateurs restants
-    List<Utilisateur> utilisateursRestants = utilisateurCrud.getAllUtilisateurs();
-
-    // Utiliser une boucle pour mettre à jour les IDs des utilisateurs restants dans l'ordre
-    for (int i = 0; i < utilisateursRestants.size(); i++) {
-        Utilisateur utilisateur = utilisateursRestants.get(i);
-        utilisateur.setId(i + 1); // Nouvelle valeur d'ID basée sur l'index de la boucle
-        utilisateurCrud.modifierEntite(utilisateur); // Mettre à jour l'utilisateur dans la base de données
-    }
-}*/
-
-
 
     private void showAlert(String message) {
       Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -338,5 +302,22 @@ public class ListeUtilisateursController {
         List<Utilisateur> allUtilisateurs = utilisateurCrud.getAllUtilisateurs();
         // Ajoutez les données rechargées dans la TableView
         tableView.getItems().addAll(allUtilisateurs);
+    }
+    private void updateCounters() {
+        // Récupérer le nombre de membres après la suppression
+        int membres = utilisateurCrud.countUsersByRole("MEMBRE");
+        totalMembres.setText(String.valueOf(membres));
+
+        // Récupérer le nombre de propriétaires après la suppression
+        int proprietaires = utilisateurCrud.countUsersByRole("PROPRIETAIRE");
+        totalProprietaires.setText(String.valueOf(proprietaires));
+
+        // Récupérer le nombre d'administrateurs après la suppression
+        int administrateurs = utilisateurCrud.countUsersByRole("ADMIN");
+        totalAdmins.setText(String.valueOf(administrateurs));
+
+        // Recalculer le nombre total d'utilisateurs après la suppression
+        int utilisateurs = membres + proprietaires + administrateurs;
+        totalUtilisateurs.setText(String.valueOf(utilisateurs));
     }
 }

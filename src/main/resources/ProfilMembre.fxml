@@ -66,8 +66,8 @@
       <TextField fx:id="tfcin" layoutX="378.0" layoutY="54.0" />
       <Label layoutX="266.0" layoutY="58.0" text="Cin" />
       <Label layoutX="266.0" layoutY="103.0" text="Numéro téléphone" />
-      <Text layoutX="58.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
-      <Label fx:id="nomUtilisateur" layoutX="75.0" layoutY="167.0" text="\${tfnom.text}&quot;" />
+      <Text layoutX="65.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
+      <Label fx:id="nomUtilisateur" layoutX="73.0" layoutY="167.0" text="\${tfnom.text}&quot;" />
       <TextField fx:id="tfid" layoutX="292.0" layoutY="368.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
    </children>
 </AnchorPane>

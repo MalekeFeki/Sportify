@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -18,7 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
 import tools.MyConnection;
@@ -193,41 +191,7 @@ public class ProfilAdminController {
                 // maysir chay
             }
         });
-        // Gérer l'événement du bouton "Modifier profil"
-       /* btn_enregismodif.setOnAction(event -> {
-            // Récupérer les nouvelles valeurs des champs de texte
-            int cin = Integer.parseInt(tfcin.getText());
-            int num_tel = Integer.parseInt(tfnum_tel.getText());
-            String nom = tfnom.getText();
-            String prenom = tfprenom.getText();
-            String email = tfemail.getText();
-            String mdp = tfmdp.getText();
 
-            // Créer un objet Utilisateur avec les nouvelles valeurs
-
-            utilisateur.setCin(cin);
-            utilisateur.setNum_tel(num_tel);
-            utilisateur.setNom(nom);
-            utilisateur.setPrenom(prenom);
-            utilisateur.setEmail(email);
-            utilisateur.setMdp(mdp);
-// Afficher une alerte de confirmation
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText(null);
-            alert.setContentText("Voulez-vous vraiment modifier cet utilisateur ?");
-
-            // Attendre la réponse de l'utilisateur
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Si l'utilisateur a confirmé, mettre à jour l'utilisateur
-                utilisateurCrud.modifier2(utilisateur);
-                // Afficher un message de succès
-                showAlert("Utilisateur modifié avec succès.");
-                // Vous pouvez également ajouter du code ici pour rafraîchir les champs de texte si nécessaire
-            }
-
-        });*/
         btn_enregismodif.setOnAction(event -> modifierProfil());
 
         btn_membres.setOnAction(event -> {

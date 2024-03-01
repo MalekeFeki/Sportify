@@ -122,7 +122,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
 
     @Override
     public void modifierEntite(Utilisateur u) {
-
+        Connection cnx2 = MyConnection.instance.getCnx();
         System.out.println(u);
         String req2 = "UPDATE utilisateur SET cin=?, num_tel=?, nom=?, prenom=?, email=?, mdp=? WHERE id=?";
         try {

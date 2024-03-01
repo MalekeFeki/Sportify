@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 import entities.Mailing;
-import entities.MdpHash;
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.event.ActionEvent;
@@ -18,11 +18,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class InscriptionController {
 
@@ -127,35 +122,20 @@ public class InscriptionController {
 
         // Ajouter l'utilisateur uniquement si les vérifications sont réussies
         uc.ajouterEntite2(p);
+        // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
+        String emailSubject = "Bienvenue sur notre plateforme";
+        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme. Merci de vous être inscrit.\n\nCordialement,\nL'équipe de notre plateforme.";
+        Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
 
 
         Role selectedRole = p.getRole();
         List<Utilisateur> allUsers = uc.getAllUtilisateurs();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
         alert.showAndWait();
+
         // Redirection vers la page d'authentification
         redirectToAuthPage();
-        // Envoi de l'e-mail de bienvenue à l'utilisateur nouvellement inscrit
 
-
-        // Appel de la méthode envoyerEmailBienvenue avec l'e-mail de l'utilisateur authentifié
-       //mezelt
-       /* try {
-            // Create a MIME message
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            message.setSubject(subject);
-            message.setText(body);
-
-            // Send the message
-            Transport.send(message);
-
-            System.out.println("Email sent successfully!");
-        } catch (MessagingException e) {
-            System.out.println("Error sending email: " + e.getMessage());
-            e.printStackTrace();
-        }*/
     }
 
 
@@ -214,9 +194,11 @@ public class InscriptionController {
             } catch (IOException e) {
                 e.printStackTrace(); // Gérez l'exception selon vos besoins
             }
+
         });
 
     }
+
 
     @FXML
     private void redirectToAuthPage() {

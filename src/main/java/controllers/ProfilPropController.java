@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Utilisateur;
-import entities.enums.Role;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

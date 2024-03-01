@@ -9,15 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import entities.Mailing;
 import entities.Utilisateur;
-import entities.enums.Role;
+import entities.Mailing;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
 import tools.MyConnection;
@@ -65,6 +63,7 @@ public class AuthentificationController {
         alert.showAndWait();
     }
     int idconnecte ;
+    private String enteredEmail;
     @FXML
     void initialize() {
 
@@ -93,6 +92,8 @@ public class AuthentificationController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                // Store the entered email in the array
+                enteredEmail =  tfemail.getText();;
 
                 // Rediriger vers le profil correspondant au rôle de l'utilisateur
                 redirectToProfile(utilisateurCrud.getUtilisateurByEmail(email).getRole().toString());
@@ -104,15 +105,36 @@ public class AuthentificationController {
                 // Si l'authentification échoue, afficher un message d'erreur
                 showAlert("Email ou mot de passe incorrect !");
             }
-          /*  hyperlink.setOnAction(actionEvent -> {
-                // Call the method to send the email
-                Mailing.envoyerEmailNouveauMdp(destinataire, nouveauMdp, emailUtilisateur, motDePasseUtilisateur);
-            });*/
+
+            hyperlink.setOnAction(event1 -> {
+                // Handle the hyperlink click event
+                if (enteredEmail == null || enteredEmail.isEmpty()) {
+                    // Show an alert or handle the case where the email is empty
+                    System.out.println("Veuillez entrer votre email pour réinitialiser votre mot de passe");
+                } else {
+                    // Call the method to send the email
+                    sendPasswordResetEmail(enteredEmail);
+                }
+            });
 
         });
     }
-    public void redirectToProfile(String role) {
+    private void sendPasswordResetEmail(String recipient) {
 
+            String senderEmail = "malekfeki18@gmail.com";
+            String senderPassword = "ozgm ipxf foxo uplz";
+
+
+            String subject = "Réinitialisation de mot de passe";
+            String body = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: [Your Reset Link or Token]";
+
+            // Set the recipient to the value of tfemail.getText()
+             recipient = tfemail.getText();
+
+            Mailing.sendEmail(recipient, subject, body);
+        }
+
+    public void redirectToProfile(String role) {
 
         try {
             String fxmlFileName;

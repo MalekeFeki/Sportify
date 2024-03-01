@@ -10,12 +10,12 @@ public class Mailing {
 
 
 
-    public class EmailSender {
+
 
         public static void sendEmail(String recipient, String subject, String body) {
             // Email sender configuration
-            String senderEmail = "pidev2024@gmail.com"; // Your email address
-            String senderPassword = "2024pideV"; // Your email password
+            String senderEmail = "malekfeki18@gmail.com"; // Your email address
+            String senderPassword = "ozgm ipxf foxo uplz"; // Your email password
             String smtpHost = "smtp.gmail.com"; // Your SMTP server host
             int smtpPort = 587; // Your SMTP server port (e.g., 587 for TLS)
 
@@ -62,4 +62,3 @@ public class Mailing {
     }
 
 
-}
