@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import entities.Utilisateur;
 import entities.enums.Role;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -67,6 +69,7 @@ public class ListeUtilisateursController {
     private TextField tfrecherche;
     @FXML
     private TableColumn<Utilisateur, Void> colAction;
+
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
     public void setResId(String resId) {
         this.colId.setText(resId);
@@ -102,6 +105,8 @@ public class ListeUtilisateursController {
         tfrecherche.textProperty().addListener((observable, oldValue, newValue) -> {
             // Filtrer la TableView en fonction du texte de recherche
             filterTableView(newValue);
+
+
         });
 
 

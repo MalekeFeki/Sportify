@@ -26,8 +26,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
     // Méthode pour charger la liste des utilisateurs enregistrés depuis la base de données
     private List<Utilisateur> loadRegisteredUsers() {
         List<Utilisateur> users = new ArrayList<>();
-        // Charger les utilisateurs depuis la base de données
-        // Utilisez votre méthode getAllUtilisateurs() ou une autre méthode appropriée pour cela
+
         return users;
     }
 

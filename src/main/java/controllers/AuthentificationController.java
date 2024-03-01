@@ -20,6 +20,12 @@ import javafx.stage.Stage;
 import services.UtilisateurCrud;
 import tools.MyConnection;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class AuthentificationController {
 
     @FXML
@@ -35,6 +41,9 @@ public class AuthentificationController {
 
     @FXML
     private PasswordField tfmdp;
+
+    @FXML
+    private CheckBox show;
     private List<Utilisateur> registeredUsers;
     private UtilisateurCrud utilisateurCrud = new UtilisateurCrud();
 
@@ -46,6 +55,8 @@ public class AuthentificationController {
     private String mdp;
     @FXML
     private Hyperlink hyperlink;
+    @FXML
+    private TextField tfshowpassword;
 
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
         this.registeredUsers = registeredUsers;
@@ -66,6 +77,21 @@ public class AuthentificationController {
     private String enteredEmail;
     @FXML
     void initialize() {
+
+        show.setOnAction(event -> handleShowPassCheckboxClick());
+        tfshowpassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (show.isSelected()) {
+                tfmdp.setText(newValue);
+            }
+        });
+
+        tfmdp.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (show.isSelected()) {
+                tfshowpassword.setText(newValue);
+            }
+        });
+
+
 
         btn_auth.setOnAction(event -> {
             // Récupérer les informations d'identification fournies par l'utilisateur (par exemple, à partir de champs de texte)
@@ -119,6 +145,23 @@ public class AuthentificationController {
 
         });
     }
+
+    @FXML
+    void handleShowPassCheckboxClick() {
+        if (show.isSelected()) {
+            // Afficher le mot de passe en clair
+            tfshowpassword.setText(tfmdp.getText());
+            tfshowpassword.setVisible(true);
+            tfmdp.setVisible(false);
+        } else {
+            // Masquer le mot de passe en clair et montrer le PasswordField à nouveau
+            tfmdp.setText(tfshowpassword.getText());
+            tfmdp.setVisible(true);
+            tfshowpassword.setVisible(false);
+        }
+    }
+
+
     private void sendPasswordResetEmail(String recipient) {
 
             String senderEmail = "malekfeki18@gmail.com";

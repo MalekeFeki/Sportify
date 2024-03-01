@@ -8,10 +8,6 @@ import java.util.Properties;
 public class Mailing {
 
 
-
-
-
-
         public static void sendEmail(String recipient, String subject, String body) {
             // Email sender configuration
             String senderEmail = "malekfeki18@gmail.com"; // Your email address
@@ -59,6 +55,7 @@ public class Mailing {
             // Send the email
             sendEmail(recipient, subject, body);
         }
+
     }
 
 

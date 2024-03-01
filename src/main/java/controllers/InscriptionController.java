@@ -124,7 +124,7 @@ public class InscriptionController {
         uc.ajouterEntite2(p);
         // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
         String emailSubject = "Bienvenue sur notre plateforme";
-        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme. Merci de vous être inscrit.\n\nCordialement,\nL'équipe de notre plateforme.";
+        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
         Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
 
 
