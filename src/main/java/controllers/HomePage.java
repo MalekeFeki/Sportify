@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class HomePage extends Application {
         fxml1.add("ModifierEvent.fxml");
 
         try {
-            Parent root= FXMLLoader.load(getClass().getResource("/GestionEvent.fxml"));
+            Parent root= FXMLLoader.load(getClass().getResource("/AjouterEvent.fxml"));
 
             primaryStage.setTitle("GestionEvent");
             primaryStage.setScene(new Scene(root));

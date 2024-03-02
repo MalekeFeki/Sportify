@@ -11,6 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane prefHeight="506.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventINFOController">
    <children>
@@ -50,6 +51,8 @@
       <Button fx:id="interestButton1" layoutX="308.0" layoutY="140.0" onAction="#handleInterestButtonClick" text="Show Interest" />
       <Button fx:id="returntolist" layoutX="25.0" layoutY="65.0" mnemonicParsing="false" onAction="#redirectToAllEvent" prefHeight="16.0" prefWidth="55.0" text="return" />
       <Button fx:id="reserveButton" layoutX="416.0" layoutY="140.0" onAction="#redirectToReservationForm" text="Reserve Event" />
+
+      <WebView fx:id="mapView" prefWidth="600" prefHeight="400"/>
    </children>
    <stylesheets>
       <URL value="@styles.css" />

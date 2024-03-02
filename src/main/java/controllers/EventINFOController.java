@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import entities.Evenement;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import services.EvenementCrud;
@@ -31,6 +32,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
+
+import javafx.scene.web.WebView;
 
 public class EventINFOController implements Initializable {
 
@@ -72,11 +75,14 @@ public class EventINFOController implements Initializable {
     private EvenementCrud evenementCrud = new EvenementCrud();
     @FXML
     private Button reserveButton;
+    @FXML
+    private WebView mapView = new WebView();
 
 
 
     public void setEventDetails(Evenement event) {
         selectedEvent = event;
+
         title.setText(event.getNomEv());
         description.setText(event.getDescrptionEv());
 
@@ -134,7 +140,9 @@ public class EventINFOController implements Initializable {
 //        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
         eventBox.setMinWidth(100);
 
+
     }
+
     @FXML
     private Label countdownLabel;
     private void updateCountdownLabel(Label countdownLabel, Date eventDate, String heureEV) {
@@ -158,12 +166,12 @@ public class EventINFOController implements Initializable {
         interestButton.setText((interestCount > 0) ? "Remove Interest" : "Show Interest");
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         interestButton1.setOnAction(this::handleInterestButtonClick);
         updateInterestButtonText(interestButton1, 0);
         System.out.println(selectedEvent);
-
 
 
     }

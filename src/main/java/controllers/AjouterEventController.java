@@ -15,15 +15,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.EvenementCrud;
 import javafx.scene.control.Button;
+import netscape.javascript.JSObject;
+
 public class AjouterEventController {
 
     @FXML
@@ -86,9 +91,11 @@ public class AjouterEventController {
     @FXML
     private Button returntolist;
     private EvenementCrud evenementCrud = new EvenementCrud();
+    @FXML
+    private WebView mapView;
 
-
-
+    @FXML
+    private Button updateLocationButton;
 
         @FXML
         private void initialize() {
@@ -121,7 +128,91 @@ public class AjouterEventController {
             System.out.println("nomEvenementTextField: " + nomEvenementTextField);
         assert hoursComboBox != null : "fx:id=\"hoursComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
         assert minutesComboBox != null : "fx:id=\"minutesComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
+            loadMap();
         }
+
+
+    private Double selectedLatitude;
+    private Double selectedLongitude;
+//    @FXML
+//    public void updateLocationButtonClicked() {
+//        WebEngine webEngine = mapView.getEngine();
+//        // Get the location from the JavaScript and update the lieuTextField
+//        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+//        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+//        String locationName = (String) webEngine.executeScript("getSelectedLocationName()");
+//
+//        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+//            Double latitude = (Double) latitudeObj;
+//            Double longitude = (Double) longitudeObj;
+//            lieuTextField.setText(locationName);
+////            lieuTextField.setText("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+//
+//        } else {
+//            showAlert("Error", "Unable to retrieve location from the map.");
+//        }
+//    }
+//
+//
+//    private void loadMap() {
+//        WebEngine webEngine = mapView.getEngine();
+//        webEngine.load(getClass().getResource("/map.html").toExternalForm());
+//
+//        // JavaScript code to get selected latitude and longitude
+//        String javascriptCode = "function getSelectedLatitude() {" +
+//                "    return selectedLatitude;" +
+//                "}" +
+//                "function getSelectedLongitude() {" +
+//                "    return selectedLongitude;" +
+//                "}";
+//
+//        // Execute the JavaScript code
+//        webEngine.executeScript(javascriptCode);
+//    }
+
+    @FXML
+    public void updateLocationButtonClicked() {
+        WebEngine webEngine = mapView.getEngine();
+
+        // Get the location from the JavaScript and update the lieuTextField
+        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName1");
+
+        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+            Double latitude = (Double) latitudeObj;
+            Double longitude = (Double) longitudeObj;
+            lieuTextField.setText(locationName);
+
+            // Now, you can use latitude, longitude, and locationName as needed
+            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+
+            // Update your JavaFX controls (e.g., lieuTextField) here
+        } else {
+            showAlert("Error", "Unable to retrieve location from the map.");
+        }
+    }
+
+
+    private void loadMap() {
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+
+        // JavaScript code to get selected latitude and longitude
+        String javascriptCode = "function getSelectedLatitude() {" +
+                "    return selectedLatitude;" +
+                "}" +
+                "function getSelectedLongitude() {" +
+                "    return selectedLongitude;" +
+                "}" +
+                "function getSelectedLocationName() {" +
+                "    return selectedLocation;" +
+                "}";
+
+        webEngine.executeScript(javascriptCode);
+    }
+
+
     String filePath ;
         @FXML
     void uploadImage() {
