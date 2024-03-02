@@ -10,10 +10,10 @@ public class Mailing {
 
         public static void sendEmail(String recipient, String subject, String body) {
             // Email sender configuration
-            String senderEmail = "malekfeki18@gmail.com"; // Your email address
-            String senderPassword = "ozgm ipxf foxo uplz"; // Your email password
-            String smtpHost = "smtp.gmail.com"; // Your SMTP server host
-            int smtpPort = 587; // Your SMTP server port (e.g., 587 for TLS)
+            String senderEmail = "malekfeki18@gmail.com"; // email address
+            String senderPassword = "ozgm ipxf foxo uplz"; // email password
+            String smtpHost = "smtp.gmail.com"; // SMTP server host
+            int smtpPort = 587; // SMTP server port (e.g., 587 for TLS)
 
             // Email properties
             Properties props = new Properties();

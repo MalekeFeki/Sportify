@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import entities.MdpGen;
 import entities.Utilisateur;
 import entities.Mailing;
 import javafx.fxml.FXML;
@@ -20,9 +22,7 @@ import javafx.stage.Stage;
 import services.UtilisateurCrud;
 import tools.MyConnection;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -57,6 +57,7 @@ public class AuthentificationController {
     private Hyperlink hyperlink;
     @FXML
     private TextField tfshowpassword;
+    Utilisateur utilisateur;
 
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
         this.registeredUsers = registeredUsers;
@@ -132,17 +133,27 @@ public class AuthentificationController {
                 showAlert("Email ou mot de passe incorrect !");
             }
 
-            hyperlink.setOnAction(event1 -> {
-                // Handle the hyperlink click event
-                if (enteredEmail == null || enteredEmail.isEmpty()) {
-                    // Show an alert or handle the case where the email is empty
-                    System.out.println("Veuillez entrer votre email pour réinitialiser votre mot de passe");
-                } else {
-                    // Call the method to send the email
-                    sendPasswordResetEmail(enteredEmail);
-                }
-            });
+        });
+        hyperlink.setOnAction(event1 -> {
+            // Handle the hyperlink click event
+            if (tfemail == null || tfemail.getText().isEmpty()) {
+                // Show an alert or handle the case where the email is empty
+                System.out.println("Veuillez entrer votre email pour réinitialiser votre mot de passe");
+            } else {
+                // Generate a new password
+               /* String newPassword = MdpGen.genererMdp();
+// Fetch the user from the database based on the provided email
+                Utilisateur utilisateur = utilisateurCrud.getUtilisateurByEmail(tfemail.getText());
 
+                // Mettre à jour le mot de passe de l'utilisateur
+                utilisateur.setMdp(newPassword);
+
+                // Enregistrer les modifications dans la base de données
+                utilisateurCrud.modifierEntite(utilisateur);
+              //  sendPasswordResetEmail("votre mot de passe est"+tfmdp);
+                sendMail("votre mot de passe est"+newPassword);*/
+                sendPasswordResetEmail("");
+            }
         });
     }
 
@@ -160,7 +171,103 @@ public class AuthentificationController {
             tfshowpassword.setVisible(false);
         }
     }
+    private void sendPassword(){
+        System.out.println("cc");
+        String query2="select * from utilisateur where email=? ";
+        String email1="empty";
+        try {
+            // Access the connection using the singleton pattern
+            Connection cnx2 = MyConnection.getInstance().getCnx();
+            PreparedStatement smt = cnx2.prepareStatement(query2);
+            smt.setString(1, tfemail.getText());
+            ResultSet rs= smt.executeQuery();
+            if(rs.next()){
+                email1=rs.getString("email");
+                System.out.println(email1);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        Mailing.sendEmail(email1,"Recupération du mot de passe","votre mot de passe est"+tfmdp);
+    }
+    public void sendMail(String recepient){
+        System.out.println("Preparing to send email");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+        String myAccountEmail = "malekfeki18@gmail.com";
+        String passwordd = "ozgm ipxf foxo uplz";
 
+        Session session = Session.getInstance(properties, new Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(myAccountEmail,passwordd);
+            }
+        });
+        Message message =preparedMessage(session,myAccountEmail,recepient);
+        try{
+            Transport.send(message);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Sportify :: Boite Mail");
+            alert.setHeaderText(null);
+            alert.setContentText("consulter votre boite mail !!");
+            alert.showAndWait();
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+
+        }
+
+    }
+    public void sendPasswordResetEmail(String recipientEmail, String resetCode) throws MessagingException {
+        // Email message details
+        String subject = "Password Reset Request";
+        String body = "Dear User,\n\nTo reset your password, please use the following code:\n\n" + resetCode + "\nBest regards,\nInsight Team";
+        System.out.println("Email body: " + body); // Print the email body with the reset code
+
+        // Send the email
+        Mailing.sendEmail(recipientEmail, subject, body);
+    }
+    private Message preparedMessage(Session session, String myAccountEmail, String recepient){
+        String query2="select * from utilisateur where email=?";
+        String userEmail="null" ;
+        String pass="empty";
+        try {
+            // Access the connection using the singleton pattern
+            Connection cnx2 = MyConnection.getInstance().getCnx();
+            PreparedStatement smt = cnx2.prepareStatement(query2);
+            smt.setString(1, tfemail.getText());
+            ResultSet rs= smt.executeQuery();
+            System.out.println(rs);
+            if(rs.next()){
+                pass=rs.getString("mdp");
+                userEmail=rs.getString("email");                }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        System.out.print("testtt");
+        String text="Votre mot de passe est :"+pass+"";
+        String object ="Recupération de mot de passe";
+        Message message = new MimeMessage(session);
+        try{
+            message.setFrom(new InternetAddress(myAccountEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
+            message.setSubject(object);
+            String htmlcode ="<h1> "+text+" </h1> <h2> <b> </b2> </h2> ";
+            message.setContent(htmlcode, "text/html");
+            System.out.println("Message envoyé");
+
+            System.out.println(pass);
+
+            return message;
+
+        }catch(MessagingException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     private void sendPasswordResetEmail(String recipient) {
 
@@ -169,7 +276,7 @@ public class AuthentificationController {
 
 
             String subject = "Réinitialisation de mot de passe";
-            String body = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: [Your Reset Link or Token]";
+            String body = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: "+tfmdp;
 
             // Set the recipient to the value of tfemail.getText()
              recipient = tfemail.getText();

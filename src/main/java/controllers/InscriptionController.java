@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.rest.lookups.v1.PhoneNumber;
 import entities.Mailing;
 import entities.Utilisateur;
 import entities.enums.Role;
@@ -60,6 +63,9 @@ public class InscriptionController {
     private TableView<Utilisateur> tableView;
     private List<Utilisateur> registeredUsers;
     private Stage primaryStage;
+    // Twilio account credentials
+    private static final String ACCOUNT_SID = "ACd6178ca26eb4a78ebcf30b381f0ebeab";
+    private static final String AUTH_TOKEN = "9c80cfd68e4cd0692781ba469c2e819b";
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
         this.registeredUsers = registeredUsers;
     }
@@ -122,20 +128,34 @@ public class InscriptionController {
 
         // Ajouter l'utilisateur uniquement si les vérifications sont réussies
         uc.ajouterEntite2(p);
-        // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
-        String emailSubject = "Bienvenue sur notre plateforme";
-        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
-        Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
 
 
+// Send welcome SMS
+        //sendWelcomeSMS(p);
         Role selectedRole = p.getRole();
         List<Utilisateur> allUsers = uc.getAllUtilisateurs();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
         alert.showAndWait();
-
+        // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
+        String emailSubject = "Bienvenue sur notre plateforme";
+        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
+        Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
         // Redirection vers la page d'authentification
         redirectToAuthPage();
 
+    }
+
+    private void sendWelcomeSMS(Utilisateur p) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        String receiverPhoneNumber = tfnum_tel.getText();
+        Message message = Message.creator(
+                new com.twilio.type.PhoneNumber(receiverPhoneNumber), // Receiver's phone number
+                new com.twilio.type.PhoneNumber("+15415267049"), // Twilio phone number
+                "Bienvenue dans notre plateforme Sportify!"
+        ).create();
+
+        System.out.println(message.getSid());
     }
 
 

@@ -12,8 +12,8 @@ public class SmsSender {
     public static void main(String[] args) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("+21653378560"),
-                new com.twilio.type.PhoneNumber("+15415267049"),//l from ghalet
+                new com.twilio.type.PhoneNumber("+21653378560"),//receiver
+                new com.twilio.type.PhoneNumber("+15415267049"),//sender
                 "Bienvenue dans notre platforme Sportify!") .create();
 
         System.out.println(message.getSid());
