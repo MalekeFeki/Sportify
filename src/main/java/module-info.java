@@ -4,6 +4,7 @@ module Sportify {
     requires javafx.fxml;
     requires java.sql;
     requires java.mail;
+    requires twilio;
     opens  controllers;
     opens entities to javafx.base;
 }
