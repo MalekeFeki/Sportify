@@ -15,7 +15,7 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
     }
 
     @Override
-    public void create(Paiement p) {
+    public boolean create(Paiement p) {
         String req = "INSERT INTO paiement(numeroCarteBancaire, ccv, expirationDate, datePayment, hourPayment, userId, PromoCode, PostalCode, dateDebutAbonnement, dateFinAbonnement, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             // Check if the provided userId exists in the users table
@@ -33,16 +33,19 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
                 pst.setDate(10, Date.valueOf(p.getDateFinAbonnement()));
                 pst.setDouble(11, p.getPrice());
 
+                int rowsAffected = pst.executeUpdate();
+                System.out.println(rowsAffected + " rows affected");
 
-                pst.executeUpdate();
-                System.out.println("Paiement ajouté");
+                return rowsAffected > 0; // Return true if rows were affected, indicating success
             } else {
                 System.out.println("User with ID " + p.getUserId() + " does not exist.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false; // Return false by default if an exception occurred or user does not exist
     }
+
 
     @Override
     public List<Paiement> read() {

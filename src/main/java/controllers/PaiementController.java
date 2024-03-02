@@ -54,6 +54,8 @@ public class PaiementController {
 
     @FXML
     private TextField priceLabel ;
+    private Runnable onSuccessCallback;
+
 
     private PaiementCrud paiementCrud = new PaiementCrud();
 
@@ -79,11 +81,17 @@ public class PaiementController {
         });
     }
 
-    public void initData(Adhesion adhesionInfo) {
-        // Set labels with data from MembershipData object
-        debutDateLabel.setText("Debut Date: " + adhesionInfo.getDateDebut());
-        endDateLabel.setText("End Date: " + adhesionInfo.getDateFin());
-        priceLabel.setText("Price: $" + String.format("%.2f", adhesionInfo.getPrice()));
+    public void initData(Adhesion adhesionInfo,Runnable onSuccessCallback) {
+        this.onSuccessCallback = onSuccessCallback ;
+        if (adhesionInfo != null) {
+            // Set labels with data from MembershipData object
+            debutDateLabel.setText("Debut Date: " + adhesionInfo.getDateDebut());
+            endDateLabel.setText("End Date: " + adhesionInfo.getDateFin());
+            priceLabel.setText("Price: $" + String.format("%.2f", adhesionInfo.getPrice()));
+        } else {
+            // Handle null adhesionInfo
+            System.err.println("Adhesion info is null!");
+        }
     }
 
     private static String hashStringWithMD5(String input) {
@@ -171,6 +179,8 @@ public class PaiementController {
 
                 // Display a success message
                 showAlert(AlertType.INFORMATION, "Success", "Payment saved successfully!");
+                onSuccessCallback.run(); // Call the onSuccessCallback
+
             } else {
                 // If PaiementCrud is not initialized, display an error message
                 showAlert(AlertType.ERROR, "Error", "PaiementCrud is not initialized!");
@@ -180,6 +190,7 @@ public class PaiementController {
         }
     }
 
+
     @FXML
     public void cancelPayment() {
         // Get the stage from the current button
@@ -188,29 +199,29 @@ public class PaiementController {
         // Close the stage
         stage.close();
     }
-    public void ShowPayments() {
-        try {
-            // Load the FXML file for the new interface
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
-            Parent root = loader.load();
-
-            // Get the stage from the current button
-            Stage stage = (Stage) btn_Show.getScene().getWindow();
-
-            // Set the new scene
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            // FXML file loading failed
-            System.err.println("Error loading FXML file: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            // Other unexpected exceptions
-            System.err.println("Unexpected error: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+//     public void ShowPayments() {
+//      try {
+//            // Load the FXML file for the new interface
+//            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
+//            Parent root = loader.load();
+//
+//            // Get the stage from the current button
+//            Stage stage = (Stage) btn_Show.getScene().getWindow();
+//
+//            // Set the new scene
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException e) {
+//            // FXML file loading failed
+//            System.err.println("Error loading FXML file: " + e.getMessage());
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            // Other unexpected exceptions
+//            System.err.println("Unexpected error: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
