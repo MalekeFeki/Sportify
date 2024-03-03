@@ -14,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import entities.Evenement;
 import entities.enums.GenreEv;
@@ -87,6 +89,14 @@ public class ModifierEventController {
     @FXML
     private Button returntolist;
     @FXML
+    private Button updateLocationButton;
+    @FXML
+    private TextField latTextField;
+    @FXML
+    private TextField lonTextField;
+    @FXML
+    private WebView mapView;
+    @FXML
     private void initialize() {
         ObservableList<String> hoursList = FXCollections.observableArrayList();
         for (int i = 0; i <= 23; i++) {
@@ -119,8 +129,53 @@ public class ModifierEventController {
         System.out.println("nomEvenementTextField: " + nomEvenementTextField);
         assert hoursComboBox != null : "fx:id=\"hoursComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
         assert minutesComboBox != null : "fx:id=\"minutesComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
-
+        loadMap();
     }
+    @FXML
+    public void updateLocationButtonClicked() {
+        WebEngine webEngine = mapView.getEngine();
+
+        // Get the location from the JavaScript and update the lieuTextField
+        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
+
+        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+            Double latitude = (Double) latitudeObj;
+            Double longitude = (Double) longitudeObj;
+
+            lieuTextField.setText(locationName);
+
+            // Now, you can use latitude, longitude, and locationName as needed
+            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+            lonTextField.setText(longitude.toString());
+            latTextField.setText(latitude.toString());
+            // Update your JavaFX controls (e.g., lieuTextField) here
+        } else {
+            showAlert("Error", "Unable to retrieve location from the map.");
+        }
+    }
+
+
+    private void loadMap() {
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+
+        // JavaScript code to get selected latitude and longitude
+        String javascriptCode = "function getSelectedLatitude() {" +
+                "    return selectedLatitude;" +
+                "}" +
+                "function getSelectedLongitude() {" +
+                "    return selectedLongitude;" +
+                "}" +
+                "function getSelectedLocationName() {" +
+                "    return selectedLocationName;" +
+                "}";
+
+        webEngine.executeScript(javascriptCode);
+    }
+
+
     String filePath ;
     @FXML
     void uploadImage() {
@@ -185,6 +240,8 @@ public class ModifierEventController {
         typeEventComboBox.setValue(event.getTypeEV());
         cityEVComboBox.setValue(event.getCity());
         capaciteTextField.setText(String.valueOf(event.getCapacite()));
+        latTextField.setText(String.valueOf(event.getLat()));
+        lonTextField.setText(String.valueOf(event.getLon()));
 
         Image image = new Image("file:" + event.getPhoto());
         imageView.setImage(image);
@@ -214,6 +271,8 @@ public class ModifierEventController {
         GenreEv genreEvenement = genreEvenementComboBox.getValue();
         typeEvent typeEvenement = typeEventComboBox.getValue();
 
+        double lat = Double.parseDouble(latTextField.getText());
+        double lon = Double.parseDouble(lonTextField.getText());
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
         eventToModify.setNomEv(nomEvenement);
@@ -230,12 +289,15 @@ public class ModifierEventController {
         eventToModify.setGenreEvenement(genreEvenement);
         eventToModify.setTypeEV(typeEvenement);
         eventToModify.setCapacite(capacite);
+        eventToModify.setLat(lat);
+        eventToModify.setLon(lon);
 
         evenementCrud.modifierEvent(eventToModify);
 
         showAlert("Event Modified", "Event has been successfully modified.");
         redirectToGestionEvent();
     }
+
     private boolean validateGeneralInput() {
         if (nomEvenementTextField.getText().isEmpty() || dateDebutDatePicker.getValue() == null ||
                 lieuTextField.getText().isEmpty() || numTeleTextField.getText().isEmpty() ||
@@ -248,6 +310,7 @@ public class ModifierEventController {
             return false;
         }
 
+
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
         if (!emailTextField.getText().matches(emailRegex)) {
             showAlert("Input Validation", "Please enter a valid email address.");
@@ -257,31 +320,45 @@ public class ModifierEventController {
         return true;
     }
     private boolean validateAdditionalInput() {
-        StringBuilder errorMessage1 = new StringBuilder();
+        StringBuilder errorMessage = new StringBuilder();
+
 
         LocalDate startDate = dateDebutDatePicker.getValue();
         LocalDate endDate = dateFinDatePicker.getValue();
         if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
-            errorMessage1.append("End date must be after start date.\n");
+            errorMessage.append("End date must be after start date.\n");
         }
 
+
         if (startDate != null && startDate.isBefore(LocalDate.now())) {
-            errorMessage1.append("Start date must not be in the past.\n");
+            errorMessage.append("Start date must not be in the past.\n");
         }
+
 
         String numTele = numTeleTextField.getText();
         if (!numTele.matches("\\d+")) {
-            errorMessage1.append("Phone number must contain only numbers.\n");
+            errorMessage.append("Phone number must contain only numbers.\n");
         }
+
 
         String capacite = capaciteTextField.getText();
         if (!capacite.matches("\\d+")) {
-            errorMessage1.append("Capacity must contain only numbers.\n");
+            errorMessage.append("Capacity must contain only numbers.\n");
+        }
+        String selectedCity = cityEVComboBox.getValue().toString();
+        String lieuText = lieuTextField.getText();
+
+        if (!lieuText.contains(selectedCity)) {
+            errorMessage.append("The selected city does not match the location.\n");
+        }
+        String nomEvenement = nomEvenementTextField.getText();
+        if (!evenementCrud.isEventNameUnique(nomEvenement) ) {
+            showAlert("Input Validation", "Event name must be unique.");
+            return false;
         }
 
-
-        if (errorMessage1.length() > 0) {
-            showAlert("Validation Error", errorMessage1.toString());
+        if (errorMessage.length() > 0) {
+            showAlert("Validation Error", errorMessage.toString());
             return false;
         }
 

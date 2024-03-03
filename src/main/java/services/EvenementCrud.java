@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class EvenementCrud implements IEvenementCrud<Evenement> {
     Connection cnx2 ;
@@ -22,7 +23,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     @Override
     public void ajouterEvent(Evenement u) {
 
-        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,city,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse,Capacite) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,city,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse,Capacite,lat,lon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pst ;
         try {
             pst = cnx2.prepareStatement(req);
@@ -42,6 +43,8 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             pst.setString(14,u.getTypeEV().name());
             pst.setInt(15,u.getNombrePersonneInteresse());
             pst.setInt(16,u.getCapacite());
+            pst.setDouble(17,u.getLat());
+            pst.setDouble(18,u.getLon());
             pst.executeUpdate();
 
         } catch (SQLException e) {
@@ -78,6 +81,8 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
                 p.setTypeEV(typeEvent.valueOf(rs.getString("typeEV")));
                 p.setNombrePersonneInteresse(rs.getInt("nombrePersonneInteresse"));
                 p.setCapacite(rs.getInt("Capacite"));
+                p.setLat(rs.getDouble("lat"));
+                p.setLon(rs.getDouble("lon"));
                 Evenements.add(p);
 
             }
@@ -87,12 +92,22 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
         }
         return Evenements ;
     }
+    public boolean isEventNameUnique(String nomEvenement) {
+        // Use the existing afficherEvent method to retrieve all events from the database
+        List<Evenement> allEvents = afficherEvent();
+        List<Evenement> a = allEvents.stream().filter(event -> event.getNomEv().equalsIgnoreCase(nomEvenement)).toList();
+        System.out.println(a);
+        boolean res =allEvents.stream().noneMatch(event -> event.getNomEv().equalsIgnoreCase(nomEvenement) && event.getIDevent()!=a.get(0).getIDevent());
+
+        // Check if any event has the same name as nomEvenement
+        return res ;
+    }
 
     @Override
     public void modifierEvent(Evenement u) {
         String req = "UPDATE Evenement SET NomEv=?, DatedDebutEV=?, DatedFinEV=?, HeureEV=?, DescrptionEv=?, " +
                 "Photo=?, lieu=?,City=? ,Tele=?, Email=?, FB_link=?, IG_link=?, GenreEvenement=?, " +
-                "typeEV=?, Capacite=? WHERE IDevent=?";
+                "typeEV=?, Capacite=? , lat=? , lon=? WHERE IDevent=?";
 
         try (PreparedStatement ps = cnx2.prepareStatement(req)) {
             ps.setString(1, u.getNomEv());
@@ -110,7 +125,10 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             ps.setString(13, u.getGenreEvenement().toString());
             ps.setString(14, u.getTypeEV().toString());
             ps.setInt(15, u.getCapacite());
-            ps.setInt(16, u.getIDevent());
+            ps.setDouble(16,u.getLat());
+            ps.setDouble(17,u.getLon());
+
+            ps.setInt(18, u.getIDevent());
 
             int r = ps.executeUpdate();
             if (r > 0) {
@@ -259,6 +277,8 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
         event.setTypeEV(typeEvent.valueOf(resultSet.getString("typeEV")));
         event.setNombrePersonneInteresse(resultSet.getInt("nombrePersonneInteresse"));
         event.setCapacite(resultSet.getInt("Capacite"));
+        event.setLat(resultSet.getDouble("lat"));
+        event.setLon(resultSet.getDouble("lon"));
 
         return event;
     }

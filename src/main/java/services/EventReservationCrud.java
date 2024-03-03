@@ -1,11 +1,15 @@
 package services;
 
+import entities.Evenement;
 import entities.EventReservation;
+import entities.enums.GenreEv;
+import entities.enums.cityEV;
+import entities.enums.typeEvent;
 import tools.MyConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventReservationCrud implements IEventReservationCrud<EventReservation> {
 
@@ -33,4 +37,28 @@ public class EventReservationCrud implements IEventReservationCrud<EventReservat
             return false;
         }
     }
+    public List<EventReservation> afficherReservation(int eventId) {
+        List<EventReservation> reservations = new ArrayList<>();
+        String query = "SELECT * FROM EventReservation WHERE eventId = ?";
+        try (PreparedStatement preparedStatement = cnx2.prepareStatement(query)) {
+            preparedStatement.setInt(1, eventId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    EventReservation reservation = new EventReservation();
+                    reservation.setCin(resultSet.getInt("cin"));
+                    reservation.setEventId(resultSet.getInt("eventId"));
+                    reservation.setReservationId(resultSet.getInt("reservationId"));
+                    reservation.setNom(resultSet.getString("nom"));
+                    reservation.setNum_tele(resultSet.getInt("num_tele"));
+                    reservation.setPrenom(resultSet.getString("prenom"));
+                    reservation.setEmail(resultSet.getString("Email"));
+                    reservations.add(reservation);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving reservations: " + e.getMessage());
+        }
+        return reservations;
+    }
+
 }

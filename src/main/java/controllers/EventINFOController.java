@@ -3,6 +3,7 @@ package controllers;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ import entities.Evenement;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import netscape.javascript.JSObject;
 import services.EvenementCrud;
 
 import java.io.IOException;
@@ -79,13 +81,18 @@ public class EventINFOController implements Initializable {
     private WebView mapView = new WebView();
 
 
+    private double eventLatitude;
+
+
+    private double eventLongitude;
 
     public void setEventDetails(Evenement event) {
         selectedEvent = event;
 
         title.setText(event.getNomEv());
         description.setText(event.getDescrptionEv());
-
+        eventLatitude = event.getLat();
+        eventLongitude = event.getLon();
 
         eventImageView.setImage(new Image("file:" + event.getPhoto()));
 
@@ -130,7 +137,8 @@ public class EventINFOController implements Initializable {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getHeureEV()))
         );
-        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setCycleCount(Animation.INDEFINITE
+        );
         timeline.play();
 
         VBox eventBox = new VBox(
@@ -139,9 +147,30 @@ public class EventINFOController implements Initializable {
         eventBox.getStyleClass().add("event-box");
 //        eventBox.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-spacing: 5px; -fx-border-color: #ff7741");
         eventBox.setMinWidth(100);
-
+        updateMapView();
 
     }
+
+    private void updateMapView() {
+        String mapUrl = getClass().getResource("/map.html").toExternalForm();
+        mapView.getEngine().load(mapUrl);
+        mapView.getEngine().setJavaScriptEnabled(true);
+
+        mapView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                // Define the initMap function
+                mapView.getEngine().executeScript("function initMap(latitude, longitude) {" +
+                        "var map = L.map('map').setView([latitude, longitude], 13);" +
+                        "L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);" +
+                        "L.marker([latitude, longitude]).addTo(map);" +
+                        "}");
+
+                // Call the initMap function with latitude and longitude
+                mapView.getEngine().executeScript("initMap(" + eventLatitude + ", " + eventLongitude + ")");
+            }
+        });
+    }
+
 
     @FXML
     private Label countdownLabel;
@@ -160,6 +189,7 @@ public class EventINFOController implements Initializable {
 
         String countdownText = String.format("Time left: %02d days %02d:%02d:%02d", days, hours, minutes, seconds);
         countdownLabel.setText(countdownText);
+
     }
 
     private void updateInterestButtonText(Button interestButton, int interestCount) {

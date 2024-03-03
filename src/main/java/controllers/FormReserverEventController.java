@@ -72,6 +72,7 @@ public class FormReserverEventController {
         showAlert("Success", "Reservation successful!", Alert.AlertType.INFORMATION);
         closeForm();
     }
+
     private boolean validateGeneralInput() {
         if (nomField.getText().isEmpty() ||
                 cinField.getText().isEmpty() || prenomField.getText().isEmpty() ||

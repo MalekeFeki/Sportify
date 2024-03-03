@@ -93,7 +93,10 @@ public class AjouterEventController {
     private EvenementCrud evenementCrud = new EvenementCrud();
     @FXML
     private WebView mapView;
-
+    @FXML
+    private TextField latTextField;
+    @FXML
+    private TextField lonTextField;
     @FXML
     private Button updateLocationButton;
 
@@ -105,14 +108,12 @@ public class AjouterEventController {
                 hoursList.add(formattedHours);
             }
             hoursComboBox.setItems(hoursList);
-
             ObservableList<String> minutesList = FXCollections.observableArrayList();
             for (int i = 0; i <= 59; i += 2) {
                 String formattedMinutes = String.format("%02d", i);
                 minutesList.add(formattedMinutes);
             }
             minutesComboBox.setItems(minutesList);
-
             hoursComboBox.setValue("00");
             minutesComboBox.setValue("00");
 
@@ -177,16 +178,18 @@ public class AjouterEventController {
         // Get the location from the JavaScript and update the lieuTextField
         Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
         Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
-        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName1");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
 
         if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
             Double latitude = (Double) latitudeObj;
             Double longitude = (Double) longitudeObj;
+
             lieuTextField.setText(locationName);
 
             // Now, you can use latitude, longitude, and locationName as needed
             System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
-
+            lonTextField.setText(longitude.toString());
+            latTextField.setText(latitude.toString());
             // Update your JavaFX controls (e.g., lieuTextField) here
         } else {
             showAlert("Error", "Unable to retrieve location from the map.");
@@ -206,7 +209,7 @@ public class AjouterEventController {
                 "    return selectedLongitude;" +
                 "}" +
                 "function getSelectedLocationName() {" +
-                "    return selectedLocation;" +
+                "    return selectedLocationName;" +
                 "}";
 
         webEngine.executeScript(javascriptCode);
@@ -266,11 +269,13 @@ public class AjouterEventController {
         String igLink = igLinkTextField.getText();
         GenreEv genreEvenement = genreEvenementComboBox.getValue();
         typeEvent typeEvenement = typeEventComboBox.getValue();
+        double lat = Double.parseDouble(latTextField.getText());
+        double lon = Double.parseDouble(lonTextField.getText());
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
 
         Evenement newEvent = new Evenement(nomEvenement, Date.valueOf(dateDebut), Date.valueOf(dateFin), heure,
-                description, filePath, lieu,city, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite);
+                description, filePath, lieu,city, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite,lat,lon);
         System.out.println(newEvent);
 
         evenementCrud.ajouterEvent(newEvent);
@@ -349,7 +354,17 @@ public class AjouterEventController {
         if (!capacite.matches("\\d+")) {
             errorMessage.append("Capacity must contain only numbers.\n");
         }
+        String selectedCity = cityEVComboBox.getValue().toString();
+        String lieuText = lieuTextField.getText();
 
+        if (!lieuText.contains(selectedCity)) {
+            errorMessage.append("The selected city does not match the location.\n");
+        }
+        String nomEvenement = nomEvenementTextField.getText();
+        if (!evenementCrud.isEventNameUnique(nomEvenement)) {
+            showAlert("Input Validation", "Event name must be unique.");
+            return false;
+        }
 
         if (errorMessage.length() > 0) {
             showAlert("Validation Error", errorMessage.toString());

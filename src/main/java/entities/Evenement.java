@@ -5,7 +5,6 @@ import entities.enums.typeEvent;
 import entities.enums.cityEV;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 public class Evenement {
@@ -23,6 +22,11 @@ public class Evenement {
     private String Email;
     private String FB_link;
     private String IG_link;
+    private double lat ;
+    private double lon ;
+
+
+
     private GenreEv GenreEvenement;
     private typeEvent typeEV ;
     private int nombrePersonneInteresse;
@@ -52,7 +56,7 @@ public class Evenement {
         Capacite = capacite;
     }
 
-    public Evenement(String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int capacite) {
+    public Evenement(String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int capacite, double lat, double lon) {
         NomEv = nomEv;
         DatedDebutEV = datedDebutEV;
         DatedFinEV = datedFinEV;
@@ -68,6 +72,53 @@ public class Evenement {
         GenreEvenement = genreEvenement;
         this.typeEV = typeEV;
         Capacite = capacite;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city, String tele, String email, String FB_link, String IG_link, double lat, double lon, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
+        this.reservations = reservations;
+        this.IDevent = IDevent;
+        NomEv = nomEv;
+        DatedDebutEV = datedDebutEV;
+        DatedFinEV = datedFinEV;
+        HeureEV = heureEV;
+        DescrptionEv = descrptionEv;
+        Photo = photo;
+        this.lieu = lieu;
+        this.city = city;
+        Tele = tele;
+        Email = email;
+        this.FB_link = FB_link;
+        this.IG_link = IG_link;
+        this.lat = lat;
+        this.lon = lon;
+        GenreEvenement = genreEvenement;
+        this.typeEV = typeEV;
+        this.nombrePersonneInteresse = nombrePersonneInteresse;
+        Capacite = capacite;
+    }
+
+    public Evenement(int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city, String tele, String email, String FB_link, String IG_link, double lat, double lon, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
+        this.IDevent = IDevent;
+        NomEv = nomEv;
+        DatedDebutEV = datedDebutEV;
+        DatedFinEV = datedFinEV;
+        HeureEV = heureEV;
+        DescrptionEv = descrptionEv;
+        Photo = photo;
+        this.lieu = lieu;
+        this.city = city;
+        Tele = tele;
+        Email = email;
+        this.FB_link = FB_link;
+        this.IG_link = IG_link;
+        this.lat = lat;
+        this.lon = lon;
+        GenreEvenement = genreEvenement;
+        this.typeEV = typeEV;
+        this.nombrePersonneInteresse = nombrePersonneInteresse;
+        Capacite = capacite;
     }
 
     @Override
@@ -82,11 +133,13 @@ public class Evenement {
                 ", DescrptionEv='" + DescrptionEv + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", lieu='" + lieu + '\'' +
-                ", city='" + city + '\'' +
+                ", city=" + city +
                 ", Tele='" + Tele + '\'' +
                 ", Email='" + Email + '\'' +
                 ", FB_link='" + FB_link + '\'' +
                 ", IG_link='" + IG_link + '\'' +
+                ", lat=" + lat +
+                ", lon=" + lon +
                 ", GenreEvenement=" + GenreEvenement +
                 ", typeEV=" + typeEV +
                 ", nombrePersonneInteresse=" + nombrePersonneInteresse +
@@ -94,6 +147,21 @@ public class Evenement {
                 '}';
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
     public List<EventReservation> getReservations() {
         return reservations;
     }

@@ -159,10 +159,10 @@ public class AllEventController implements Initializable {
         imageView.setFitHeight(200);
 
         Label countdownLabel = new Label();
-        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getHeureEV());
+        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV());
         countdownLabel.getStyleClass().add("countdown-label");
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getHeureEV()))
+                new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV()))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -186,14 +186,25 @@ public class AllEventController implements Initializable {
     @FXML
     private Label countdownLabel;
 
-    private void updateCountdownLabel(Label countdownLabel, Date eventDate, String heureEV) {
+    private void updateCountdownLabel(Label countdownLabel, Date eventdebutDate, Date eventfinDate, String heureEV) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         LocalTime eventTime = LocalTime.parse(heureEV, formatter);
-        LocalDateTime eventDateTime = LocalDateTime.of(eventDate.toLocalDate(), eventTime);
+        LocalDateTime eventDebutDateTime = LocalDateTime.of(eventdebutDate.toLocalDate(), eventTime);
+        LocalDateTime eventFinDateTime = LocalDateTime.of(eventfinDate.toLocalDate(), eventTime);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        long seconds = ChronoUnit.SECONDS.between(currentDateTime, eventDateTime);
+        if (currentDateTime.isBefore(eventDebutDateTime)) {
+            long seconds = ChronoUnit.SECONDS.between(currentDateTime, eventDebutDateTime);
+            updateLabelWithCountdown(countdownLabel, seconds);
+        } else if (currentDateTime.isAfter(eventFinDateTime)) {
+            countdownLabel.setText("Event has ended.");
+        } else {
+            countdownLabel.setText("Event is happening now.");
+        }
+    }
+
+    private void updateLabelWithCountdown(Label countdownLabel, long seconds) {
         long days = seconds / (24 * 60 * 60);
         long hours = (seconds % (24 * 60 * 60)) / 3600;
         long minutes = ((seconds % (24 * 60 * 60)) % 3600) / 60;

@@ -78,6 +78,7 @@ public class GestionEventController {
         optionsColumn.setCellFactory(param -> new TableCell<Evenement, Void>() {
             private final Button deleteButton = new Button("Delete");
             private final Button modifyButton = new Button("Modify");
+            private final Button reservationButton = new Button("reservation");
 
             {
                 deleteButton.setOnAction(event -> {
@@ -110,6 +111,12 @@ public class GestionEventController {
                         redirectToModifierEvent(eventToModify);
                     }
                 });
+                reservationButton.setOnAction(event -> {
+                    Evenement eventToModify = getTableView().getItems().get(getIndex());
+                    System.out.println(eventToModify);
+                    redirectToEventReservations(eventToModify);
+                });
+
             }
 
             @Override
@@ -118,12 +125,22 @@ public class GestionEventController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox buttons = new HBox(deleteButton, modifyButton);
+                    HBox buttons = new HBox(deleteButton, modifyButton,reservationButton);
                     buttons.setSpacing(5);
                     setGraphic(buttons);
                 }
             }
         });
+// Set preferred column widths
+        idColumn.setPrefWidth(70);  // Adjust the value based on your preference
+        nomColumn.setPrefWidth(120);  // Adjust the value based on your preference
+        dateDebutColumn.setPrefWidth(120);  // Adjust the value based on your preference
+        datefinColumn.setPrefWidth(120);  // Adjust the value based on your preference
+        lieuColumn.setPrefWidth(100);  // Adjust the value based on your preference
+        GenreColumn.setPrefWidth(120);  // Adjust the value based on your preference
+        typeColumn.setPrefWidth(120);  // Adjust the value based on your preference
+        nombrePersonneInteresseColumn.setPrefWidth(150);  // Adjust the value based on your preference
+        CapaciteColumn.setPrefWidth(70);  // Adjust the value based on your preference
 
         eventTableView.getColumns().addAll(idColumn, nomColumn, dateDebutColumn, datefinColumn, lieuColumn, GenreColumn, typeColumn, nombrePersonneInteresseColumn, CapaciteColumn);
         eventTableView.getColumns().add(optionsColumn);
@@ -136,6 +153,27 @@ public class GestionEventController {
         List<Evenement> events = evenementCrud.afficherEvent();
         observableEvents.addAll(events);
         eventTableView.setItems(observableEvents);
+    }
+    @FXML
+    private void redirectToEventReservations(Evenement selectedEvent) {
+//        Evenement selectedEvent = eventTableView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedEvent);
+        if (selectedEvent != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListOfEventReservation.fxml"));
+                Parent root = loader.load();
+                ListOfEventReservation eventReservationController = loader.getController();
+                eventReservationController.setEventId(selectedEvent);
+                Stage stage = (Stage) eventTableView.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                eventReservationController.initialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error loading FXML: " + e.getMessage());
+            }
+        } else {
+            System.err.println("Event not selected.");
+        }
     }
 
     @FXML
@@ -166,9 +204,7 @@ public class GestionEventController {
             ModifierEventController modifierEventController = loader.getController();
             modifierEventController.setEventToModify(eventToModify);
 
-
             Stage stage = (Stage) eventTableView.getScene().getWindow();
-
 
             stage.setScene(new Scene(root));
         } catch (IOException e) {
