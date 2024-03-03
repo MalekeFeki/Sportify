@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.TableColumn?>
+        <?import javafx.scene.control.TableView?>
+        <?import javafx.scene.layout.AnchorPane?>
+        <?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListePaiementsController">
+    <children>
+        <VBox spacing="10" AnchorPane.topAnchor="10.0">
+            <Label text="Paiement History" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+            <TableView fx:id="tableViewPaiement" prefHeight="352.0" prefWidth="925.0">
+                <columns>
+                    <TableColumn fx:id="numeroCarteBancaire" prefWidth="150.0" text="Card Number" />
+                    <TableColumn fx:id="ccv" prefWidth="75.0" text="CCV" />
+                    <TableColumn fx:id="expirationDate" prefWidth="100.0" text="Expiration Date" />
+                    <TableColumn fx:id="datePayment" prefWidth="100.0" text="Date Payment" />
+                    <TableColumn fx:id="hourPayment" prefWidth="100.0" text="Hour Payment" />
+                    <TableColumn fx:id="promoCode" prefWidth="100.0" text="Promo Code" />
+                    <TableColumn fx:id="postalCode" prefWidth="100.0" text="Postal Code" />
+                    <TableColumn fx:id="dateDebutAbonnement" prefWidth="100.0" text="dateDebutAbonnement" />
+                    <TableColumn fx:id="dateFinAbonnement" prefWidth="100.0" text="dateFinAbonnement" />
+
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>

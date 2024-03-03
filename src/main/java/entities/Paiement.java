@@ -10,35 +10,34 @@ import java.util.Objects;
 public class Paiement {
 
     private int idPayment;
-    private String numeroCarteBancaire;
+    private String numeroCarteBancaire = new String();
     private String ccv;
-    private LocalDate expirationDate;
+    private LocalDate expirationDate=LocalDate.now();
     private LocalDate datePayment = LocalDate.now();
     private LocalTime hourPayment = LocalTime.now();
-
-    private LocalDate dateDebutAbonnement;
-    private LocalDate dateFinAbonnement;
-    private double price;
-
     private int userId=1;
     private String PromoCode;
 
     private int PostalCode ;
+    private LocalDate dateDebutAbonnement=LocalDate.now();
+    private LocalDate dateFinAbonnement=LocalDate.now();
+    private double price;
 
-    public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, LocalDate dateDebutAbonnement, LocalDate dateFinAbonnement, double price, int userId, String promoCode, int postalCode) {
+    public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, int userId, String promoCode, int postalCode, LocalDate dateDebutAbonnement, LocalDate dateFinAbonnement, double price) {
         this.idPayment = idPayment;
         this.numeroCarteBancaire = numeroCarteBancaire;
         this.ccv = ccv;
         this.expirationDate = expirationDate;
         this.datePayment = datePayment;
         this.hourPayment = hourPayment;
+        this.userId = userId;
+        PromoCode = promoCode;
+        this.PostalCode = postalCode;
         this.dateDebutAbonnement = dateDebutAbonnement;
         this.dateFinAbonnement = dateFinAbonnement;
         this.price = price;
-        this.userId = userId;
-        PromoCode = promoCode;
-        PostalCode = postalCode;
     }
+
 
     public Paiement(int idPayment, String numeroCarteBancaire, String ccv, LocalDate expirationDate, LocalDate datePayment, LocalTime hourPayment, int userId, String PromoCode, int PostalCode) {
         this.idPayment = idPayment;

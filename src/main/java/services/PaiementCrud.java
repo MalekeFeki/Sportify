@@ -46,7 +46,6 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
         return false; // Return false by default if an exception occurred or user does not exist
     }
 
-
     @Override
     public List<Paiement> read() {
         List<Paiement> paiements = new ArrayList<>();
@@ -62,12 +61,12 @@ public class PaiementCrud implements IPaiementCrud<Paiement> {
                         rs.getDate("expirationDate").toLocalDate(),
                         rs.getDate("datePayment").toLocalDate(),
                         rs.getTime("hourPayment").toLocalTime(),
-                        rs.getDate("dateDebutAbonnement").toLocalDate(),
-                        rs.getDate("dateFinAbonnement").toLocalDate(),
-                        rs.getDouble("price"),
                         rs.getInt("userId"),
                         rs.getString("PromoCode"),
-                        rs.getInt("PostalCode")
+                        rs.getInt("PostalCode"),
+                        rs.getDate("dateDebutAbonnement").toLocalDate(),
+                        rs.getDate("dateFinAbonnement").toLocalDate(),
+                        rs.getDouble("price")
                         );
                 paiements.add(p);
             }

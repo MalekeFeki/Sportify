@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import services.PaiementCrud;
+import services.AdhésionCrud ;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -39,9 +40,6 @@ public class PaiementController {
     private TextField tfpromocode;
 
     @FXML
-    private Button btn_proceed;
-
-    @FXML
     private Button btn_cancel;
 
     @FXML
@@ -57,11 +55,13 @@ public class PaiementController {
     private TextField priceLabel;
     private Runnable onSuccessCallback;
 
+    private final Paiement paiement = new Paiement();
 
-    private PaiementCrud paiementCrud = new PaiementCrud();
+    private final PaiementCrud paiementCrud = new PaiementCrud();
+
 
     public void initialize() {
-        // Set text field event listeners for input validation
+
         tfPostalCode.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 4) {
                 tfPostalCode.setText(oldValue);
@@ -85,12 +85,11 @@ public class PaiementController {
     public void initData(Adhesion adhesionInfo, Runnable onSuccessCallback) {
         this.onSuccessCallback = onSuccessCallback;
         if (adhesionInfo != null) {
-            // Set labels with data from MembershipData object
-            debutDateLabel.setText("Debut Date: " + adhesionInfo.getDateDebut());
-            endDateLabel.setText("End Date: " + adhesionInfo.getDateFin());
-            priceLabel.setText("Price: $" + String.format("%.2f", adhesionInfo.getPrice()));
+            debutDateLabel.setText(String.valueOf(adhesionInfo.getDateDebut()));
+            endDateLabel.setText(String.valueOf(adhesionInfo.getDateFin()));
+            priceLabel.setText(String.format("%.2f", adhesionInfo.getPrice()));
         } else {
-            // Handle null adhesionInfo
+
             System.err.println("Adhesion info is null!");
         }
     }
@@ -101,9 +100,8 @@ public class PaiementController {
             byte[] messageDigest = md.digest(input.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
             String hashText = no.toString(16);
-            // Pad with leading zeros to ensure the hash has a consistent length
             while (hashText.length() < 32) {
-                hashText = "0" + hashText;
+                hashText = hashText + "0";
             }
             return hashText;
         } catch (NoSuchAlgorithmException e) {
@@ -115,7 +113,6 @@ public class PaiementController {
     @FXML
     public void proceedPayment() {
         try {
-            // Retrieve values from text fields in the same order as in the FXML file
             String postalCodeStr = tfPostalCode.getText().trim();
             String cardNumber = tfcardnumber.getText().trim();
             String expirationInput = tfexpiration.getText().trim();
@@ -149,18 +146,16 @@ public class PaiementController {
             // Validate and parse the expiration date
             LocalDate expiration = null;
 
-            if (!expirationInput.isEmpty()) {
-                // Define the expected date format
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-                // Attempt to parse the expiration date
-                try {
-                    expiration = YearMonth.parse(expirationInput, formatter).atDay(1);
-                } catch (DateTimeParseException e) {
-                    showAlert(AlertType.ERROR, "Error", "Invalid date format for expiration date!");
-                    return;
-                }
-
+            // Define the expected date format
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            // Attempt to parse the expiration date
+            try {
+                expiration = YearMonth.parse(expirationInput, formatter).atDay(1);
+            } catch (DateTimeParseException e) {
+                showAlert(AlertType.ERROR, "Error", "Invalid date format for expiration date!");
+                return;
             }
+
             // Validate CCV
             if (ccv.length() > 3 || !ccv.matches("\\d{1,3}")) {
                 ccv = ccv.substring(0, Math.min(ccv.length(), 3)); // Take the first three digits only
@@ -171,8 +166,8 @@ public class PaiementController {
                 promocode = promocode.substring(0, 9); // Take the first nine characters only
             }
 
-            dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 2); // Extracting date after ": "
-            dateFin = dateFin.substring(dateFin.indexOf(":") + 2); // Extracting date after ": "
+            dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 1); // Extracting date after ": "
+            dateFin = dateFin.substring(dateFin.indexOf(":") + 1); // Extracting date after ": "
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dateDebutAbo = LocalDate.parse(dateDebut.trim(), dateFormatter);
             LocalDate dateFinAbo = LocalDate.parse(dateFin.trim(), dateFormatter);
@@ -183,26 +178,22 @@ public class PaiementController {
 
 
             // Check if PaiementCrud is initialized
-            if (paiementCrud != null) {
-                // Call the create method in PaiementCrud to save the payment information
-                paiementCrud.create(paiement);
+            // Call the create method in PaiementCrud to save the payment information
+            paiementCrud.create(paiement);
 
-                // Display a success message
-                showAlert(AlertType.INFORMATION, "Success", "Payment saved successfully!");
+            // Display a success message
+            showAlert(AlertType.INFORMATION, "Success", "Payment saved successfully!");
+            if (onSuccessCallback != null) {
                 onSuccessCallback.run(); // Call the onSuccessCallback
-
-            } else {
-                // If PaiementCrud is not initialized, display an error message
-                showAlert(AlertType.ERROR, "Error", "PaiementCrud is not initialized!");
             }
+            processPaymentSuccess();
+
         } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Error", "Postal Code must be a valid integer!");
+            throw new RuntimeException(e);
         }
     }
 
-
-
-    @FXML
+        @FXML
     public void cancelPayment() {
         // Get the stage from the current button
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
@@ -244,6 +235,50 @@ public class PaiementController {
         alert.showAndWait();
     }
 
-}
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
+    private void processPaymentSuccess() {
+        // Here you can create the adhesion or perform any other action after a successful payment
+        System.out.println("Payment successful! Creating adhesion...");
+
+        //  if (adhesion != null && paiementCrud != null) {
+        // Attempt to create the payment
+        boolean paymentCreated = paiementCrud.create(paiement);
+        if (paymentCreated) {
+
+            LocalDate debutDate = LocalDate.parse(debutDateLabel.getText().split(":")[1].trim());
+            LocalDate endDate = LocalDate.parse(endDateLabel.getText().split(":")[1].trim());
+            double price = Double.parseDouble(priceLabel.getText().trim());
+
+            Adhesion adhesion = new Adhesion(debutDate, endDate, price);
+            //boolean adhesionCreated = AdhésionCrud.createAdhésion(adhesion);
+//                if (adhesionCreated) {
+//                    System.out.println("Adhesion created successfully!");
+//                } else {
+//                    System.err.println("Error: Failed to create adhesion!");
+//                    // Handle the case where adhesion creation failed
+//                    // For example, show an error message to the user
+//                    showAlert("Failed to create adhesion!");
+//                }
+//            } else {
+//                System.err.println("Error: Failed to create payment!");
+//                // Handle the case where payment creation failed
+//                // For example, show an error message to the user
+//                showAlert("Failed to create payment!");
+//            }
+//       // } else {
+//            System.err.println("Error: Adhesion or PaiementCrud is null!");
+//            // Handle the case where adhesion or paiementCrud is null
+//            // For example, show an error message to the user
+//            showAlert("Error", "Adhesion or PaiementCrud is null!");
+//            return false; // Adhesion or PaiementCrud is null
+//        }
+        }
+    }}
 
