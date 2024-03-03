@@ -5,7 +5,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import entities.Salle;
@@ -18,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import services.SalleCrud;
+
 
 
 public class SalleListeController {
@@ -64,60 +69,81 @@ public class SalleListeController {
     private Hyperlink hyperlink;
 
     private SalleCrud salleCrud;
+
+
+    private void refreshTableView() {
+        // get data de la BD
+        ObservableList<Salle> gymsList = FXCollections.observableArrayList(salleCrud.getAllSalles());
+
+        // Mettre les items dans la table
+        gymsTableView.setItems(gymsList);
+    }
     SalleCrud salleservices = new SalleCrud();
+
+
+
+
 
     @FXML
     void initialize() {
-        AdminButton.setOnAction(event -> {
-            try {
-                // Chargez la page d'authentification depuis le fichier FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListeAdmin.fxml"));
-                Parent root = loader.load();
-
-                // Créez une nouvelle scène et un nouveau stage
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-
-                // Affichez la nouvelle scène
-                stage.show();
-
-                // Fermez la fenêtre actuelle
-                ((Stage) hyperlink.getScene().getWindow()).close();
-            } catch (IOException e) {
-                e.printStackTrace(); // Gérez l'exception selon vos besoins
-            }
-        });
-
         salleCrud = new SalleCrud();
-        // Set up cell value factories for each column
 
         nomColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("nomS"));
         adresseColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("adresse"));
         regionColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("region"));
-        optionsColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("options"));
+        optionsColumn.setCellValueFactory(cellData -> {
+            Set<String> options = cellData.getValue().getOptions();
+            String optionsString = options != null ? String.join(", ", options) : "";
+            return new SimpleStringProperty(optionsString);
+        });
 
-        // Retrieve and print the list of Salle objects from the database
+        // Refresh la table
+        gymsTableView.refresh();
+
+
         List<Salle> salleList = salleCrud.afficherSalle();
 
-        // Debug: Print the list of Salle objects
-        for (Salle salle : salleList) {
-            System.out.println(salle);
-        }
-
-        // Convert the list to an ObservableList
+        // list to observable list
         ObservableList<Salle> salleObservableList = FXCollections.observableArrayList(salleList);
 
-        // Set the items of the TableView with the ObservableList
+
         gymsTableView.setItems(salleObservableList);
-        loadGymsData();
+
+        // Set up auto-completion for the search TextField
+        List<String> salleNames = salleCrud.getAllSalles().stream()
+                .map(Salle::getNomS)
+                .collect(Collectors.toList());
+
+        TextFields.bindAutoCompletion(searchTextField, salleNames);
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Filtrer la TableView en fonction du texte de recherche
+            filterTableView(newValue);
+
+
+        });
     }
 
+    private void filterTableView(String searchText) {
+        // Créer un prédicat pour filtrer les éléments de la TableView
+        Predicate<Salle> predicate = salle ->
+                salle.getNomS().toLowerCase().contains(searchText.toLowerCase());
 
+        // Créer une liste filtrée à partir de la liste originale des utilisateurs
+        List<Salle> filteredList = salleCrud.getAllSalles().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+
+        // Effacer toutes les lignes existantes dans la TableView
+        gymsTableView.getItems().clear();
+
+        // Ajouter les éléments filtrés à la TableView
+        gymsTableView.getItems().addAll(filteredList);
+    }
     private void loadGymsData() {
-        // Retrieve gyms from the database
+
         ObservableList<Salle> gymsList = FXCollections.observableArrayList(salleCrud.getAllSalles());
 
-        // Set the items in the TableView
         gymsTableView.setItems(gymsList);
     }
 
@@ -131,25 +157,71 @@ public class SalleListeController {
         gymsTableView.getItems().addAll(allSalles);
     }
 
-    public void handleAdminButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleAdminButton(ActionEvent event) {
+        // Load the SalleListeAdmin.fxml file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListeAdmin.fxml"));
         try {
-            FXMLLoader loader=new FXMLLoader(getClass().getResource("/SalleListeAdmin.fxml"));
-            Parent rootParent= loader.load();
+            Parent root = loader.load();
 
-            Scene rootScene = new Scene(rootParent);
-
+            // Set up the stage
             Stage stage = new Stage();
-            stage.setTitle("Salle Liste Admin");
-            stage.setScene(rootScene);
+            stage.setTitle("Admin Page");
+            stage.setScene(new Scene(root));
+            stage.show();
 
-            Stage cureentStage= (Stage) AdminButton.getScene().getWindow();
-            cureentStage.close();
+            // Close the current stage
+            Stage currentStage = (Stage) AdminButton.getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    @FXML
+    private void handleAfficherButton(ActionEvent event) {
+        // LoadSalleListeAdmin.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
+        Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
+        try {
+            Parent root = loader.load();
+
+            // Set up the stage
+            Stage stage = new Stage();
+            stage.setTitle("Salle Profil");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Close the current stage (optional)
+            Stage currentStage = (Stage) afficherButton.getScene().getWindow();
+            currentStage.close();
+
 
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
+
+    private void openSalleProfile(Salle salle) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
+            Parent root = loader.load();
+            SalleProfilController salleProfileController = loader.getController();
+            salleProfileController.initData(salle);
+
+            gymsTableView.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+
 
 
     // Rafraîchir la TableView après la suppression

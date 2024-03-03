@@ -10,6 +10,8 @@ public interface ISalleCrud<T> {
 
     public void modifierSalle(T u);
 
-    public void supprimerSalle(T u);
 
-    }
+    void supprimerSalle(int id);
+
+    void supprimertoutSalle(String nom);
+}

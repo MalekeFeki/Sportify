@@ -13,8 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.SalleCrud;
+import java.io.File;
 import services.UtilisateurCrud;
 
 public class SalleAjoutController {
@@ -47,10 +51,15 @@ public class SalleAjoutController {
     private CheckBox parkingCheckBox;
 
     @FXML
-    private TextField regionTextField;
+    private ComboBox<String> regionComboBox;
 
     @FXML
     private CheckBox wifiCheckBox;
+    private File selectedImageFile;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private Button selectImageButton;
 
     // Liste des régions tunisiennes valides
     private static final List<String> REGIONS_TUNISIENNES = Arrays.asList(
@@ -61,12 +70,15 @@ public class SalleAjoutController {
 
     @FXML
     void initialize() {
+        // Initialize the ComboBox with the predefined values
+        regionComboBox.getItems().addAll("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba",
+                "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine",
+                "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
     }
 
     @FXML
     private void handleAnnulerButton() {
-        // Add code here to handle the cancel button action
-        // For example, close the window or clear the form fields
+
         Stage stage = (Stage) annulerButton.getScene().getWindow();
         stage.close();
     }
@@ -75,58 +87,76 @@ public class SalleAjoutController {
     void saveSalle(ActionEvent event) {
         // Validate input fields
         if (isValidInput()) {
-            // Input is valid, proceed to save the salle in the BD
-
-            String region = regionTextField.getText().trim();
-            if (!isValidRegion(region)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Veuillez saisir une région tunisienne valide.", ButtonType.OK);
-                alert.show();
-                return;
-            }
+            String region = regionComboBox.getValue();
+//            if (!isValidRegion(region)) {
+//                showAlert("Erreur de validation", "Veuillez saisir une région tunisienne valide.", Alert.AlertType.ERROR);
+//                return;
+//            }
 
             Set<String> options = new HashSet<>();
+            if (wifiCheckBox.isSelected()) options.add("wifi");
+            if (parkingCheckBox.isSelected()) options.add("parking");
+            if (nutritionnisteCheckBox.isSelected()) options.add("nutritionniste");
+            if (climatisationCheckBox.isSelected()) options.add("climatisation");
 
-            if (wifiCheckBox.isSelected()) {
-                options.add("wifi");
-            }
-
-            if (parkingCheckBox.isSelected()) {
-                options.add("parking");
-            }
-
-            if (nutritionnisteCheckBox.isSelected()) {
-                options.add("nutritionniste");
-            }
-
-            if (climatisationCheckBox.isSelected()) {
-                options.add("climatisation");
-            }
-            Salle s = new Salle(nomTextField.getText(), adresseTextField.getText(), regionTextField.getText(), options);
+            Salle s = new Salle(nomTextField.getText(), adresseTextField.getText(), region, options);
             SalleCrud sc = new SalleCrud();
-            sc.ajouterSalle(s);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salle ajouté", ButtonType.OK);
-            alert.show();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListe.fxml"));
+            // Try saving la salle
             try {
-                Parent root = loader.load();
-                SalleListeController luc = loader.getController();
-
-                nomTextField.getScene().setRoot(root);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                sc.ajouterSalle(s);
+                showAlert("Confirmation", "Salle ajoutée avec succès.", Alert.AlertType.INFORMATION);
+                loadSalleListeFXML();
+            } catch (Exception e) {
+                showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de la salle.", Alert.AlertType.ERROR);
+                e.printStackTrace(); // Consider logging the exception for further analysis
             }
         }
     }
 
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void loadSalleListeFXML() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListe.fxml"));
+            Parent root = loader.load();
+            SalleListeController luc = loader.getController();
+            nomTextField.getScene().setRoot(root);
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible de charger la page suivante.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleSelectImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            // charger l'image dans imageView
+            Image selectedImage = new Image(selectedFile.toURI().toString());
+            imageView.setImage(selectedImage);
+
+        }
+    }
+
     private boolean isValidInput() {
-        if (nomTextField.getText().isEmpty() || adresseTextField.getText().isEmpty() || regionTextField.getText().isEmpty()) {
+        if (nomTextField.getText().isEmpty() || adresseTextField.getText().isEmpty() || regionComboBox.getValue().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Veuillez remplir tous les champs.", ButtonType.OK);
             alert.show();
             return false;
         }
 
-        // You can add more specific validation criteria if needed
+
 
         return true;
     }
@@ -134,9 +164,9 @@ public class SalleAjoutController {
 
 
     // Méthode pour vérifier si la région est valide
-    private boolean isValidRegion(String region) {
-        return REGIONS_TUNISIENNES.contains(region);
-    }
+//    private boolean isValidRegion(String region) {
+//        return REGIONS_TUNISIENNES.contains(region);
+//    }
 
 
 

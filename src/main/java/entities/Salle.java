@@ -24,7 +24,13 @@ public class Salle {
 
     }
 
-
+    public Salle(int idS, String nomS, String adresse, String region, Set<String> options) {
+        this.idS = idS;
+        this.nomS = nomS;
+        this.adresse = adresse;
+        this.region = region;
+        this.options = options;
+    }
 
     public int getIdS() {
         return idS;
@@ -68,10 +74,12 @@ public class Salle {
 
     @Override
     public String toString() {
-        return "Salle De Sport{" +
+        return "Salle{" +
                 "idS=" + idS +
-                ", nom=" + nomS +
-                ", adresse=" + adresse +
-                ", region='" + region + '\'';
+                ", nomS='" + nomS + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", region='" + region + '\'' +
+                ", options=" + options +
+                '}';
     }
 }

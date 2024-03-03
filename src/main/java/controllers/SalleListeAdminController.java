@@ -1,16 +1,27 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import entities.Salle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import services.SalleCrud;
 
 
@@ -58,28 +69,72 @@ public class SalleListeAdminController {
     @FXML
     void initialize() {
         salleCrud = new SalleCrud();
-        // Set up cell value factories for each column
-
         nomColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("nomS"));
         adresseColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("adresse"));
         regionColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("region"));
-        optionsColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("options"));
+        optionsColumn.setCellValueFactory(cellData -> {
+            Set<String> options = cellData.getValue().getOptions();
+            String optionsString = options != null ? String.join(", ", options) : "";
+            return new SimpleStringProperty(optionsString);
+        });
 
-        // Retrieve and print the list of Salle objects from the database
+        //
+        gymsTableView.refresh();
+
+        //
         List<Salle> salleList = salleCrud.afficherSalle();
 
-        // Debug: Print the list of Salle objects
-        for (Salle salle : salleList) {
-            System.out.println(salle);
-        }
-
-        // Convert the list to an ObservableList
+        //
         ObservableList<Salle> salleObservableList = FXCollections.observableArrayList(salleList);
 
-        // Set the items of the TableView with the ObservableList
+        //
         gymsTableView.setItems(salleObservableList);
-        loadGymsData();
+
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Filtrer la TableView en fonction du texte de recherche
+            filterTableView(newValue);
+
+
+        });
     }
+
+    private void filterTableView(String searchText) {
+        // Créer un prédicat pour filtrer les éléments de la TableView
+        Predicate<Salle> predicate = salle ->
+                salle.getNomS().toLowerCase().contains(searchText.toLowerCase());
+
+        // Créer une liste filtrée à partir de la liste originale des utilisateurs
+        List<Salle> filteredList = salleCrud.getAllSalles().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+
+        // Effacer toutes les lignes existantes dans la TableView
+        gymsTableView.getItems().clear();
+
+        // Ajouter les éléments filtrés à la TableView
+        gymsTableView.getItems().addAll(filteredList);
+    }
+
+
+    private void loadGymsData() {
+        // Prendre données de la BD
+        ObservableList<Salle> gymsList = FXCollections.observableArrayList(salleCrud.getAllSalles());
+
+
+        gymsTableView.setItems(gymsList);
+    }
+
+
+    private void refreshTableViewData() {
+        // Effacez toutes les lignes existantes dans la TableView
+        gymsTableView.getItems().clear();
+        // Chargez toutes les données depuis la bBD
+        List<Salle> allSalles = SalleCrud.getInstance().getAllSalles();
+        // Ajoutez les données dans la Table
+        gymsTableView.getItems().addAll(allSalles);
+    }
+
 
 
 
@@ -103,9 +158,27 @@ public class SalleListeAdminController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            salleCrud.modifierSalle(salle);
-            // Rafraîchissez les données dans la TableView après la mise à jour.
-            // refreshTableViewData();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleModifier.fxml"));
+            try {
+                Parent root = loader.load();
+                // Set the controller
+                SalleModifController controller = loader.getController();
+                controller.setSalle(salle);
+                // Set up the stage
+                Stage stage = new Stage();
+                stage.setTitle("Admin Page");
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                // Close the current stage (optional)
+                Stage currentStage = (Stage) modifierButton.getScene().getWindow();
+                currentStage.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+
         }
     }
 
@@ -117,14 +190,13 @@ public class SalleListeAdminController {
         alert.setHeaderText(null);
         alert.setContentText("Voulez-vous vraiment supprimer cette salle ?");
 
-        // No need to create a new instance of Salle here
-        // Salle salle = new Salle();
+
 
         Optional<ButtonType> result = alert.showAndWait();
         Salle selectedSalle = gymsTableView.getSelectionModel().getSelectedItem();
 
         if (result.isPresent() && result.get() == ButtonType.OK && selectedSalle != null) {
-            salleservices.supprimerSalle(selectedSalle);
+            salleservices.supprimerSalle(selectedSalle.getIdS());
             System.out.println("Supprimé du tableview");
 
             // Mettre à jour l'affichage en supprimant la salle de la TableView
@@ -133,28 +205,7 @@ public class SalleListeAdminController {
     }
 
 
-    private void loadGymsData() {
-        // Retrieve gyms from the database
-        ObservableList<Salle> gymsList = FXCollections.observableArrayList(salleCrud.getAllSalles());
 
-        // Set the items in the TableView
-        gymsTableView.setItems(gymsList);
-    }
-
-
-    private void refreshTableViewData() {
-        // Effacez toutes les lignes existantes dans la TableView
-        gymsTableView.getItems().clear();
-        // Chargez à nouveau toutes les données depuis votre base de données
-        List<Salle> allSalles = SalleCrud.getInstance().getAllSalles();
-        // Ajoutez les données rechargées dans la TableView
-        gymsTableView.getItems().addAll(allSalles);
-    }
-
-
-
-    // Rafraîchir la TableView après la suppression
-//            refreshTableViewData();
 }
 
 

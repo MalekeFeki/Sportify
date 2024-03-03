@@ -2,16 +2,15 @@ package services;
 
 
 import entities.Salle;
+
 import tools.MyConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SalleCrud implements ISalleCrud<Salle> {
-    Connection cnx2;
+    static Connection cnx2;
 
     public SalleCrud() {
 
@@ -65,85 +64,211 @@ public class SalleCrud implements ISalleCrud<Salle> {
         }
     }
 
+//    @Override
+//    public List<Salle> afficherSalle() {
+//        List<Salle> salles = new ArrayList<>();
+//        String req3 = "SELECT * FROM salle";
+//        try /*(PreparedStatement pst = cnx2.prepareStatement(req3))*/{
+//            Statement stm = cnx2.createStatement();
+//            ResultSet rs = stm.executeQuery(req3);
+//            while (rs.next()) {
+//                Salle s = new Salle();
+//                s.setIdS(rs.getInt(1));
+//                s.setNomS(rs.getString("nom"));
+//                s.setAdresse(rs.getString(3));
+//                s.setRegion(rs.getString(4));
+//                salles.add(s);
+//            }
+//            // Print the list of Salle objects
+//            for (Salle salle : salles) {
+//                System.out.println(salle);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return salles;
+//    }
+
+
     @Override
     public List<Salle> afficherSalle() {
         List<Salle> salles = new ArrayList<>();
         String req3 = "SELECT * FROM salle";
-        try (PreparedStatement pst = cnx2.prepareStatement(req3)){
+        try {
             Statement stm = cnx2.createStatement();
-            ResultSet rs = stm.executeQuery(req3);
-            while (rs.next()) {
-                Salle s = new Salle();
+            ResultSet rs=stm.executeQuery(req3);
+            while (rs.next()){
+                Salle s=new Salle();
                 s.setIdS(rs.getInt(1));
                 s.setNomS(rs.getString("nom"));
                 s.setAdresse(rs.getString(3));
                 s.setRegion(rs.getString(4));
+
+                String optionsString = rs.getString("options");
+                Set<String> options = new HashSet<>(Arrays.asList(optionsString.split(",")));
+
+// Trim each option to remove leading and trailing spaces
+                Set<String> trimmedOptions = options.stream().map(String::trim).collect(Collectors.toSet());
+
+                s.setOptions(trimmedOptions);
+
+
                 salles.add(s);
-            }
-            // Print the list of Salle objects
-            for (Salle salle : salles) {
-                System.out.println(salle);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return salles;
     }
+
 
 
     @Override
     public void modifierSalle(Salle s) {
-        String req2 = "UPDATE salle SET nomS=?, adresse=?, region=?  WHERE idS=?";
+        String req2 = "UPDATE salle SET nom=?, adresse=?, region=?, options=? WHERE idS=?";
+        System.out.println(s);
+
+        Set<String> options = s.getOptions();
+        String optionsString = String.join(",", options);
+
         try {
             PreparedStatement pst = cnx2.prepareStatement(req2);
-            pst.setInt(1, s.getIdS());
-            pst.setString(2, s.getNomS());
-            pst.setString(3, s.getAdresse());
-            pst.setString(4, s.getRegion());
+            pst.setString(1, s.getNomS());
+            pst.setString(2, s.getAdresse());
+            pst.setString(3, s.getRegion());
+            pst.setString(4,optionsString);
+            pst.setInt(5, s.getIdS());
 
             pst.executeUpdate();
-            System.out.println("Salle modifié");
+
+
+                System.out.println("Salle modifié");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
+
+    public Set<String> parseOptionsString(String optionsString) {
+        String[] optionsArray = optionsString.split(", ");
+        return new HashSet<>(Arrays.asList(optionsArray));
+    }
+
+    @Override
+    public void supprimerSalle(int id) {
+        String req3 = "DELETE FROM salle WHERE idS=?";
+        try {
+            PreparedStatement pst = cnx2.prepareStatement(req3);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            System.out.println("Salle supprimé");
+            // Réinitialiser la séquence d'auto-incrémentation
+            String resetSequenceQuery = "ALTER TABLE salle AUTO_INCREMENT = 1";
+            PreparedStatement resetSequenceStatement = cnx2.prepareStatement(resetSequenceQuery);
+            resetSequenceStatement.executeUpdate();
+            System.out.println("Séquence réinitialisée");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void supprimerSalle(Salle u) {
-        String req3 = "DELETE FROM salle WHERE idS = '" + u.getIdS() + "'";
+    public void supprimertoutSalle(String nom) {
+        String req3 = "DELETE FROM salle WHERE nom=?";
         try {
-            Statement st = cnx2.createStatement();
-            st.executeUpdate(req3);
+            PreparedStatement pst = cnx2.prepareStatement(req3);
+            pst.setString(1, nom);
+            pst.executeUpdate();
             System.out.println("Salle supprimé");
+            // Réinitialiser la séquence d'auto-incrémentation
+            String resetSequenceQuery = "ALTER TABLE salle AUTO_INCREMENT = 1";
+            PreparedStatement resetSequenceStatement = cnx2.prepareStatement(resetSequenceQuery);
+            resetSequenceStatement.executeUpdate();
+            System.out.println("Séquence réinitialisée");
         } catch (SQLException e) {
-            System.out.println("test " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
+
+
+
+
+
 
     private static final String SELECT_ALL_GYMS_QUERY = "SELECT * FROM salle";
 
+//    public List<Salle> getAllSalles() {
+//        List<Salle> salles = new ArrayList<>();
+//
+//        try (Connection connection = MyConnection.getInstance().getCnx();
+//             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_GYMS_QUERY);
+//             ResultSet resultSet = preparedStatement.executeQuery()) {
+//
+//            while (resultSet.next()) {
+//                String nom = resultSet.getString("nom");
+//                String adresse = resultSet.getString("adresse");
+//                String region = resultSet.getString("region");
+//                String options = resultSet.getString("options");
+//
+//                // Create a Salle object and add it to the list
+//                Salle salle = new Salle(nom, adresse, region, Collections.singleton(options));
+//                salles.add(salle);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            // Handle any SQL exception according to your application's requirements
+//        }
+//
+//        return salles;
+//    }
+
     public List<Salle> getAllSalles() {
-        List<Salle> salles = new ArrayList<>();
+        List<Salle> salles= new ArrayList<>();
 
-        try (Connection connection = MyConnection.getInstance().getCnx();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_GYMS_QUERY);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        // Préparer la requête SQL pour récupérer tous les Salles
+        String sql = "SELECT * FROM salle";
+        try (PreparedStatement statement = cnx2.prepareStatement(sql)) {
+            // Exécuter la requête et récupérer le résultat
+            try (ResultSet resultSet = statement.executeQuery()) {
+                // Parcourir le résultat et ajouter chaque Salle à la liste
+                while (resultSet.next()) {
+                    Salle Salle = new Salle();
+                    Salle.setNomS(resultSet.getString("nom"));
+                    Salle.setAdresse(resultSet.getString("adresse"));
+                    Salle.setRegion(resultSet.getString("region"));
+                    String options = resultSet.getString("options");
+                    salles.add(Salle);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return salles;
+    }
 
-            while (resultSet.next()) {
-                String nom = resultSet.getString("nom");
-                String adresse = resultSet.getString("adresse");
-                String region = resultSet.getString("region");
-                String options = resultSet.getString("options");
+    public static Salle getSallesById(int id) {
+        Salle salle = null;
+        String query = "SELECT * FROM salle WHERE id = ?";
+        try (PreparedStatement pst = cnx2.prepareStatement(query)) {
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    salle = new Salle();
+                    salle.setNomS(rs.getString("nom"));
+                    salle.setAdresse(rs.getString("adresse"));
+                    salle.setRegion(rs.getString("region"));
+                    String options = rs.getString("options");
 
-                // Create a Salle object and add it to the list
-                Salle salle = new Salle(nom, adresse, region, Collections.singleton(options));
-                salles.add(salle);
+                    // Ajoutez d'autres champs selon vos besoins
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle any SQL exception according to your application's requirements
         }
-
-        return salles;
+        return salle;
     }
+
+    
 }

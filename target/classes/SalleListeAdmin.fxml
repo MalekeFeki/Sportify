@@ -1,50 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import java.net.URL?>
-        <?import javafx.scene.control.Button?>
-        <?import javafx.scene.control.Label?>
-        <?import javafx.scene.control.TableColumn?>
-        <?import javafx.scene.control.TableView?>
-        <?import javafx.scene.control.TextField?>
-        <?import javafx.scene.image.Image?>
-        <?import javafx.scene.image.ImageView?>
-        <?import javafx.scene.layout.AnchorPane?>
-        <?import javafx.scene.layout.HBox?>
-        <?import javafx.scene.shape.Rectangle?>
-        <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeAdminController">
+<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeAdminController">
     <children>
-        <ImageView fitHeight="400.0" fitWidth="707.0">
+        <ImageView fitHeight="492.0" fitWidth="744.0">
             <image>
                 <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="707.0" />
-        <HBox layoutX="66.0" layoutY="92.0" spacing="10.0">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
+        <HBox layoutX="84.0" layoutY="122.0" spacing="10.0">
             <children>
-                <Label text="Rechercher" textFill="#FF7F50">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="searchTextField" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <TextField fx:id="searchTextField" prefWidth="150.0" promptText="Rechercher.." style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
             </children>
         </HBox>
-        <TableView fx:id="gymsTableView" editable="true" layoutX="66.0" layoutY="140.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+        <TableView fx:id="gymsTableView" editable="true" layoutX="84.0" layoutY="177.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="50.0" text="Id" />
                 <TableColumn fx:id="nomColumn" prefWidth="126.39996337890625" text="Nom" />
                 <TableColumn fx:id="adresseColumn" prefWidth="191.20001220703125" text="Adresse" />
                 <TableColumn fx:id="regionColumn" prefWidth="92.79998779296875" text="Région" />
                 <TableColumn fx:id="optionsColumn" prefWidth="166.40008544921875" text="Options" />
             </columns>
         </TableView>
-        <HBox layoutX="27.0" layoutY="360.0" spacing="10.0">
+        <HBox layoutX="33.0" layoutY="442.0" spacing="10.0">
             <children>
                 <Button fx:id="afficherButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
-                <Button fx:id="modifierButton" mnemonicParsing="false"  style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
-                <Button fx:id="supprimerButton" mnemonicParsing="false"  style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer" />
+                <Button fx:id="modifierButton" mnemonicParsing="false" onAction="#handleUpdateButtonAction" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
+                <Button fx:id="supprimerButton" mnemonicParsing="false" onAction="#buttonSupprimer" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer" />
             </children>
         </HBox>
         <ImageView fitHeight="61.0" fitWidth="122.0">
