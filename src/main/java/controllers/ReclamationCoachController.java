@@ -77,12 +77,16 @@ public class ReclamationCoachController {
         String texteReclamation = texte_reclamation.getText();
         if (!texteReclamation.isEmpty()) {
             if (texteReclamation.length() <= 20) {
-                Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
-                reclamationCrud.ajouterReclamation(nouvelleReclamation);
-                afficherMessage("Réclamation ajoutée avec succès");
-                viderChamps();
-                chargerDonnees();
-                nombreTentativesAjout++;
+                if (!BadWordsDetector.containsBadWord(texteReclamation)) {
+                    Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
+                    reclamationCrud.ajouterReclamation(nouvelleReclamation);
+                    afficherMessage("Réclamation ajoutée avec succès");
+                    viderChamps();
+                    chargerDonnees();
+                    nombreTentativesAjout++;
+                } else {
+                    afficherMessageErreur("La réclamation contient des mots inappropriés.");
+                }
             } else {
                 afficherMessageErreur("La réclamation ne doit pas dépasser 20 caractères.");
             }
@@ -98,13 +102,17 @@ public class ReclamationCoachController {
             if (reclamation != null) {
                 String nouveauTexteReclamation = texte_reclamation.getText();
                 if (!nouveauTexteReclamation.isEmpty()) {
-                    String ancienTexteReclamation = reclamation.getTexte();
-                    reclamation.setTexte(nouveauTexteReclamation);
-                    reclamationCrud.modifierReclamation(reclamation, ancienTexteReclamation);
-                    afficherMessage("Réclamation modifiée avec succès");
-                    viderChamps();
-                    chargerDonnees();
-                    nombreTentativesModification++;
+                    if (!BadWordsDetector.containsBadWord(nouveauTexteReclamation)) {
+                        String ancienTexteReclamation = reclamation.getTexte();
+                        reclamation.setTexte(nouveauTexteReclamation);
+                        reclamationCrud.modifierReclamation(reclamation, ancienTexteReclamation);
+                        afficherMessage("Réclamation modifiée avec succès");
+                        viderChamps();
+                        chargerDonnees();
+                        nombreTentativesModification++;
+                    } else {
+                        afficherMessageErreur("La réclamation contient des mots inappropriés.");
+                    }
                 } else {
                     afficherMessageErreur("Veuillez saisir le nouveau texte de la réclamation");
                 }
