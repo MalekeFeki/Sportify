@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.String ;
 import entities.Adhesion;
 import entities.Paiement;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ public class PaiementController {
     private Button btn_cancel;
 
     @FXML
-    private Button btn_Show ;
+    private Button btn_Show;
 
     @FXML
     private TextField debutDateLabel;
@@ -53,7 +54,7 @@ public class PaiementController {
     private TextField endDateLabel;
 
     @FXML
-    private TextField priceLabel ;
+    private TextField priceLabel;
     private Runnable onSuccessCallback;
 
 
@@ -81,8 +82,8 @@ public class PaiementController {
         });
     }
 
-    public void initData(Adhesion adhesionInfo,Runnable onSuccessCallback) {
-        this.onSuccessCallback = onSuccessCallback ;
+    public void initData(Adhesion adhesionInfo, Runnable onSuccessCallback) {
+        this.onSuccessCallback = onSuccessCallback;
         if (adhesionInfo != null) {
             // Set labels with data from MembershipData object
             debutDateLabel.setText("Debut Date: " + adhesionInfo.getDateDebut());
@@ -127,6 +128,12 @@ public class PaiementController {
             String price = priceLabel.getText().trim();
 
             // Validate postal code
+            if (!postalCodeStr.matches("\\d+")) {
+                showAlert(AlertType.ERROR, "Error", "Postal Code must be a valid integer!");
+                return;
+            }
+
+            // Validate postal code
             if (postalCodeStr.length() > 4) {
                 postalCodeStr = postalCodeStr.substring(0, 4); // Take the first four characters only
             }
@@ -134,8 +141,7 @@ public class PaiementController {
             int postalCode = Integer.parseInt(postalCodeStr);
 
             // Validate card number, expiration, and ccv
-            // (You may need to implement further validation logic for card number and expiration)
-            if (cardNumber.isEmpty() || expirationInput.isEmpty() || ccv.isEmpty() || promocode.isEmpty()) {
+            if (cardNumber.isEmpty() || expirationInput.isEmpty() || ccv.isEmpty() || promocode.isEmpty() || postalCodeStr.isEmpty()) {
                 showAlert(AlertType.ERROR, "Error", "All fields must be filled!");
                 return;
             }
@@ -165,11 +171,15 @@ public class PaiementController {
                 promocode = promocode.substring(0, 9); // Take the first nine characters only
             }
 
-            LocalDate dateDebutAbo = LocalDate.parse(dateDebut);
-            LocalDate dateFinAbo =   LocalDate.parse(dateFin);
+            dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 2); // Extracting date after ": "
+            dateFin = dateFin.substring(dateFin.indexOf(":") + 2); // Extracting date after ": "
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateDebutAbo = LocalDate.parse(dateDebut.trim(), dateFormatter);
+            LocalDate dateFinAbo = LocalDate.parse(dateFin.trim(), dateFormatter);
             double newPriceFormat = Double.parseDouble(price);
             // Create a new Paiement object with the retrieved values
-            Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode,dateDebutAbo,dateFinAbo,newPriceFormat);
+
+            Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode, dateDebutAbo, dateFinAbo, newPriceFormat);
 
 
             // Check if PaiementCrud is initialized
@@ -191,6 +201,7 @@ public class PaiementController {
     }
 
 
+
     @FXML
     public void cancelPayment() {
         // Get the stage from the current button
@@ -199,29 +210,32 @@ public class PaiementController {
         // Close the stage
         stage.close();
     }
-//     public void ShowPayments() {
-//      try {
-//            // Load the FXML file for the new interface
-//            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
-//            Parent root = loader.load();
-//
-//            // Get the stage from the current button
-//            Stage stage = (Stage) btn_Show.getScene().getWindow();
-//
-//            // Set the new scene
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();
-//        } catch (IOException e) {
-//            // FXML file loading failed
-//            System.err.println("Error loading FXML file: " + e.getMessage());
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            // Other unexpected exceptions
-//            System.err.println("Unexpected error: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
+
+    public void ShowPayments() {
+        try {
+            // Load the FXML file for the new interface
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
+            Parent root = loader.load();
+
+            // Get the stage from the current button
+            Stage stage = (Stage) btn_Show.getScene().getWindow();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // FXML file loading failed
+            System.err.println("Error loading FXML file: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Other unexpected exceptions
+            System.err.println("Unexpected error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -230,5 +244,6 @@ public class PaiementController {
         alert.showAndWait();
     }
 
-
 }
+
+
