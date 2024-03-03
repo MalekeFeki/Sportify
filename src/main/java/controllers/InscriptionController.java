@@ -63,6 +63,14 @@ public class InscriptionController {
     private TableView<Utilisateur> tableView;
     private List<Utilisateur> registeredUsers;
     private Stage primaryStage;
+
+    @FXML
+    private TextField tfshowpassword;
+
+    @FXML
+    private CheckBox show;
+    @FXML
+    private Label passwordStrengthLabel;
     // Twilio account credentials
     private static final String ACCOUNT_SID = "ACd6178ca26eb4a78ebcf30b381f0ebeab";
     private static final String AUTH_TOKEN = "9c80cfd68e4cd0692781ba469c2e819b";
@@ -75,7 +83,55 @@ public class InscriptionController {
     public void setHomePage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+    @FXML
+    void initialize() {
 
+        show.setOnAction(event -> handleShowPassCheckboxClick());
+        tfshowpassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (show.isSelected()) {
+                tfmdp.setText(newValue);
+            }
+        });
+
+        tfmdp.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (show.isSelected()) {
+                tfshowpassword.setText(newValue);
+            }
+
+        // Vérifier la force du mot de passe et mettre à jour le label en conséquence
+        String password = newValue;
+        if (password.length() < 8 || !password.matches(".*[A-Z].*")) {
+            // Si le mot de passe ne répond pas aux critères de force, afficher un message en rouge
+            passwordStrengthLabel.setText("Le mot de passe doit contenir au moins 8 caractères et au moins une majuscule!");
+            passwordStrengthLabel.setStyle("-fx-text-fill: red;");
+        } else {
+            // Si le mot de passe est fort, afficher un message en vert
+            passwordStrengthLabel.setText("Mot de passe fort.");
+            passwordStrengthLabel.setStyle("-fx-text-fill: green;");
+        }
+    });
+        hyperlink.setOnAction(event -> {
+            try {
+                // Chargez la page d'authentification depuis le fichier FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                Parent root = loader.load();
+
+                // Créez une nouvelle scène et un nouveau stage
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+
+                // Affichez la nouvelle scène
+                stage.show();
+
+                // Fermez la fenêtre actuelle
+                ((Stage) hyperlink.getScene().getWindow()).close();
+            } catch (IOException e) {
+                e.printStackTrace(); // Gérez l'exception selon vos besoins
+            }
+
+        });
+
+    }
     @FXML
     void savePerson(ActionEvent event) {
         if (tfcin.getText().isEmpty() || tfnum_tel.getText().isEmpty() || tfnom.getText().isEmpty() ||
@@ -128,12 +184,10 @@ public class InscriptionController {
 
         // Ajouter l'utilisateur uniquement si les vérifications sont réussies
         uc.ajouterEntite2(p);
-
-
-// Send welcome SMS
+        // Send welcome SMS
         //sendWelcomeSMS(p);
-        Role selectedRole = p.getRole();
-        List<Utilisateur> allUsers = uc.getAllUtilisateurs();
+        //Role selectedRole = p.getRole();
+        //List<Utilisateur> allUsers = uc.getAllUtilisateurs();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
         alert.showAndWait();
         // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
@@ -194,32 +248,23 @@ public class InscriptionController {
         }
     }
 
+
+
+
     @FXML
-    void initialize(URL url, ResourceBundle resourceBundle) {
-        hyperlink.setOnAction(event -> {
-            try {
-                // Chargez la page d'authentification depuis le fichier FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("authentification.fxml"));
-                Parent root = loader.load();
-
-                // Créez une nouvelle scène et un nouveau stage
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-
-                // Affichez la nouvelle scène
-                stage.show();
-
-                // Fermez la fenêtre actuelle
-                ((Stage) hyperlink.getScene().getWindow()).close();
-            } catch (IOException e) {
-                e.printStackTrace(); // Gérez l'exception selon vos besoins
-            }
-
-        });
-
+    void handleShowPassCheckboxClick() {
+        if (show.isSelected()) {
+            // Afficher le mot de passe en clair
+            tfshowpassword.setText(tfmdp.getText());
+            tfshowpassword.setVisible(true);
+            tfmdp.setVisible(false);
+        } else {
+            // Masquer le mot de passe en clair et montrer le PasswordField à nouveau
+            tfmdp.setText(tfshowpassword.getText());
+            tfmdp.setVisible(true);
+            tfshowpassword.setVisible(false);
+        }
     }
-
-
     @FXML
     private void redirectToAuthPage() {
         try {

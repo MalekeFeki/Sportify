@@ -21,7 +21,7 @@
          </image>
       </ImageView>
       <TextField fx:id="tfemail" layoutX="225.0" layoutY="216.0" promptText="Email" />
-      <Button fx:id="btn_auth" alignment="CENTER" layoutX="258.0" layoutY="332.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
+      <Button fx:id="btn_auth" alignment="CENTER" layoutX="226.0" layoutY="332.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
       <Text layoutX="245.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authentification">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -32,5 +32,6 @@
       <FontAwesomeIconView fill="#ff6100" glyphName="USER" layoutX="261.0" layoutY="131.0" size="100" />
       <Hyperlink fx:id="hyperlink" layoutX="213.0" layoutY="363.0" text="Mot de passe oublié? Cliquez ici" />
       <CheckBox fx:id="show" layoutX="225.0" layoutY="303.0" mnemonicParsing="false" text="Voir mot de passe" />
+      <Button fx:id="btn_annul" layoutX="319.0" layoutY="332.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" text="Annuler" />
    </children>
 </AnchorPane>

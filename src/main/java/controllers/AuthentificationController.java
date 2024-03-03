@@ -18,6 +18,7 @@ import entities.MdpHash;
 import entities.Utilisateur;
 import entities.Mailing;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,6 +59,8 @@ public class AuthentificationController {
     private String prenom;
     private String email;
     private String mdp;
+    @FXML
+    private Button btn_annul;
     @FXML
     private Hyperlink hyperlink;
     @FXML
@@ -355,5 +358,17 @@ public class AuthentificationController {
         }
     }
 
-
+    @FXML
+    void annuler(ActionEvent event) {
+        // Obtenez la scène à partir du bouton
+        Scene scene = btn_annul.getScene();
+        if (scene != null) {
+            // Obtenez la fenêtre à partir de la scène
+            Stage stage = (Stage) scene.getWindow();
+            if (stage != null) {
+                // Fermez la fenêtre
+                stage.close();
+            }
+        }
+}
 }
