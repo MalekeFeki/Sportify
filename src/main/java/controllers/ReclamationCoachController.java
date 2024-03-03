@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
 import services.ReclamationCrud;
 
 import java.util.List;
@@ -30,7 +33,6 @@ public class ReclamationCoachController {
 
     @FXML
     private Button tfsuppressionreclamation;
-
 
     @FXML
     private TextField texte_reclamation;
@@ -56,35 +58,38 @@ public class ReclamationCoachController {
         });
     }
 
-
+    private void bloquerBoutonAjout() {
+        tfajoutreclamation.setDisable(true);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(20), event -> {
+            tfajoutreclamation.setDisable(false);
+        }));
+        timeline.play();
+    }
 
     @FXML
     void ajouterReclamation(ActionEvent event) {
-        if (nombreTentativesAjout < MAX_TENTATIVES_AJOUT) {
-            String texteReclamation = texte_reclamation.getText();
-            if (!texteReclamation.isEmpty()) {
-                if (texteReclamation.length() <= 20) {
-                    Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
-                    reclamationCrud.ajouterReclamation(nouvelleReclamation);
-                    afficherMessage("Réclamation ajoutée avec succès");
-                    viderChamps();
-                    chargerDonnees();
-                    nombreTentativesAjout++;
-                } else {
-                    afficherMessageErreur("La réclamation ne doit pas dépasser 20 caractères.");
-                }
+        if (nombreTentativesAjout >= MAX_TENTATIVES_AJOUT) {
+            afficherMessageErreur("Vous avez atteint le nombre maximum de tentatives d'ajout (3)");
+            bloquerBoutonAjout();
+            return;
+        }
+
+        String texteReclamation = texte_reclamation.getText();
+        if (!texteReclamation.isEmpty()) {
+            if (texteReclamation.length() <= 20) {
+                Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
+                reclamationCrud.ajouterReclamation(nouvelleReclamation);
+                afficherMessage("Réclamation ajoutée avec succès");
+                viderChamps();
+                chargerDonnees();
+                nombreTentativesAjout++;
             } else {
-                afficherMessageErreur("Veuillez saisir une réclamation");
+                afficherMessageErreur("La réclamation ne doit pas dépasser 20 caractères.");
             }
         } else {
-            afficherMessageErreur("Vous avez atteint le nombre maximum de tentatives d'ajout (3)");
+            afficherMessageErreur("Veuillez saisir une réclamation");
         }
     }
-
-
-
-
-
 
     @FXML
     void modifierReclamation(ActionEvent event) {
@@ -111,8 +116,6 @@ public class ReclamationCoachController {
         }
     }
 
-
-
     @FXML
     void supprimerReclamation(ActionEvent event) {
         Reclamation reclamation = tableViewReclamations.getSelectionModel().getSelectedItem();
@@ -126,7 +129,6 @@ public class ReclamationCoachController {
             afficherMessageErreur("Veuillez sélectionner une réclamation à supprimer");
         }
     }
-
 
     private void chargerDonnees() {
         List<Reclamation> reclamations = reclamationCrud.afficherReclamations();

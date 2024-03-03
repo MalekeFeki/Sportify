@@ -4,49 +4,23 @@
     -fx-border-width:.4px .4px .2px .4px;
 }
 
-.semi-top-form{
-    -fx-background-color:#efefef;
-    -fx-border-color:#000;
-    -fx-border-width:.2px .4px .8px .4px;
+
+
+
+
+
+.nav_btn {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #fff;
+    -fx-alignment: CENTER-LEFT;
+    -fx-border-color: transparent;
 }
 
-.close{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-}
-.close:hover{
-    -fx-background-color:#ff3547;
-}
 
-.minimize{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-}
-.minimize:hover{
-    -fx-background-color:#ddd;
-}
 
-.nav-form{
-    -fx-background-color:linear-gradient(to bottom right, #272b3f, #256b51);
-}
-
-.nav-btn{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-    -fx-font-family:"Arial";
-    -fx-font-size:14px;
-    -fx-text-fill:#fff;
-    -fx-alignment:CENTER-LEFT;
-}
-
-.logout{
-    -fx-background-color:#219a6a;
-    -fx-background-radius:10px;
-    -fx-cursor:hand;
-}
-.logout:hover{
-    -fx-background-color:#18a383;
-}
 
 .shadow{
     -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
@@ -71,11 +45,18 @@
 .table-view .table-column{
     -fx-alignment:CENTER;
 }
-.table-view .column-header-background{
-    -fx-background-color:linear-gradient(to bottom right, #272b3f, #256b51);
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom right,   #FF6100,#BF8460); /* Utilisation de la couleur #FF6100 */
     -fx-background-insets: 0 0 0 0;
-    -f-background-radius:8px 8px 0px 0px;
+    -f-background-radius: 8px 8px 0px 0px; /* Attention, il y a une erreur ici. La propriété est -fx-background-radius */
 }
+
+
+
+
+
+
+
 .table-view .column-header, .filter{
     -fx-background-color: transparent;
     -fx-size:40px;
@@ -108,43 +89,6 @@
 }
 
 
-
-
-.Ajouter-btn{
-    -fx-background-color:#304575;
-    -fx-background-radius:8px;
-    -fx-text-fill:#fff;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
-}
-.Ajouter-btn:hover{
-    -fx-background-color:#3357a4;
-}
-
-.Modifier-btn{
-    -fx-background-color:#327252;
-    -fx-background-radius:8px;
-    -fx-text-fill:#fff;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
-}
-.Modifier-btn:hover{
-    -fx-background-color:#309a65;
-}
-
-.Supprimer-btn{
-    -fx-background-color:#86253f;
-    -fx-background-radius:8px;
-    -fx-text-fill:#fff;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
-}
-.Supprimer-btn:hover{
-    -fx-background-color:#ae1d46;
-}
 
 
 

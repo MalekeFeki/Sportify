@@ -16,6 +16,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import services.CoachCrud;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.List;
 
@@ -38,6 +40,9 @@ public class CoachController {
 
     @FXML
     private TableColumn<Coach, String> colDescription;
+
+    @FXML
+    private TextField tfChercher;
 
     @FXML
     private Button btnAjouter;
@@ -84,6 +89,9 @@ public class CoachController {
                 afficherCoachSelectionne(newSelection);
             }
         });
+
+        // Appel de la méthode coachSearch() après avoir chargé les données
+        coachSearch();
     }
 
     @FXML
@@ -106,7 +114,6 @@ public class CoachController {
         chargerDonnees();
     }
 
-
     @FXML
     void modifierCoach(ActionEvent event) {
         Coach coach = creerCoachAPartirDesChamps();
@@ -126,7 +133,6 @@ public class CoachController {
             }
         }
     }
-
 
     @FXML
     void supprimerCoach(ActionEvent event) {
@@ -187,5 +193,34 @@ public class CoachController {
             tfSexe.setValue(newSelection.getSexe());
             tfSeance.setValue(newSelection.getSeance());
         }
+    }
+
+    public void coachSearch() {
+        FilteredList<Coach> filter = new FilteredList<>(coachesObservableList, e -> true);
+
+        // Assuming you have a TextField named tfChercher for searching
+        tfChercher.textProperty().addListener((Observable, oldValue, newValue) -> {
+            filter.setPredicate(coach -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (coach.getNom().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (coach.getPrenom().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (coach.getDescription().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<Coach> sortedList = new SortedList<>(filter);
+        sortedList.comparatorProperty().bind(Tab1.comparatorProperty());
+        Tab1.setItems(sortedList);
     }
 }
