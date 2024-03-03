@@ -233,7 +233,7 @@ public class ProfilAdminController {
         String nom = tfnom.getText();
         String prenom = tfprenom.getText();
         String email = tfemail.getText();
-        String mdp = tfmdp.getText();
+        String mdp = utilisateur.getMdp();
 
         // Créer un nouvel objet Utilisateur avec les valeurs récupérées
         Utilisateur u = new Utilisateur(id,cin, num_tel, nom, prenom, email, mdp);

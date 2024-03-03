@@ -107,7 +107,7 @@
             <FontAwesomeIconView glyphName="USER" layoutX="16.0" layoutY="132.0" size="20" wrappingWidth="8.571428298950252" />
          </children>
       </AnchorPane>
-      <TextField fx:id="tfrecherche" layoutX="28.0" layoutY="168.0" promptText="Rechercher..." />
-      <FontAwesomeIconView glyphName="SEARCH" layoutX="155.0" layoutY="188.0" />
+      <TextField fx:id="tfrecherche" layoutX="27.0" layoutY="168.0" promptText="Rechercher.." />
+      <FontAwesomeIconView glyphName="SEARCH" layoutX="155.0" layoutY="185.0" />
    </children>
 </AnchorPane>

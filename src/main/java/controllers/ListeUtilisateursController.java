@@ -195,6 +195,7 @@ public class ListeUtilisateursController {
         });
 
     }
+
     private void filterTableView(String searchText) {
         // Créer un prédicat pour filtrer les éléments de la TableView
         Predicate<Utilisateur> predicate = utilisateur ->
@@ -324,5 +325,10 @@ public class ListeUtilisateursController {
         // Recalculer le nombre total d'utilisateurs après la suppression
         int utilisateurs = membres + proprietaires + administrateurs;
         totalUtilisateurs.setText(String.valueOf(utilisateurs));
+    }
+    @FXML
+    void afficherProprietairesSalles() {
+        ObservableList<Utilisateur> proprietaires = utilisateurCrud.getUtilisateursByRole(Role.PROPRIETAIRE);
+        tableView.setItems(proprietaires);
     }
 }

@@ -9,10 +9,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import entities.MdpGen;
+import entities.MdpHash;
 import entities.Utilisateur;
 import entities.Mailing;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -57,7 +62,8 @@ public class AuthentificationController {
     private Hyperlink hyperlink;
     @FXML
     private TextField tfshowpassword;
-    Utilisateur utilisateur;
+    private int tentativesInfructueuses = 0;
+    private static final int SEUIL_TENTATIVES = 3;
 
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
         this.registeredUsers = registeredUsers;
@@ -93,7 +99,6 @@ public class AuthentificationController {
         });
 
 
-
         btn_auth.setOnAction(event -> {
             // Récupérer les informations d'identification fournies par l'utilisateur (par exemple, à partir de champs de texte)
             String email = tfemail.getText();
@@ -106,7 +111,7 @@ public class AuthentificationController {
             if (utilisateurCrud.authenticateUser(email, password)) {
                 // Si l'utilisateur est trouvé, afficher un message de succès
                 showSuccessMessage();
-                Connection cnx2=MyConnection.instance.getCnx();
+                Connection cnx2 = MyConnection.instance.getCnx();
                 String reqUserId = "SELECT id FROM utilisateur WHERE email = ?";
                 PreparedStatement pstUserId = null;
                 try {
@@ -120,7 +125,8 @@ public class AuthentificationController {
                     throw new RuntimeException(e);
                 }
                 // Store the entered email in the array
-                enteredEmail =  tfemail.getText();;
+                enteredEmail = tfemail.getText();
+
 
                 // Rediriger vers le profil correspondant au rôle de l'utilisateur
                 redirectToProfile(utilisateurCrud.getUtilisateurByEmail(email).getRole().toString());
@@ -128,12 +134,31 @@ public class AuthentificationController {
                 // Fermer la fenêtre d'authentification
                 Stage stage = (Stage) btn_auth.getScene().getWindow();
                 stage.close();
+
             } else {
                 // Si l'authentification échoue, afficher un message d'erreur
                 showAlert("Email ou mot de passe incorrect !");
+                tentativesInfructueuses++;
+                if (tentativesInfructueuses>=SEUIL_TENTATIVES){
+                    showAlert("3 tentatives fausses ou plus!Votre compte est bloqué pour 10 minutes");
+                    // Vous pouvez ajouter ici la logique pour bloquer l'utilisateur pendant 10 minutes
+                    // Par exemple, désactiver le bouton de connexion et afficher un message à l'utilisateur
+                    btn_auth.setDisable(true);
+                    // Utilisez une tâche planifiée (ScheduledExecutorService) pour débloquer l'utilisateur après 10 minutes
+                    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+                    scheduler.schedule(() -> {
+                        Platform.runLater(() -> {
+                            // Débloquer l'utilisateur après 10 minutes en réactivant le bouton de connexion
+                            btn_auth.setDisable(false);
+                            showAlert("Votre compte est maintenant débloqué. Vous pouvez essayer de vous connecter à nouveau.");
+                        });
+                    }, 10, TimeUnit.MINUTES);
+                }
             }
 
+
         });
+
         hyperlink.setOnAction(event1 -> {
             // Handle the hyperlink click event
             if (tfemail == null || tfemail.getText().isEmpty()) {
@@ -141,20 +166,27 @@ public class AuthentificationController {
                 System.out.println("Veuillez entrer votre email pour réinitialiser votre mot de passe");
             } else {
                 // Generate a new password
-               /* String newPassword = MdpGen.genererMdp();
-// Fetch the user from the database based on the provided email
+                String newPassword = MdpGen.genererMdp();
+                System.out.println("new pass: " + newPassword);
+
+                // Fetch the user from the database based on the provided email
                 Utilisateur utilisateur = utilisateurCrud.getUtilisateurByEmail(tfemail.getText());
 
-                // Mettre à jour le mot de passe de l'utilisateur
-                utilisateur.setMdp(newPassword);
 
-                // Enregistrer les modifications dans la base de données
+                utilisateur.setMdp(newPassword);
+                // Update the password in the database
                 utilisateurCrud.modifierEntite(utilisateur);
-              //  sendPasswordResetEmail("votre mot de passe est"+tfmdp);
-                sendMail("votre mot de passe est"+newPassword);*/
-                sendPasswordResetEmail("");
+// Send the new password to the user's email
+                sendMail("Votre nouveau mot de passe est: " + newPassword);
+                String hashedNewPassword = MdpHash.hashPassword(newPassword);
+                utilisateur.setMdp(hashedNewPassword);
+                // Update the password in the database
+                utilisateurCrud.modifierEntite(utilisateur);
+
+
             }
         });
+
     }
 
     @FXML
