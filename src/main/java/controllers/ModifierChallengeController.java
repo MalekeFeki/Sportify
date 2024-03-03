@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import services.ChallengeCrud;
 
@@ -26,6 +27,9 @@ public class ModifierChallengeController {
 
     @FXML
     private TextArea descriptionTextArea;
+
+    @FXML
+    private TextArea challengeNameTextArea; // Added for the new attribute
 
     @FXML
     private Button submitModificationButton;
@@ -48,31 +52,34 @@ public class ModifierChallengeController {
         this.challengeToModify = challenge;
         difficultyChoiceBox.setValue(challenge.getDifficulty());
         descriptionTextArea.setText(challenge.getDescription());
+        challengeNameTextArea.setText(challenge.getNom()); // Set the new attribute
     }
 
     @FXML
     void modifierChallenge() {
         System.out.println("Modifying Challenge...");
-        TypeDifficulty typeDifficulty = difficultyChoiceBox.getValue();
-        String description = descriptionTextArea.getText();
 
-        if (description.trim().isEmpty() || typeDifficulty == null) {
-            showAlert("Challenge non modifié", "La description et la difficulté ne peuvent pas être vides.");
+        TypeDifficulty typeDifficulty = difficultyChoiceBox.getValue();
+        String description = descriptionTextArea.getText().trim();
+        String name = challengeNameTextArea.getText().trim(); // Get the new attribute
+
+        if (description.isEmpty() || typeDifficulty == null || name.isEmpty()) {
+            showAlert("Challenge non modifié", "Le nom, la description et la difficulté ne peuvent pas être vides.");
             return;
         }
 
-        if (contientMotsInterdits(description)) {
-            showAlert("Challenge non modifié", "La description contient des mots interdits.");
+        if (contientMotsInterdits(name) || contientMotsInterdits(description)) {
+            showAlert("Challenge non modifié", "Le nom ou la description contient des mots interdits.");
             return;
         }
 
         challengeToModify.setDifficulty(typeDifficulty);
         challengeToModify.setDescription(description);
+        challengeToModify.setNom(name); // Set the new attribute
         challengeCrud.modifierChallenge(challengeToModify);
         showAlert("Challenge Modified", "Challenge has been successfully modified.");
         redirectToAfficherChallenge();
     }
-
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

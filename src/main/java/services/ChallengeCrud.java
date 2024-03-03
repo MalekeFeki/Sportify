@@ -18,10 +18,11 @@ public class ChallengeCrud implements IChallengeCrud<Challenge> {
 
     @Override
     public void ajouterChallenge(Challenge challenge) {
-        String req1 = "INSERT INTO challenge(difficulty, description) VALUES (?, ?)";
+        String req1 = "INSERT INTO challenge(nom, difficulty, description) VALUES (?, ?, ?)";
         try (PreparedStatement pst = connection.prepareStatement(req1)) {
-            pst.setString(1, challenge.getDifficulty().name());
-            pst.setString(2, challenge.getDescription());
+            pst.setString(1, challenge.getNom()); // Added line to set the 'nom' attribute
+            pst.setString(2, challenge.getDifficulty().name());
+            pst.setString(3, challenge.getDescription());
             pst.executeUpdate();
             System.out.println("Challenge ajouté");
         } catch (SQLException e) {
@@ -37,7 +38,8 @@ public class ChallengeCrud implements IChallengeCrud<Challenge> {
              ResultSet rs = stm.executeQuery(req3)) {
             while (rs.next()) {
                 Challenge challenge = new Challenge();
-                        challenge.setIdC(rs.getInt(1));
+                challenge.setIdC(rs.getInt(1));
+                challenge.setNom(rs.getString("nom")); // Added line to set the 'nom' attribute
                 challenge.setDifficulty(TypeDifficulty.valueOf(rs.getString("difficulty").toUpperCase()));
                 challenge.setDescription(rs.getString("description"));
 
@@ -52,18 +54,18 @@ public class ChallengeCrud implements IChallengeCrud<Challenge> {
 
     @Override
     public void modifierChallenge(Challenge challenge) {
-        String req2 = "UPDATE challenge SET difficulty=?, description=? WHERE idC=?";
+        String req2 = "UPDATE challenge SET nom=?, difficulty=?, description=? WHERE idC=?";
         try (PreparedStatement pst = connection.prepareStatement(req2)) {
-            pst.setString(1, challenge.getDifficulty().name());
-            pst.setString(2, challenge.getDescription());
-            pst.setInt(3, challenge.getIdC());
+            pst.setString(1, challenge.getNom()); // Added line to set the 'nom' attribute
+            pst.setString(2, challenge.getDifficulty().name());
+            pst.setString(3, challenge.getDescription());
+            pst.setInt(4, challenge.getIdC());
             pst.executeUpdate();
             System.out.println("Challenge modifié");
         } catch (SQLException e) {
             System.out.println("Error while modifying challenge: " + e.getMessage());
         }
     }
-
     @Override
     public void supprimerChallenge(int id) {
         String req3 = "DELETE FROM challenge WHERE idC=?";

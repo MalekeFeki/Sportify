@@ -15,15 +15,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChallengeController">
     <children>
-        <VBox alignment="CENTER" prefHeight="561.0" prefWidth="853.0" spacing="20" styleClass="container">
+        <VBox alignment="CENTER_LEFT" layoutX="2.0" prefHeight="561.0" prefWidth="853.0" spacing="20" styleClass="container">
             <children>
-            <ImageView fitHeight="75.0" fitWidth="130.0">
-               <image>
-                  <Image url="file:/C:/Users/msi/Downloads/png-clipart-computer-icons-symbol-community-challenge-miscellaneous-orange-removebg-preview.png" />
-               </image>
-            </ImageView>
+                <Label styleClass="label" text="Name of Challenge" />
+                <TextArea fx:id="challengeNameTextArea" maxWidth="400.0" prefHeight="31.0" promptText="Name of Challenge" styleClass="text-area" />
                 <Label styleClass="label" text="Challenge Difficulty" />
-                <ChoiceBox fx:id="difficultyChoiceBox" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
+                <ChoiceBox fx:id="difficultyChoiceBox" prefHeight="1.0" prefWidth="150.0" styleClass="choice-box">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
 
@@ -32,7 +29,7 @@
                 </ChoiceBox>
                 <!-- Description Label -->
                 <Label styleClass="label" text="Description:" />
-                <TextArea fx:id="descriptionTextArea" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
+                <TextArea fx:id="descriptionTextArea" maxWidth="400.0" prefHeight="31.0" styleClass="text-area" />
                 <!-- Submit Challenge Button -->
                 <Button fx:id="submitButton" mnemonicParsing="false" onAction="#ajouterChallenge" styleClass="submit-button" text="Submit Challenge" />
             </children>
@@ -40,14 +37,17 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
         </VBox>
-        <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
-        <ImageView fitHeight="71.0" fitWidth="133.0">
-            <image>
-                <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />
-        <Label layoutX="640.0" layoutY="20.0" text="Profile" textFill="WHITE" />
+        <Rectangle arcHeight="5.0" arcWidth="6.0" height="569.0" layoutX="499.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="362.0" />
+      <ImageView fitHeight="287.0" fitWidth="297.0" layoutX="532.0" layoutY="138.0">
+         <image>
+            <Image url="file:/C:/Users/msi/Downloads/Design%20sans%20titre%20(40).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="76.0" fitWidth="150.0" layoutX="682.0" layoutY="14.0">
+         <image>
+            <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
+         </image>
+      </ImageView>
     </children>
     <stylesheets>
         <URL value="@styles.css" />

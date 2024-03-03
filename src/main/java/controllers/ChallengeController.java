@@ -21,10 +21,13 @@ import java.util.List;
 public class ChallengeController {
 
     @FXML
-    private TextArea descriptionTextArea;
+    private TextArea challengeNameTextArea; // Updated fx:id
 
     @FXML
     private ChoiceBox<String> difficultyChoiceBox;
+
+    @FXML
+    private TextArea descriptionTextArea;
 
     @FXML
     private Button submitButton;
@@ -38,20 +41,21 @@ public class ChallengeController {
 
     @FXML
     void ajouterChallenge(ActionEvent challenge1) {
+        String name = challengeNameTextArea.getText();
         String description = descriptionTextArea.getText();
         String selectedDifficulty = difficultyChoiceBox.getValue();
 
-        if (description.trim().isEmpty() || selectedDifficulty == null) {
-            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "La description et la difficulté ne peuvent pas être vides.");
+        if (name.trim().isEmpty() || description.trim().isEmpty() || selectedDifficulty == null) {
+            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "Le nom, la description et la difficulté ne peuvent pas être vides.");
             return;
         }
 
-        if (contientMotsInterdits(description)) {
-            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "La description contient des mots interdits.");
+        if (contientMotsInterdits(name) || contientMotsInterdits(description)) {
+            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "Le nom ou la description contient des mots interdits.");
             return;
         }
 
-        Challenge challenge = new Challenge(0, TypeDifficulty.valueOf(selectedDifficulty), description);
+        Challenge challenge = new Challenge(0, name, TypeDifficulty.valueOf(selectedDifficulty), description);
         ChallengeCrud challengeCrud = new ChallengeCrud();
         challengeCrud.ajouterChallenge(challenge);
 
@@ -60,9 +64,9 @@ public class ChallengeController {
     }
 
 
-    private boolean contientMotsInterdits(String description) {
+    private boolean contientMotsInterdits(String input) {
         for (String mot : motsInterdits) {
-            if (description.toLowerCase().contains(mot)) {
+            if (input.toLowerCase().contains(mot)) {
                 return true;
             }
         }
@@ -89,5 +93,4 @@ public class ChallengeController {
             e.printStackTrace();
         }
     }
-
 }

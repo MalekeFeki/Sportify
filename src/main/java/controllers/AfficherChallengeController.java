@@ -42,8 +42,8 @@ public class AfficherChallengeController  {
         this.challengeCrud = new ChallengeCrud();
     }
 
-    public void ajouterChallenge(TypeDifficulty difficulty, String description) {
-        Challenge challenge = new Challenge(0, difficulty, description);
+    public void ajouterChallenge(TypeDifficulty difficulty, String description, String nom) {
+        Challenge challenge = new Challenge(0, nom, difficulty, description); // Updated line to include 'nom'
         challengeCrud.ajouterChallenge(challenge);
     }
 
@@ -58,8 +58,8 @@ public class AfficherChallengeController  {
         }
     }
 
-    public void modifierChallenge(int id, TypeDifficulty difficulty, String description) {
-        Challenge challenge = new Challenge(id, difficulty, description);
+    public void modifierChallenge(int id,String nom, TypeDifficulty difficulty, String description) {
+        Challenge challenge = new Challenge(id,nom,difficulty, description);
         challengeCrud.modifierChallenge(challenge);
     }
 
@@ -70,11 +70,13 @@ public class AfficherChallengeController  {
     @FXML
     public void initialize() {
         TableColumn<Challenge, Integer> idC = new TableColumn<>("idC");
+        TableColumn<Challenge, String> nom = new TableColumn<>("nom");
         TableColumn<Challenge, String> difficulty = new TableColumn<>("difficulty");
         TableColumn<Challenge, String> description = new TableColumn<>("description");
         TableColumn<Challenge, Void> optionsColumn = new TableColumn<>("options");
 
         idC.setCellValueFactory(new PropertyValueFactory<>("idC"));
+        nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         difficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -126,7 +128,7 @@ public class AfficherChallengeController  {
             }
         });
 
-        challengeTableView.getColumns().addAll(idC, difficulty, description);
+        challengeTableView.getColumns().addAll(idC,nom, difficulty, description);
         challengeTableView.getColumns().add(optionsColumn);
         loadChallenges();
     }

@@ -15,13 +15,13 @@ public class MainClass {
         System.out.println(mc.hashCode() + "-" + mc2.hashCode());
 
 
-        Challenge challenge = new Challenge(1, TypeDifficulty.SIMPLE, "This is a good review.");
+        Challenge challenge = new Challenge(1, "ChallengeName", TypeDifficulty.SIMPLE, "This is a good review.");
+
 
 
         ChallengeCrud ChallengeCrud = new ChallengeCrud();
 
-
-        ChallengeCrud.ajouterChallenge(challenge);
+          ChallengeCrud.ajouterChallenge(challenge);
         System.out.println("Challenge ajouté.");
 
 

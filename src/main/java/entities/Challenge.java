@@ -5,16 +5,26 @@ import entities.enums.TypeDifficulty;
 public class Challenge {
 
     private int idC;
+    private String nom;
     private TypeDifficulty difficulty;
     private String description;
 
-    public Challenge(int idC, TypeDifficulty difficulty, String description) {
+    public Challenge(int idC,String nom, TypeDifficulty difficulty, String description) {
+        this.nom=nom;
         this.idC = idC;
         this.difficulty = difficulty;
         this.description = description;
     }
 
     public Challenge() {
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public int getIdC() {
@@ -45,6 +55,7 @@ public class Challenge {
     public String toString() {
         return "Challenge{" +
                 "idC=" + idC +
+                ", nom='" + nom + '\'' +
                 ", difficulty=" + difficulty +
                 ", description='" + description + '\'' +
                 '}';
