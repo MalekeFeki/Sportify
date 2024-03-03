@@ -84,8 +84,10 @@ public class AvisController {
             Stage stage = (Stage) submitRatingButton.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Error loading AfficherAvis.fxml");
             e.printStackTrace();
         }
     }
+
 
 }

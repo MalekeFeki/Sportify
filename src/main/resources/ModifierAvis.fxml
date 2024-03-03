@@ -4,7 +4,6 @@
 
 <?import java.net.URL?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -12,47 +11,44 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierAvisController">
     <children>
-        <VBox alignment="CENTER" prefHeight="561.0" prefWidth="853.0" spacing="20" styleClass="container">
-            <children>
-            <ImageView fitHeight="56.0" fitWidth="56.0">
-               <image>
-                  <Image url="file:/C:/Users/msi/Downloads/3643648-removebg-preview.png" />
-               </image>
-            </ImageView>
-                <!--   <BottomNavigation /> -->
-                <!-- Rating Level -->
-                <Label styleClass="label" text="Current Rating Level:" />
-                <ChoiceBox fx:id="ratingChoiceBox" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
+      <ImageView fitHeight="497.0" fitWidth="859.0" layoutY="66.0">
+         <image>
+            <Image url="file:/C:/Users/msi/Desktop/Studies/ESPRIT/SEM2/PI/Sportify/src/main/resources/img/background_2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="374.0" layoutY="85.0">
+         <image>
+            <Image url="file:/C:/Users/msi/Downloads/3643648-removebg-preview.png" />
+         </image>
+      </ImageView>
+          <!--   <BottomNavigation /> -->
+          <!-- Rating Level -->
+          <Label layoutX="347.0" layoutY="189.0" styleClass="label" text="Current Rating Level:" />
+          <ChoiceBox fx:id="ratingChoiceBox" layoutX="352.0" layoutY="234.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
+              <items>
+                  <FXCollections fx:factory="observableArrayList">
 
                         </FXCollections>
-                    </items>
-                </ChoiceBox>
-                <!-- Description Label -->
-                <Label styleClass="label" text="Current Description:" />
-                <TextArea fx:id="descriptionTextArea" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
-                <!-- Submit Rating Button -->
-                <Button fx:id="submitRatingButton" mnemonicParsing="false" onAction="#modifierAvis" styleClass="submit-button" text="Modify Rating" />
-            <Button fx:id="returntolist" mnemonicParsing="false" onAction="#redirectToAfficherAvis" styleClass="submit-button" text="Return To Avis" />
-            </children>
-            <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-            </padding>
-        </VBox>
+              </items>
+          </ChoiceBox>
+          <!-- Description Label -->
+          <Label layoutX="351.0" layoutY="291.0" styleClass="label" text="Current Description:" />
+          <TextArea fx:id="descriptionTextArea" layoutX="212.0" layoutY="328.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
+          <!-- Submit Rating Button -->
+          <Button fx:id="submitRatingButton" layoutX="357.0" layoutY="421.0" mnemonicParsing="false" onAction="#modifierAvis" styleClass="submit-button" text="Modify Rating" />
+      <Button fx:id="returntolist" layoutX="355.0" layoutY="486.0" mnemonicParsing="false" onAction="#redirectToAfficherAvis" styleClass="submit-button" text="Return To Avis" />
         <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
-        <ImageView fitHeight="71.0" fitWidth="133.0">
-            <image>
-                <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
-            </image>
-        </ImageView>
         <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />
         <Label layoutX="640.0" layoutY="20.0" text="Profile" textFill="WHITE" />
+      <ImageView fitHeight="79.0" fitWidth="159.0" layoutY="-5.0">
+         <image>
+            <Image url="file:/C:/Users/msi/Desktop/Studies/ESPRIT/SEM2/PI/Sportify/src/main/resources/img/logo.png" />
+         </image>
+      </ImageView>
     </children>
     <stylesheets>
         <URL value="@styles.css" />
