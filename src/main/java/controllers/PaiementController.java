@@ -1,5 +1,6 @@
 package controllers;
 
+
 import java.lang.String ;
 import entities.Adhesion;
 import entities.Paiement;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import services.AdhesionCrud;
 import services.PaiementCrud;
+import services.PaymentProcessor;
 import tools.MyConnection;
 
 import java.io.IOException;
@@ -126,6 +128,8 @@ public class PaiementController {
             String dateFin = endDateLabel.getText();
             String price = priceLabel.getText().trim();
 
+
+
             // Validate postal code
             if (!postalCodeStr.matches("\\d+")) {
                 showAlert(AlertType.ERROR, "Error", "Postal Code must be a valid integer!");
@@ -193,6 +197,29 @@ public class PaiementController {
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
+
+        try {
+            boolean paymentResult = PaymentProcessor.processPayment(
+                    "John Doe", // Example name
+                    "john@example.com", // Example email
+                    100.00f, // Example amount
+                    cardNumber,
+                    getExpirationMonth(expiration),
+                    getExpirationYear(expiration),
+                    cvc
+            );
+
+            if (paymentResult) {
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Payment successful!");
+                if (onSuccessCallback != null) {
+                    onSuccessCallback.run();
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Payment failed!");
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Payment processing error: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -202,6 +229,15 @@ public class PaiementController {
 
         // Close the stage
         stage.close();
+    }
+    private int getExpirationMonth(String expiration) {
+        // Extract and parse expiration month
+        return Integer.parseInt(expiration.split("/")[0]);
+    }
+
+    private int getExpirationYear(String expiration) {
+        // Extract and parse expiration year
+        return Integer.parseInt(expiration.split("/")[1]);
     }
 
     public void ShowPayments() {
