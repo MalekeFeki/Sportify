@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -38,7 +39,18 @@ public class SalleProfilController {
 
     @FXML
     private Label regionLabel;
+
+    @FXML
+    private CheckBox wifiCheckBox;
+    @FXML
+    private CheckBox parkingCheckBox;
+    @FXML
+    private CheckBox nutritionnisteCheckBox;
+    @FXML
+    private CheckBox climatisationCheckBox;
     private Salle selectedSalle;
+
+
 
 
 
@@ -51,25 +63,30 @@ public class SalleProfilController {
 
 
 
-        public void initData(Salle salle) {
+        public void initData(Salle salle) throws SQLException {
             this.salle = salle;
-            displaySalleDetails();
+            displaySalleDetails(salle);
         }
 
-        private void displaySalleDetails() {
-            if (salle != null) {
-                tfId.setText(String.valueOf(salle.getIdS()));
-                nomLabel.setText(salle.getNomS());
-                adresseLabel.setText(salle.getAdresse());
-                regionLabel.setText(salle.getRegion());
+        private void displaySalleDetails(Salle selectedSalle) throws SQLException {
+            Connection cnx = MyConnection.getInstance().getCnx();
+            String req = "SELECT * from salle WHERE id =?";
 
+            PreparedStatement pst = cnx.prepareStatement(req);
 
-                StringBuilder optionsStringBuilder = new StringBuilder();
-                salle.getOptions().forEach(option -> optionsStringBuilder.append(option).append(", "));
-                String optionsString = optionsStringBuilder.toString().replaceAll(", $", ""); // Remove trailing comma
-                optionsLabel.setText(optionsString);
-            }
-        }
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                nomLabel.setText(String.valueOf(salle.getNomS()));
+                adresseLabel.setText(String.valueOf(salle.getAdresse()));
+                regionLabel.setText(String.valueOf(salle.getRegion()));
+                optionsLabel.setText(String.valueOf(salle.getOptions()));
+
+                // Update CheckBoxes based on the options in the Salle object
+                wifiCheckBox.setSelected(salle.getOptions().contains("wifi"));
+                parkingCheckBox.setSelected(salle.getOptions().contains("parking"));
+                nutritionnisteCheckBox.setSelected(salle.getOptions().contains("nutritionniste"));
+                climatisationCheckBox.setSelected(salle.getOptions().contains("climatisation"));
+            }};
 
     public void propSeance(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/SeanceAjout.fxml"));
@@ -91,6 +108,23 @@ public class SalleProfilController {
 
         }
     }
+    public void setSalle(Salle salle) {
+        this.salle = salle;
+
+        // Update the UI with the Salle data
+        if (salle != null) {
+            nomLabel.setText(salle.getNomS());
+            adresseLabel.setText(salle.getAdresse());
+            regionLabel.setText(salle.getRegion());
+
+            // Update CheckBoxes based on the options in the Salle object
+            wifiCheckBox.setSelected(salle.getOptions().contains("wifi"));
+            parkingCheckBox.setSelected(salle.getOptions().contains("parking"));
+            nutritionnisteCheckBox.setSelected(salle.getOptions().contains("nutritionniste"));
+            climatisationCheckBox.setSelected(salle.getOptions().contains("climatisation"));
+
+        }
+    }
 
 
     public void afficherDetailsProfil(Salle salle) throws SQLException {
@@ -101,14 +135,35 @@ public class SalleProfilController {
 
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
-            tfId.setText(String.valueOf(salle.getIdS()));
             nomLabel.setText(String.valueOf(salle.getNomS()));
             adresseLabel.setText(String.valueOf(salle.getAdresse()));
             regionLabel.setText(String.valueOf(salle.getRegion()));
             optionsLabel.setText(String.valueOf(salle.getOptions()));
+
+            // Update CheckBoxes based on the options in the Salle object
+            wifiCheckBox.setSelected(salle.getOptions().contains("wifi"));
+            parkingCheckBox.setSelected(salle.getOptions().contains("parking"));
+            nutritionnisteCheckBox.setSelected(salle.getOptions().contains("nutritionniste"));
+            climatisationCheckBox.setSelected(salle.getOptions().contains("climatisation"));
         }
 
-
+//        public void setSalle(Salle salle) {
+//            this.salle = salle;
+//
+//            // Update the UI with the Salle data
+//            if (salle != null) {
+//                nomLabel.setText(salle.getNomS());
+//                adresseLabel.setText(salle.getAdresse());
+//                regionLabel.setText(salle.getRegion());
+//
+//                // Update CheckBoxes based on the options in the Salle object
+//                wifiCheckBox.setSelected(salle.getOptions().contains("wifi"));
+//                parkingCheckBox.setSelected(salle.getOptions().contains("parking"));
+//                nutritionnisteCheckBox.setSelected(salle.getOptions().contains("nutritionniste"));
+//                climatisationCheckBox.setSelected(salle.getOptions().contains("climatisation"));
+//
+//            }
+//        }
 
     }
 

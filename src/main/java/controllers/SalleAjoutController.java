@@ -21,6 +21,10 @@ import services.SalleCrud;
 import java.io.File;
 import services.UtilisateurCrud;
 
+import javafx.fxml.FXML;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
 public class SalleAjoutController {
 
     @FXML

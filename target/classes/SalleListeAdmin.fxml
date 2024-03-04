@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gluonhq.charm.glisten.control.AutoCompleteTextField?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,11 +19,7 @@
             </image>
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
-        <HBox layoutX="84.0" layoutY="122.0" spacing="10.0">
-            <children>
-                <TextField fx:id="searchTextField" prefWidth="150.0" promptText="Rechercher.." style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
-            </children>
-        </HBox>
+        <HBox layoutX="84.0" layoutY="122.0" spacing="10.0" />
         <TableView fx:id="gymsTableView" editable="true" layoutX="84.0" layoutY="177.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
             <columns>
                 <TableColumn fx:id="nomColumn" prefWidth="126.39996337890625" text="Nom" />
@@ -44,6 +40,7 @@
                 <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/LogoWhite.png" />
             </image>
         </ImageView>
+      <AutoCompleteTextField fx:id="searchTextField" floatText="Rechercher.." layoutX="84.0" layoutY="122.0" />
     </children>
     <stylesheets>
         <URL value="@gymapp.css" />
