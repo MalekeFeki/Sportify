@@ -49,12 +49,16 @@
       <Text fx:id="genreevent" layoutX="42.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre : competition" underline="true" />
       <Text fx:id="typeevent" layoutX="164.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" underline="true" />
       <Button fx:id="interestButton1" layoutX="308.0" layoutY="140.0" onAction="#handleInterestButtonClick" text="Show Interest" />
-      <Button fx:id="returntolist" layoutX="25.0" layoutY="65.0" mnemonicParsing="false" onAction="#redirectToAllEvent" prefHeight="16.0" prefWidth="55.0" text="return" />
+      <Button fx:id="returntolist" layoutX="25.0" layoutY="65.0" mnemonicParsing="false" onAction="#redirectToAllEvent" prefHeight="42.0" prefWidth="80.0" text="return" />
       <Button fx:id="reserveButton" layoutX="416.0" layoutY="140.0" onAction="#redirectToReservationForm" text="Reserve Event" />
-
       <WebView fx:id="mapView" layoutX="515.0" layoutY="366.0" prefHeight="178.0" prefWidth="449.0" />
+      <VBox fx:id="infoVBox" layoutX="262.0" layoutY="83.0" prefHeight="42.0" prefWidth="307.0" style="-fx-background-color:" />
+
+   <Text fx:id="startDateText" layoutX="37.0" layoutY="177.0" wrappingWidth="113.60000610351562" />
+      <Text fx:id="endDateText" layoutX="170.0" layoutY="176.0" wrappingWidth="113.60000610351562" />
    </children>
    <stylesheets>
       <URL value="@styles.css" />
+      <URL value="@STYLES2.css" />
    </stylesheets>
 </AnchorPane>

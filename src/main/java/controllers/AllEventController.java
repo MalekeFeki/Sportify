@@ -50,7 +50,8 @@ public class AllEventController implements Initializable {
     @FXML
     private ComboBox<cityEV> cityFilter;
 
-
+@FXML
+private Button reserveButton ;
 
     private static final int EVENTS_PER_PAGE = 3;
     @FXML
@@ -59,6 +60,7 @@ public class AllEventController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
         typeFilter.setItems(genreEvenementList);
+
         ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
         cityFilter.setItems(cityEVList);
         clearFiltersButton.setOnAction(event -> clearFiltersAndReload());
@@ -122,8 +124,7 @@ public class AllEventController implements Initializable {
 
         return new VBox(pageFlowPane);
     }
-    @FXML
-    private Button reserveButton;
+
     private VBox createEventBox(Evenement event) {
         Text eventNameText = new Text(event.getNomEv());
         eventNameText.getStyleClass().add("event-title");
@@ -134,6 +135,10 @@ public class AllEventController implements Initializable {
         }
 
         Text eventDescriptionText = new Text(eventDescription);
+        Text startDateText = new Text("Start Date: " + event.getDatedDebutEV().toString());
+        Text endDateText = new Text("End Date: " + event.getDatedFinEV().toString());
+        endDateText.getStyleClass().add("date-text");  // Add style class to end date text
+        startDateText.getStyleClass().add("date-text");  // Add style class to start date text
 
         Button moreInfoButton = new Button("More Info");
         moreInfoButton.getStyleClass().add("info-button");
@@ -157,9 +162,13 @@ public class AllEventController implements Initializable {
         ImageView imageView = new ImageView(new Image("file:" + event.getPhoto()));
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
-
+        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString())) {
+            reserveButton.setDisable(true);
+        } else {
+            reserveButton.setDisable(false);
+        }
         Label countdownLabel = new Label();
-        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV());
+        updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV(),reserveButton);
         countdownLabel.getStyleClass().add("countdown-label");
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event1 -> updateCountdownLabel(countdownLabel, event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV()))
@@ -174,7 +183,7 @@ public class AllEventController implements Initializable {
         StackPane.setAlignment(buttonsHBox, Pos.CENTER_RIGHT);
 
         VBox eventBox = new VBox(
-                new VBox(eventNameText, eventDescriptionText, buttonsStackPane),
+                new VBox(eventNameText, eventDescriptionText, startDateText, endDateText, buttonsStackPane),
                 imageView ,countdownLabel
         );
         eventBox.getStyleClass().add("event-box");
@@ -186,6 +195,25 @@ public class AllEventController implements Initializable {
     @FXML
     private Label countdownLabel;
 
+    private void updateCountdownLabel(Label countdownLabel, Date eventdebutDate, Date eventfinDate, String heureEV,Button reserveButton) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalTime eventTime = LocalTime.parse(heureEV, formatter);
+        LocalDateTime eventDebutDateTime = LocalDateTime.of(eventdebutDate.toLocalDate(), eventTime);
+        LocalDateTime eventFinDateTime = LocalDateTime.of(eventfinDate.toLocalDate(), eventTime);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (currentDateTime.isBefore(eventDebutDateTime)) {
+            long seconds = ChronoUnit.SECONDS.between(currentDateTime, eventDebutDateTime);
+            updateLabelWithCountdown(countdownLabel, seconds);
+        } else if (currentDateTime.isAfter(eventFinDateTime)) {
+            countdownLabel.setText("Event has ended.");
+            reserveButton.setDisable(true);
+        } else {
+            countdownLabel.setText("Event is happening now.");
+            reserveButton.setDisable(true);
+        }
+    }
     private void updateCountdownLabel(Label countdownLabel, Date eventdebutDate, Date eventfinDate, String heureEV) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -199,8 +227,10 @@ public class AllEventController implements Initializable {
             updateLabelWithCountdown(countdownLabel, seconds);
         } else if (currentDateTime.isAfter(eventFinDateTime)) {
             countdownLabel.setText("Event has ended.");
+
         } else {
             countdownLabel.setText("Event is happening now.");
+
         }
     }
 
