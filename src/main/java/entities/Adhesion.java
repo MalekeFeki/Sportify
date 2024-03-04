@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Adhesion {
     private  int adhesionId ;
-    private int userId;
+    private int userId = 1;
     private String description = "Abonnement pour les gens qui aimes les défis";
     private String name = "Abonnement Gold";
     private double price;
-    private int gymId;
+    private int gymId =1 ;
     private LocalDate dateDebut;
     private LocalDate dateFin;
 

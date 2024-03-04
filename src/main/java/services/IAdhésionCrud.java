@@ -5,15 +5,16 @@ import entities.Adhesion;
 import java.util.List;
 
     public interface IAdhésionCrud {
-        boolean createAdhésion(Adhesion adhésion);
 
-        void deleteAdhésion(int adhésionId, int userId, int gymId);
+        void deleteAdhesion(int adhésionId, int userId, int gymId);
 
-        Adhesion getAdhésionById(int adhésionId);
+        Adhesion getAdhesionById(int adhésionId);
 
-        void updateAdhésion(Adhesion adhésion);
+        boolean createAdhesion(Adhesion adhesion);
 
-        List<Adhesion> getAllAdhésions();
+        void updateAdhesion(Adhesion adhésion);
+
+        List<Adhesion> getAllAdhesions();
 
         boolean userExists(int userId);
 

@@ -8,8 +8,8 @@ import javafx.scene.control.Alert;
 import entities.Adhesion;
 import entities.Paiement ;
 import javafx.util.Duration;
+import services.AdhesionCrud;
 import services.PaiementCrud;
-import services.AdhésionCrud;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,33 +30,25 @@ import java.util.concurrent.TimeUnit;
 public class AdhesionController {
     @FXML
     private Button payerButton = new Button();
-
     @FXML
     private DatePicker dateDebutPicker = new DatePicker();
     @FXML
     private DatePicker dateFinPicker = new DatePicker();
     @FXML
     private Button calculateButton = new Button();
-
+    @FXML
+    private Button afficheradhesion = new Button();
     @FXML
     private Label priceLabel;
-
     @FXML
     private Label remainingTimeLabel;
-
     private final double DAILY_PRICE = 0.4;
-
     private Adhesion adhesion;
-
     private ScheduledExecutorService scheduler;
-
     private Paiement paiement;
-
     private PaiementCrud paiementCrud;
-
-    private AdhésionCrud adhésionCrud;
+    private AdhesionCrud adhésionCrud;
     private Runnable onSuccessCallback;
-
     @FXML
     private void calculatePrice() {
         LocalDate debutDate = dateDebutPicker.getValue();
@@ -158,4 +150,30 @@ public class AdhesionController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    public void showAdhesions() {
+        try {
+            // Load the FXML file for the new interface
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListeAdhesion.fxml"));
+            Parent root = loader.load();
+
+            // Get the stage from the current button
+            Stage stage = (Stage) afficheradhesion.getScene().getWindow();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // FXML file loading failed
+            System.err.println("Error loading FXML file: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Other unexpected exceptions
+            System.err.println("Unexpected error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

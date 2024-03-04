@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeAdhesionsController">
+    <children>
+        <VBox spacing="10" AnchorPane.topAnchor="10.0">
+            <Label text="Adhésion History" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+            <TableView fx:id="tableViewAdhesion" prefHeight="352.0" prefWidth="925.0">
+                <columns>
+                    <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
+                    <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Name" />
+                    <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                    <TableColumn fx:id="dateDebutColumn" prefWidth="100.0" text="Date Debut" />
+                    <TableColumn fx:id="dateFinColumn" prefWidth="100.0" text="Date Fin" />
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>

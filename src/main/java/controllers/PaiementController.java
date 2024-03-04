@@ -10,13 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import services.AdhesionCrud;
 import services.PaiementCrud;
-import services.AdhésionCrud ;
+import tools.MyConnection;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -54,10 +56,10 @@ public class PaiementController {
     @FXML
     private TextField priceLabel;
     private Runnable onSuccessCallback;
-
-    private final Paiement paiement = new Paiement();
-
     private final PaiementCrud paiementCrud = new PaiementCrud();
+
+    private final Connection connection = MyConnection.getInstance().getCnx(); // Get the database connection
+
 
 
     public void initialize() {
@@ -193,7 +195,7 @@ public class PaiementController {
         }
     }
 
-        @FXML
+    @FXML
     public void cancelPayment() {
         // Get the stage from the current button
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
@@ -247,38 +249,36 @@ public class PaiementController {
         // Here you can create the adhesion or perform any other action after a successful payment
         System.out.println("Payment successful! Creating adhesion...");
 
-        //  if (adhesion != null && paiementCrud != null) {
-        // Attempt to create the payment
-        boolean paymentCreated = paiementCrud.create(paiement);
-        if (paymentCreated) {
+        // Attempt to create the adhesion
+        LocalDate debutDate = LocalDate.parse(debutDateLabel.getText().trim());
+        LocalDate endDate = LocalDate.parse(endDateLabel.getText().trim());
+        double price = Double.parseDouble(priceLabel.getText().trim());
 
-            LocalDate debutDate = LocalDate.parse(debutDateLabel.getText().split(":")[1].trim());
-            LocalDate endDate = LocalDate.parse(endDateLabel.getText().split(":")[1].trim());
-            double price = Double.parseDouble(priceLabel.getText().trim());
+        Connection connection = MyConnection.getInstance().getCnx();
 
-            Adhesion adhesion = new Adhesion(debutDate, endDate, price);
-            //boolean adhesionCreated = AdhésionCrud.createAdhésion(adhesion);
-//                if (adhesionCreated) {
-//                    System.out.println("Adhesion created successfully!");
-//                } else {
-//                    System.err.println("Error: Failed to create adhesion!");
-//                    // Handle the case where adhesion creation failed
-//                    // For example, show an error message to the user
-//                    showAlert("Failed to create adhesion!");
-//                }
-//            } else {
-//                System.err.println("Error: Failed to create payment!");
-//                // Handle the case where payment creation failed
-//                // For example, show an error message to the user
-//                showAlert("Failed to create payment!");
-//            }
-//       // } else {
-//            System.err.println("Error: Adhesion or PaiementCrud is null!");
-//            // Handle the case where adhesion or paiementCrud is null
-//            // For example, show an error message to the user
-//            showAlert("Error", "Adhesion or PaiementCrud is null!");
-//            return false; // Adhesion or PaiementCrud is null
-//        }
+
+        Adhesion adhesion = new Adhesion(debutDate, endDate, price);
+        AdhesionCrud adhesionCrud = new AdhesionCrud(connection);
+        boolean adhesionCreated = adhesionCrud.createAdhesion(adhesion);
+
+        if (adhesionCreated) {
+            System.out.println("Adhesion created successfully!");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Adhesion created successfully!");
+
+        } else {
+            System.err.println("Error: Failed to create adhesion!");
+            // Handle the case where adhesion creation failed
+            // For example, show an error message to the user
+            showAlert("Failed to create adhesion!");
         }
-    }}
+    }
+
+
+}
+
+
+
+
+
+
 
