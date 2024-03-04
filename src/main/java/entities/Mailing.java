@@ -46,6 +46,49 @@ public class Mailing {
                 System.err.println("Error sending email: " + e.getMessage());
             }
         }
+    public static void sendEmailWithAttachment(String recipientEmail, String subject, Multipart multipart) {
+        // Email configuration
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        String senderEmail = "malekfeki18@gmail.com";
+        String senderPassword = "ozgm ipxf foxo uplz";
+
+        // Get the session object
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+
+        try {
+            // Create a MimeMessage object
+            Message message = new MimeMessage(session);
+
+            // Set the sender email address
+            message.setFrom(new InternetAddress(senderEmail));
+
+            // Set the recipient email address
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+
+            // Set the email subject
+            message.setSubject(subject);
+
+            // Set the multipart content with attachment
+            message.setContent(multipart);
+
+            // Send the email
+            Transport.send(message);
+
+            System.out.println("Email with attachment sent successfully to: " + recipientEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
         public static void main(String[] args) {
             String recipient = "recipient@example.com"; // Recipient's email address

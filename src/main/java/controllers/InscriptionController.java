@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -10,6 +13,7 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.lookups.v1.PhoneNumber;
 import entities.Mailing;
+import entities.QRcodeGen;
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.event.ActionEvent;
@@ -20,6 +24,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.UtilisateurCrud;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
 
 
 public class InscriptionController {
@@ -102,7 +110,7 @@ public class InscriptionController {
         String password = newValue;
         if (password.length() < 8 || !password.matches(".*[A-Z].*")) {
             // Si le mot de passe ne répond pas aux critères de force, afficher un message en rouge
-            passwordStrengthLabel.setText("Le mot de passe doit contenir au moins 8 caractères et au moins une majuscule!");
+            passwordStrengthLabel.setText("Mot de passe faible!");
             passwordStrengthLabel.setStyle("-fx-text-fill: red;");
         } else {
             // Si le mot de passe est fort, afficher un message en vert
@@ -190,10 +198,20 @@ public class InscriptionController {
         //List<Utilisateur> allUsers = uc.getAllUtilisateurs();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Utilisateur ajouté", ButtonType.OK);
         alert.showAndWait();
+        String qrCodeContent = "Nom: " + p.getNom() + "\n" +
+                "Prénom: " + p.getPrenom() + "\n" +
+                "Email: " + p.getEmail() + "\n" +
+                "Numéro de téléphone: " + p.getNum_tel();
+
+        // Generate QR code image
+        File qrCodeFile = generateQRCode(qrCodeContent);
+
+        // Send welcome email with QR code attached
+        sendWelcomeEmailWithQRCode(p, qrCodeFile);
         // Envoyer un e-mail de bienvenue à l'utilisateur ajouté
-        String emailSubject = "Bienvenue sur notre plateforme";
-        String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
-        Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
+      //  String emailSubject = "Bienvenue sur notre plateforme";
+       // String emailBody = "Bonjour " + p.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
+        //Mailing.sendEmail( p.getEmail(), emailSubject, emailBody);
         // Redirection vers la page d'authentification
         redirectToAuthPage();
 
@@ -248,8 +266,58 @@ public class InscriptionController {
         }
     }
 
+    private File generateQRCode(String content) {
+        File qrCodeFile = null;
+        try {
+            // Generate QR code using QRcodeGen class
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            QRcodeGen.generateQRCode(content, 200, 200, outputStream);
 
+            // Convert ByteArrayOutputStream to byte array
+            byte[] qrCodeData = outputStream.toByteArray();
 
+            // Save QR code to a file
+            qrCodeFile = new File("/Users/Malek/Desktop/Sportify.png");
+            try (FileOutputStream fileOutputStream = new FileOutputStream(qrCodeFile)) {
+                fileOutputStream.write(qrCodeData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return qrCodeFile;
+    }
+
+    private void sendWelcomeEmailWithQRCode(Utilisateur utilisateur, File qrCodeFile) {
+        String emailSubject = "Bienvenue sur notre plateforme";
+        String emailBody = "Bonjour " + utilisateur.getPrenom() + ",\n\nBienvenue sur notre plateforme Sportify. Merci pour votre inscription.\n\nCordialement,\nL'équipe de notre plateforme.";
+
+        try {
+            // Create a MimeMultipart object
+            MimeMultipart multipart = new MimeMultipart();
+
+            // Create a MimeBodyPart for the email body
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setText(emailBody);
+
+            // Attach the email body MimeBodyPart to the multipart
+            multipart.addBodyPart(textBodyPart);
+
+            // Create a MimeBodyPart for the QR code image attachment
+            MimeBodyPart qrCodeBodyPart = new MimeBodyPart();
+            qrCodeBodyPart.attachFile(qrCodeFile); // Attach the QR code file to the MimeBodyPart
+
+            // Set the content ID of the attachment
+            qrCodeBodyPart.setContentID("<qr_code_image>");
+
+            // Attach the QR code MimeBodyPart to the multipart
+            multipart.addBodyPart(qrCodeBodyPart);
+
+            // Send the email with multipart content
+            Mailing.sendEmailWithAttachment(utilisateur.getEmail(), emailSubject, multipart);
+        } catch (IOException | MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void handleShowPassCheckboxClick() {

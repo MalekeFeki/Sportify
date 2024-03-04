@@ -33,7 +33,7 @@
       <Label layoutX="86.0" layoutY="299.0" text="Mot de passe" />
       <PasswordField fx:id="tfmdp" layoutX="196.0" layoutY="295.0" promptText="saisir votre mot de passe" />
       <TextField fx:id="tfshowpassword" layoutX="196.0" layoutY="295.0" promptText="Mot de passe" visible="false" />
-      <Label fx:id="passwordStrengthLabel" layoutX="77.0" layoutY="321.0" prefHeight="18.0" prefWidth="562.0" />
+      <Label fx:id="passwordStrengthLabel" layoutX="195.0" layoutY="321.0" prefHeight="18.0" prefWidth="282.0" />
       <CheckBox fx:id="show" layoutX="354.0" layoutY="299.0" mnemonicParsing="false" text="Voir mot de passe" />
       <Button fx:id="btn_inscri" layoutX="208.0" layoutY="380.0" mnemonicParsing="false" onAction="#savePerson" style="-fx-background-color: #FF6100;" text="S'inscrire" />
       <RadioButton fx:id="rbproprietaire" layoutX="275.0" layoutY="340.0" mnemonicParsing="false" text="Propriétaire de salle" />
