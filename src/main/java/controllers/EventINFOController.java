@@ -36,6 +36,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 import javafx.scene.web.WebView;
+import services.EventReservationCrud;
 
 public class EventINFOController implements Initializable {
 
@@ -79,7 +80,7 @@ public class EventINFOController implements Initializable {
     private Button reserveButton;
     @FXML
     private WebView mapView = new WebView();
-
+    private EventReservationCrud eventReservationCrud = new EventReservationCrud();
 @FXML
 private VBox eventBox ;
     private double eventLatitude;
@@ -125,8 +126,9 @@ private VBox eventBox ;
         genreevent.setText("Genre: " + event.getGenreEvenement().toString());
         typeevent.setText("Type: " + event.getTypeEV().toString());
 // Disable the reserveButton if the event type is "publicevent"
-        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString())) {
+        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString()) || eventReservationCrud.afficherReservation(event.getIDevent()).size()>=event.getCapacite()) {
             reserveButton.setDisable(true);
+            System.out.println("event is public ou capacity full");
         } else {
             reserveButton.setDisable(false);
         }
@@ -141,11 +143,7 @@ private VBox eventBox ;
             updateInterestButtonText(interestButton1, newInterestCount);
         });
         System.out.println(event.getDatedFinEV());
-        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString())) {
-            reserveButton.setDisable(true);
-        } else {
-            reserveButton.setDisable(false);
-        }
+
         Label countdownLabel = new Label();
         updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV(),reserveButton);
         countdownLabel.getStyleClass().add("countdown-label");

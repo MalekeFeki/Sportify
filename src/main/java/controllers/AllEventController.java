@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import services.EvenementCrud;
 import entities.Evenement;
+import services.EventReservationCrud;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +50,7 @@ public class AllEventController implements Initializable {
 
     @FXML
     private ComboBox<cityEV> cityFilter;
+    private EventReservationCrud eventReservationCrud = new EventReservationCrud();
 
 @FXML
 private Button reserveButton ;
@@ -162,11 +164,13 @@ private Button reserveButton ;
         ImageView imageView = new ImageView(new Image("file:" + event.getPhoto()));
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
-        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString())) {
+        if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString()) || eventReservationCrud.afficherReservation(event.getIDevent()).size()>=event.getCapacite()) {
             reserveButton.setDisable(true);
         } else {
             reserveButton.setDisable(false);
         }
+
+
         Label countdownLabel = new Label();
         updateCountdownLabel(countdownLabel,event.getDatedDebutEV(),event.getDatedFinEV(),event.getHeureEV(),reserveButton);
         countdownLabel.getStyleClass().add("countdown-label");

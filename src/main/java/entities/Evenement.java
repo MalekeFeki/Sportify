@@ -35,7 +35,30 @@ public class Evenement {
     public Evenement() {
     }
 
-    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city ,String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
+    public Evenement (List<EventReservation> reservations,String nomEvenement,Date dateDebut, Date dateFin,String heure,
+    String description,String filePath,String lieu,cityEV city,String numTele,String email,String fbLink,String igLink,GenreEv genreEvenement, typeEvent typeEvenement,int capacite,double lat,double lon) {
+
+        this.reservations = reservations;
+        NomEv = nomEvenement;
+        DatedDebutEV = dateDebut;
+        DatedFinEV = dateFin;
+        HeureEV = heure;
+        DescrptionEv = description;
+        Photo = filePath;
+        this.lieu = lieu;
+        this.city = city;
+        Tele = numTele;
+        Email = email;
+        this.FB_link = fbLink;
+        this.IG_link = igLink;
+        this.lat = lat;
+        this.lon = lon;
+        GenreEvenement = genreEvenement;
+        this.typeEV = typeEvenement;
+        Capacite = capacite;
+    }
+
+    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city , String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
         this.reservations = reservations;
         this.IDevent = IDevent;
         NomEv = nomEv;

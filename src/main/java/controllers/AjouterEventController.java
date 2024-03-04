@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import entities.Evenement;
+import entities.EventReservation;
 import entities.enums.GenreEv;
 import entities.enums.cityEV;
 import entities.enums.typeEvent;
@@ -301,11 +300,10 @@ public class AjouterEventController {
         double lon = Double.parseDouble(lonTextField.getText());
         int capacite = Integer.parseInt(capaciteTextField.getText());
 
-
-        Evenement newEvent = new Evenement(nomEvenement, Date.valueOf(dateDebut), Date.valueOf(dateFin), heure,
+        List<EventReservation> reservations= new ArrayList<>();
+        Evenement newEvent = new Evenement(reservations,nomEvenement, Date.valueOf(dateDebut), Date.valueOf(dateFin), heure,
                 description, filePath, lieu,city, numTele, email, fbLink, igLink, genreEvenement,typeEvenement, capacite,lat,lon);
         System.out.println(newEvent);
-
         evenementCrud.ajouterEvent(newEvent);
 
 
