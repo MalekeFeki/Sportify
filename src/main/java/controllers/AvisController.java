@@ -12,10 +12,13 @@ import entities.Avis;
 import entities.enums.TypeAvis;
 import javafx.stage.Stage;
 import services.AvisCrud;
-
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public class AvisController {
 
@@ -54,7 +57,7 @@ public class AvisController {
         avis.setType(TypeAvis.valueOf(selectedRating));
         AvisCrud avisCrud = new AvisCrud();
         avisCrud.ajouterAvis(avis);
-
+        sendMail("melek.jdidi19@gmail.com");
         showAlert(Alert.AlertType.INFORMATION, "Rating Submitted", "Your rating has been submitted successfully!");
         redirectToAfficherAvis();
     }
@@ -88,6 +91,52 @@ public class AvisController {
             e.printStackTrace();
         }
     }
+    private Message preparedMessage(Session session, String myAccountEmail, String recepient) throws MessagingException {
+        String selectedRating = ratingChoiceBox.getValue();
+        String description = descriptionTextArea.getText();
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(myAccountEmail));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
+        message.setSubject("Avis ajouté");
+        message.setText("  Un avis a été ajouté : "+ selectedRating +"par vous avec la description suivante : "+ description);
+        return message;
+    }
+    public void sendMail(String recepient){
+        System.out.println("Preparing to send email");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+        String myAccountEmail = "malekfeki18@gmail.com";
+        String passwordd = "ozgm ipxf foxo uplz";
 
+        Session session = Session.getInstance(properties, new Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(myAccountEmail,passwordd);
+            }
+        });
+
+        Message message = null;
+        try {
+            message = preparedMessage(session,myAccountEmail,recepient);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        try{
+            Transport.send(message);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Sportify :: Boite Mail");
+            alert.setHeaderText(null);
+            alert.setContentText("consulter votre boite mail !!");
+            alert.showAndWait();
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+
+        }
+
+    }
 
 }

@@ -1,7 +1,5 @@
 package controllers;
-
-import entities.Avis;
-import entities.enums.TypeAvis;
+import controllers.ModifierAvisController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,15 +11,20 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.AvisCrud;
+import entities.Avis;
+import entities.enums.TypeAvis;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AfficherAvisController implements Initializable {
     private AvisCrud avisCrud;
@@ -35,7 +38,10 @@ public class AfficherAvisController implements Initializable {
     private ObservableList<Avis> observableAVIS = FXCollections.observableArrayList();
 
     @FXML
-    private PieChart avisPieChart; // Rename to follow FXML naming convention
+    private PieChart avisPieChart;
+
+    @FXML
+    private Label ratingLabel;
 
     private void loadAvis() {
         observableAVIS.clear();
@@ -75,9 +81,81 @@ public class AfficherAvisController implements Initializable {
         updatePieChartData();
     }
 
-    public void calculerEtAfficherAvisMoyen(List<Avis> listeAvis) {
-        Avis avisMoyen = avisCrud.calculerAvisMoyen(listeAvis);
-        System.out.println(avisMoyen.toString());
+    public void calculerAvisMoyen() {
+        List<Avis> avisList = avisCrud.afficherAvis();
+        Avis avisMoyen = avisCrud.calculerAvisMoyen(avisList);
+
+        System.out.println("Avis moyen calculé:");
+        System.out.println(avisMoyen);
+
+        displayStarRating(avisMoyen.getType());
+    }
+
+    public void exporterAvis() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Avis");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+
+        // Show save file dialog
+        Stage stage = (Stage) avisTableView.getScene().getWindow();
+        java.io.File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            try (Writer writer = new FileWriter(file)) {
+                List<Avis> allAvis = avisCrud.afficherAvis();
+
+                String csvData = allAvis.stream()
+                        .map(avis -> String.format("%d,%s,%s", avis.getIdA(), avis.getType(), avis.getDescription()))
+                        .collect(Collectors.joining("\n"));
+
+                writer.write(csvData);
+
+                showAlert("Export Successful", "Avis data has been exported to " + file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Export Error", "An error occurred while exporting Avis data.");
+            }
+        }
+    }
+
+    private void displayStarRating(TypeAvis typeAvis) {
+        String starRating = switch (typeAvis) {
+            case MEDIOCRE -> "A"; // 1 star
+            case PASSABLE -> "AA"; // 2 stars
+            case MOYEN -> "AAA"; // 3 stars
+            case BIEN -> "AAAA"; // 4 stars
+            case EXCELLENT -> "AAAAA"; // 5 stars
+        };
+
+        ratingLabel.setText(starRating);
+    }
+
+    private void filterBadWords(Avis avis) {
+        // Your logic to filter out bad words in the description
+        String filteredDescription = avis.getDescription().replaceAll("badword1|badword2", "***");
+        avis.setDescription(filteredDescription);
+    }
+
+    private void updatePieChartData() {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        List<Avis> avisList = avisCrud.afficherAvis();
+        for (TypeAvis typeAvis : TypeAvis.values()) {
+            long count = avisList.stream()
+                    .filter(avis -> avis.getType() == typeAvis)
+                    .count();
+            pieChartData.add(new PieChart.Data(typeAvis.name(), count));
+        }
+
+        avisPieChart.setData(pieChartData);
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @Override
@@ -144,28 +222,6 @@ public class AfficherAvisController implements Initializable {
 
         // PieChart initialization
         updatePieChartData();
-    }
-
-    private void updatePieChartData() {
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
-        List<Avis> avisList = avisCrud.afficherAvis();
-        for (TypeAvis typeAvis : TypeAvis.values()) {
-            long count = avisList.stream()
-                    .filter(avis -> avis.getType() == typeAvis)
-                    .count();
-            pieChartData.add(new PieChart.Data(typeAvis.name(), count));
-        }
-
-        avisPieChart.setData(pieChartData);
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 
     private void redirectToModifierAvis(Avis avisToModify) {
