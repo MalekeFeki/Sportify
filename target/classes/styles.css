@@ -41,7 +41,12 @@
 #LieuLabel {
     -fx-text-fill: #fe6100; /* Orange color for location label */
 }
-
+.date-text {
+    /* Add your styling properties here */
+    -fx-font-size: 14px;
+    -fx-fill: #555555;
+    /* Add more styling properties as needed */
+}
 /* Chart graphic color */
 .chart {
     -fx-background-color: #fe6100; /* Orange color for chart graphic */

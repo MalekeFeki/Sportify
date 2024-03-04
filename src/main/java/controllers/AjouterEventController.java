@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import entities.Evenement;
@@ -127,12 +129,34 @@ public class AjouterEventController {
             typeEventComboBox.setValue(typeEvent.PublicEvent);
             genreEvenementComboBox.setValue(GenreEv.competition);
             System.out.println("nomEvenementTextField: " + nomEvenementTextField);
+            lieuTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updateCityComboBox();
+            });
+
         assert hoursComboBox != null : "fx:id=\"hoursComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
         assert minutesComboBox != null : "fx:id=\"minutesComboBox\" was not injected: check your FXML file 'AjouterEvent.fxml'.";
             loadMap();
         }
+    private Optional<cityEV> extractCityFromText(String text) {
+        // Convert the text to lowercase for case-insensitive comparison
+        String lowerText = text.toLowerCase();
 
+        // Iterate through all enum values and check if the text contains a city name
+        return Arrays.stream(cityEV.values())
+                .filter(city -> lowerText.contains(city.toString().toLowerCase()))
+                .findFirst();
+    }
 
+    @FXML
+    private void updateCityComboBox() {
+        String lieuText = lieuTextField.getText();
+
+        // Extract the city from the text
+        Optional<cityEV> extractedCity = extractCityFromText(lieuText);
+
+        // Set the extracted city to the ComboBox if found
+        extractedCity.ifPresent(cityEVComboBox::setValue);
+    }
     private Double selectedLatitude;
     private Double selectedLongitude;
 //    @FXML
@@ -183,14 +207,18 @@ public class AjouterEventController {
         if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
             Double latitude = (Double) latitudeObj;
             Double longitude = (Double) longitudeObj;
+            String cleanLocationName = locationName.replaceAll("(?i)Tunisia", "").trim();
 
-            lieuTextField.setText(locationName);
+            lieuTextField.setText(cleanLocationName);
 
             // Now, you can use latitude, longitude, and locationName as needed
             System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
             lonTextField.setText(longitude.toString());
             latTextField.setText(latitude.toString());
             // Update your JavaFX controls (e.g., lieuTextField) here
+            lieuTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                updateCityComboBox();
+            });
         } else {
             showAlert("Error", "Unable to retrieve location from the map.");
         }
