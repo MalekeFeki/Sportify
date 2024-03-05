@@ -1,5 +1,5 @@
 package controllers;
-
+import services.LocationService;
 import entities.enums.GenreEv;
 import entities.enums.cityEV;
 import javafx.animation.Animation;
@@ -35,6 +35,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static services.LocationService.getUserCity;
+
 public class AllEventController implements Initializable {
 
     @FXML
@@ -58,11 +60,14 @@ private Button reserveButton ;
     private static final int EVENTS_PER_PAGE = 3;
     @FXML
     private Button clearFiltersButton;
+    @FXML
+    private Button eventsNearMeButton;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<GenreEv> genreEvenementList = FXCollections.observableArrayList(GenreEv.values());
         typeFilter.setItems(genreEvenementList);
-
+        eventsNearMeButton.setOnAction(event -> showEventsNearMe());
+        eventsNearMeButton.getStyleClass().add("info-button");
         ObservableList<cityEV> cityEVList = FXCollections.observableArrayList(cityEV.values());
         cityFilter.setItems(cityEVList);
         clearFiltersButton.setOnAction(event -> clearFiltersAndReload());
@@ -71,7 +76,17 @@ private Button reserveButton ;
         configureScrollPane();
 
     }
+    private void showEventsNearMe() {
+        String userCity = LocationService.getUserCity();
+        System.out.println(userCity);
 
+        if (!userCity.isEmpty()) {
+            List<Evenement> eventsNearMe = evenementCrud.filterEventsByCity(userCity);
+            displayEvents(eventsNearMe);
+        } else {
+            showAlert("Location Error", "Unable to determine your location.");
+        }
+    }
     private void loadEvents() {
         List<Evenement> events = evenementCrud.afficherEvent();
         allEvents = FXCollections.observableArrayList(events);
@@ -344,7 +359,13 @@ private Button reserveButton ;
         }
     }
 
-
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
 
 }

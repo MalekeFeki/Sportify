@@ -499,7 +499,7 @@
 }
 
 /* allevents button---------------------------------------------------------------------------------------------------------------*/
-
+#eventsNearMeButton,
 #rnd1,
 #clearFiltersButton,
 #rnd{
@@ -510,6 +510,7 @@
     -fx-background-color:#fe6100;
     -fx-background-radius: 0%;
 }
+#eventsNearMeButton:hover,
 #rnd1:hover,
 #clearFiltersButton:hover,
 #rnd:hover{

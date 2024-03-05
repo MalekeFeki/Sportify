@@ -52,7 +52,7 @@
       </Text>
       <TextField fx:id="textFieldSEARCH" layoutX="37.0" layoutY="149.0" prefHeight="39.0" prefWidth="190.0" promptText="recherche par nom d'événement" />
          <Button fx:id="rnd" layoutX="245.0" layoutY="151.0" mnemonicParsing="true" onAction="#searchEvents" prefHeight="36.0" prefWidth="70.0" text="SEARCH" />
-         <HBox layoutX="345.0" layoutY="147.0" prefHeight="66.0" prefWidth="426.0" spacing="10">
+         <HBox layoutX="345.0" layoutY="147.0" prefHeight="66.0" prefWidth="576.0" spacing="10">
          <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
          </padding>
@@ -60,6 +60,7 @@
             <ComboBox fx:id="cityFilter" prefHeight="33.0" prefWidth="76.0" promptText="ville" styleClass="orange-combobox" />
             <Button fx:id="rnd1" mnemonicParsing="false" onAction="#filterEvents" prefHeight="33.0" prefWidth="85.0" text="Apply Filters" />
             <Button fx:id="clearFiltersButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="95.0" text="Clear Filters" />
+            <Button fx:id="eventsNearMeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" text="events NearMe " />
 
 
          </HBox>
