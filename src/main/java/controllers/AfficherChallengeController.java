@@ -6,22 +6,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.ChallengeCrud;
+import tools.QRCodeGenerator;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-public class AfficherChallengeController  {
+public class AfficherChallengeController {
     private ChallengeCrud challengeCrud;
     @FXML
     private TableView<Challenge> challengeTableView;
@@ -43,7 +43,7 @@ public class AfficherChallengeController  {
     }
 
     public void ajouterChallenge(TypeDifficulty difficulty, String description, String nom) {
-        Challenge challenge = new Challenge(0, nom, difficulty, description); // Updated line to include 'nom'
+        Challenge challenge = new Challenge(0, nom, difficulty, description);
         challengeCrud.ajouterChallenge(challenge);
     }
 
@@ -58,8 +58,8 @@ public class AfficherChallengeController  {
         }
     }
 
-    public void modifierChallenge(int id,String nom, TypeDifficulty difficulty, String description) {
-        Challenge challenge = new Challenge(id,nom,difficulty, description);
+    public void modifierChallenge(int id, String nom, TypeDifficulty difficulty, String description) {
+        Challenge challenge = new Challenge(id, nom, difficulty, description);
         challengeCrud.modifierChallenge(challenge);
     }
 
@@ -110,7 +110,7 @@ public class AfficherChallengeController  {
 
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
-                       redirectToModifierChallenge(challengeToModify);
+                        redirectToModifierChallenge(challengeToModify);
                     }
                 });
             }
@@ -128,9 +128,33 @@ public class AfficherChallengeController  {
             }
         });
 
-        challengeTableView.getColumns().addAll(idC,nom, difficulty, description);
+        challengeTableView.getColumns().addAll(idC, nom, difficulty, description);
         challengeTableView.getColumns().add(optionsColumn);
         loadChallenges();
+    }
+
+    @FXML
+    private void handleGenerateQRCodeButtonClick() {
+        StringBuilder content = new StringBuilder();
+        for (Challenge challenge : observableChallenges) {
+            content.append("Challenge ID: ").append(challenge.getIdC()).append("\n");
+            content.append("Name: ").append(challenge.getNom()).append("\n");
+            content.append("Difficulty: ").append(challenge.getDifficulty()).append("\n");
+            content.append("Description: ").append(challenge.getDescription()).append("\n\n");
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File file = fileChooser.showSaveDialog(challengeTableView.getScene().getWindow());
+
+        if (file != null) {
+            generateAndSaveQRCode(content.toString(), file);
+        }
+    }
+
+    private void generateAndSaveQRCode(String content, File file) {
+        QRCodeGenerator.generateQRCode(content, 500, 500, file.getAbsolutePath());
+        showAlert("QR Code Generated", "QR code generated successfully. Path: " + file.getAbsolutePath());
     }
 
     private void showAlert(String title, String content) {
@@ -143,6 +167,7 @@ public class AfficherChallengeController  {
 
     private void redirectToModifierChallenge(Challenge challengeToModify) {
         try {
+            // Update the FXML file path as needed
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierChallenge.fxml"));
             Parent root = loader.load();
             ModifierChallengeController modifierChallengeController = loader.getController();
@@ -153,5 +178,4 @@ public class AfficherChallengeController  {
             e.printStackTrace();
         }
     }
-
 }

@@ -58,7 +58,7 @@
         <Rectangle arcHeight="5.0" arcWidth="6.0" height="568.0" layoutX="509.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="362.0" />
         <ImageView fitHeight="76.0" fitWidth="150.0" layoutX="692.0" layoutY="24.0">
             <image>
-                <Image url="file:/C:/Users/msi/Downloads/Sportify__2_-removebg-preview_1.png" />
+                <Image url="file:/C:/Users/msi/Desktop/Studies/ESPRIT/SEM2/PI/Sportify/src/main/resources/img/logo.png" />
             </image>
         </ImageView>
       <ImageView fitHeight="336.0" fitWidth="341.0" layoutX="520.0" layoutY="113.0">
