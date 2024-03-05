@@ -9,9 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import services.AdhesionCrud;
-
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListeAdhesionsController {
@@ -46,23 +46,32 @@ public class ListeAdhesionsController {
         dateFinColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDateFin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
         // Load adhésions data into the table
-        loadAdhesionsData();
+        loadAllAdhesionsData();
     }
 
-    private void loadAdhesionsData() {
-        // Retrieve adhésions data from the database
-        List<Adhesion> adhesions = (List<Adhesion>) adhesionCrud.getAdhesionById(1);
+    private void loadAdhesionsData() throws SQLException {
+        Adhesion adhesion = adhesionCrud.getAdhesionByUserIdAndGymId(1,1);
 
-        // Convert the list to an observable list
-        ObservableList<Adhesion> observableAdhesions = FXCollections.observableArrayList(adhesions);
+        // Check if adhesion is not null
+        if (adhesion != null) {
+            // Convert the single adhesion to a list
+            List<Adhesion> adhesions = new ArrayList<>();
+            adhesions.add(adhesion);
 
-        // Load data into the table view
-        tableViewAdhesion.setItems(observableAdhesions);
+            // Convert the list to an observable list
+            ObservableList<Adhesion> observableAdhesions = FXCollections.observableArrayList(adhesions);
+
+            // Load data into the table view
+            tableViewAdhesion.setItems(observableAdhesions);
+        } else {
+            System.out.println("No adhesion found for user ID: 1");
+        }
     }
+
 
     private void loadAllAdhesionsData() {
         // Retrieve adhésions data from the database
-        List<Adhesion> adhesions = adhesionCrud.getAllAdhesions();
+        List<Adhesion> adhesions = adhesionCrud.getAllAdhesions(1);
 
         // Convert the list to an observable list
         ObservableList<Adhesion> observableAdhesions = FXCollections.observableArrayList(adhesions);

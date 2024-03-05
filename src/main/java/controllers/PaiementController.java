@@ -1,8 +1,10 @@
 package controllers;
 
 
+import java.io.File;
 import java.lang.String ;
 import entities.Adhesion;
+import entities.PDFGenerator;
 import entities.Paiement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import services.AdhesionCrud;
 import services.PaiementCrud;
-import services.PaymentProcessor;
+
 import tools.MyConnection;
 
 import java.io.IOException;
@@ -116,6 +118,7 @@ public class PaiementController {
 
     @FXML
     public void proceedPayment() {
+
         try {
             String postalCodeStr = tfPostalCode.getText().trim();
             String cardNumber = tfcardnumber.getText().trim();
@@ -127,7 +130,6 @@ public class PaiementController {
             String dateDebut = debutDateLabel.getText();
             String dateFin = endDateLabel.getText();
             String price = priceLabel.getText().trim();
-
 
 
             // Validate postal code
@@ -198,29 +200,35 @@ public class PaiementController {
             throw new RuntimeException(e);
         }
 
-        try {
-            boolean paymentResult = PaymentProcessor.processPayment(
-                    "John Doe", // Example name
-                    "john@example.com", // Example email
-                    100.00f, // Example amount
-                    cardNumber,
-                    getExpirationMonth(expiration),
-                    getExpirationYear(expiration),
-                    cvc
-            );
+        // Get payment information from UI fields
+        String paymentDate = "Payment Date: " + LocalDate.now();
+        String amount = "Amount: $" + priceLabel.getText();
+        String cardNumber = "Card Number: " + tfcardnumber.getText();
+        String expirationDate = "Expiration Date: " + tfexpiration.getText();
+        String cvc = "CVC: " + tfccv.getText();
 
-            if (paymentResult) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Payment successful!");
-                if (onSuccessCallback != null) {
-                    onSuccessCallback.run();
-                }
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Error", "Payment failed!");
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Payment processing error: " + e.getMessage());
-        }
+        // Concatenate payment information
+        String paymentInfo = paymentDate + "\n" +
+                amount + "\n" +
+                cardNumber + "\n" +
+                expirationDate + "\n" +
+                cvc;
+        String userHome = System.getProperty("user.home");
+        String desktopPath = userHome + File.separator + "Desktop";
+        String filePath = desktopPath + File.separator + "payment_info.pdf";
+        PDFGenerator.generatePDF(paymentInfo, "payment_info.pdf");
+        showAlert(AlertType.INFORMATION, "Success", "Payment information saved to PDF successfully!");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("PDF Generated");
+        alert.setHeaderText(null);
+        alert.setContentText("Payment information saved to: " + filePath);
+        alert.showAndWait();
+
+        System.out.println(filePath);
+
     }
+
+
 
     @FXML
     public void cancelPayment() {
@@ -294,7 +302,7 @@ public class PaiementController {
 
 
         Adhesion adhesion = new Adhesion(debutDate, endDate, price);
-        AdhesionCrud adhesionCrud = new AdhesionCrud(connection);
+        AdhesionCrud adhesionCrud = new AdhesionCrud();
         boolean adhesionCreated = adhesionCrud.createAdhesion(adhesion);
 
         if (adhesionCreated) {

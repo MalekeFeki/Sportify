@@ -4,6 +4,8 @@ module Sportify {
     requires javafx.fxml;
     requires java.sql;
     requires stripe.java;
+    requires org.apache.pdfbox;
+    requires java.desktop;
 
     opens  controllers;
 }

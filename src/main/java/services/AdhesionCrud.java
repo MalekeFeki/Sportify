@@ -2,6 +2,7 @@ package services;
 
 
 import entities.Adhesion;
+import tools.MyConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdhesionCrud implements IAdhésionCrud {
-    private Connection connection;
+   public Connection connection = MyConnection.getInstance().getCnx();
 
     // Constructor to initialize the connection
-    public AdhesionCrud(Connection connection) {
-        this.connection = connection;
-    }
 
     public AdhesionCrud() {
     }
@@ -84,44 +82,44 @@ public class AdhesionCrud implements IAdhésionCrud {
             e.printStackTrace();
         }
     }
+
     @Override
-    public Adhesion getAdhesionById(int adhesionId) {
-        String query = "SELECT adhesionId, userId, description, name, price, gymId, dateDebut FROM adhésion WHERE adhésionId = ?";
+    public Adhesion getAdhesionByUserIdAndGymId(int userId, int gymId) throws SQLException {
+        String query = "SELECT adhésionId, userId, description, name, price, gymId, dateDebut,dateFin FROM adhesion WHERE userId = ? AND gymId = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, adhesionId);
+            statement.setInt(1, userId);
+            statement.setInt(2, gymId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int userId = resultSet.getInt("userId");
-                int gymId = resultSet.getInt("gymId");
+                int adhesionId = resultSet.getInt("adhésionId");
                 String description = resultSet.getString("description");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
                 LocalDate dateDebut = resultSet.getDate("dateDebut").toLocalDate();
-                return new Adhesion(adhesionId, userId, description, name, price, gymId, dateDebut);
+                LocalDate dateFin = resultSet.getDate("dateFin").toLocalDate();
+                return new Adhesion(adhesionId, userId, description, name, price, gymId, dateDebut, dateFin);
+            } else {
+                throw new SQLException("No adhesion found for user ID: " + userId + " and gym ID: " + gymId);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
 
+
     @Override
-    public List<Adhesion> getAllAdhesions() {
+    public List<Adhesion> getAllAdhesions(int userId) {
         List<Adhesion> adhesions = new ArrayList<>();
-        String query = "SELECT * FROM adhesion";
+        String query = "SELECT * FROM adhesion WHERE userId = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int adhesionId = resultSet.getInt("adhesionId");
-                int userId = resultSet.getInt("userId");
                 String description = resultSet.getString("description");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
-                int gymId = resultSet.getInt("gymId");
                 LocalDate dateDebut = resultSet.getDate("dateDebut").toLocalDate();
                 LocalDate dateFin = resultSet.getDate("dateFin").toLocalDate();
-                adhesions.add(new Adhesion(adhesionId, userId, description, name, price, gymId, dateDebut, dateFin));
+                adhesions.add(new Adhesion(description, name, price, dateDebut, dateFin));
             }
             } catch (SQLException ex) {
             throw new RuntimeException(ex);
