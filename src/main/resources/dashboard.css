@@ -3,6 +3,9 @@
     -fx-border-color:#000;
     -fx-border-width:.4px .4px .2px .4px;
 }
+.container {
+    color: rgba(255, 97, 0, 0.5);
+}
 
 
 

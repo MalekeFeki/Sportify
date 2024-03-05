@@ -6,6 +6,9 @@
     -fx-background-radius: 20;
     -fx-effect: dropShadow(three-pass-box, rgba(0, 0, 0, 0.1), 10.0, 0, 0, 10.0);
 }
+.container {
+    color: rgba(255, 97, 0, 0.5); /* Orange color with 50% transparency */
+}
 
 
 
