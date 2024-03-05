@@ -15,6 +15,7 @@ import services.CoachCrud;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CoachController {
@@ -74,6 +75,14 @@ public class CoachController {
 
     @FXML
     public void initialize() {
+        // Ajouter un écouteur de changement de texte pour le champ de recherche
+        tfChercher.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Filtrer la TableView en fonction du texte de recherche
+            filterTableView(newValue);
+
+
+        });
+
         coachCrud = new CoachCrud();
         tfSexe.getItems().addAll(Sexe.values());
         tfSeance.getItems().addAll(Seance.values());
@@ -92,7 +101,7 @@ public class CoachController {
         });
 
         // Appel de la méthode coachSearch() après avoir chargé les données
-        coachSearch();
+
 
         // Mettre à jour le PieChart
         updatePieChart();
@@ -118,7 +127,22 @@ public class CoachController {
         chargerDonnees();
         updatePieChart();
     }
+    private void filterTableView(String searchText) {
+        // Créer un prédicat pour filtrer les éléments de la TableView
+        Predicate<Coach> predicate = utilisateur ->
+                utilisateur.getNom().toLowerCase().contains(searchText.toLowerCase());
 
+        // Créer une liste filtrée à partir de la liste originale des utilisateurs
+        List<Coach> filteredList = coachCrud.afficherCoaches().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+
+        // Effacer toutes les lignes existantes dans la TableView
+        Tab1.getItems().clear();
+
+        // Ajouter les éléments filtrés à la TableView
+        Tab1.getItems().addAll(filteredList);
+    }
     @FXML
     void modifierCoach(javafx.event.ActionEvent event) {
         Coach coach = creerCoachAPartirDesChamps();
@@ -202,7 +226,7 @@ public class CoachController {
         }
     }
 
-    public void coachSearch() {
+   /* public void coachSearch() {
         FilteredList<Coach> filter = new FilteredList<>(coachesObservableList, e -> true);
 
         // Assuming you have a TextField named tfChercher for searching
@@ -229,7 +253,7 @@ public class CoachController {
         SortedList<Coach> sortedList = new SortedList<>(filter);
         sortedList.comparatorProperty().bind(Tab1.comparatorProperty());
         Tab1.setItems(sortedList);
-    }
+    }*/
 
     private void updatePieChart() {
         // Calculer les statistiques sur le nombre total de coachs pour chaque sexe
