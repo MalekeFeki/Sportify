@@ -23,7 +23,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import services.SalleCrud;
-
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 
 
@@ -111,12 +112,12 @@ public class SalleListeController {
 
         gymsTableView.setItems(salleObservableList);
 
-        // Set up auto-completion for the search TextField
-        List<String> salleNames = salleCrud.getAllSalles().stream()
-                .map(Salle::getNomS)
-                .collect(Collectors.toList());
-
-
+//        // Set up auto-completion for the search TextField
+//        List<String> salleNames = salleCrud.getAllSalles().stream()
+//                .map(Salle::getNomS)
+//                .collect(Collectors.toList());
+//
+//        TextFields.bindAutoCompletion(searchTextField, salleNames);
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Filtrer la TableView en fonction du texte de recherche
@@ -182,72 +183,30 @@ public class SalleListeController {
         }
     }
 
-//    @FXML
-//    private void handleAfficherButton(Salle s) {
-//        // LoadSalleListeAdmin.fxml
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
-//        Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
-//        try {
-//            Parent root = loader.load();
-//            SalleModifController controller = loader.getController();
-//            controller.setSalle(salle);
-//
-//            // Set up the stage
-//            Stage stage = new Stage();
-//            stage.setTitle("Salle Profil");
-//            stage.setScene(new Scene(root));
-//            stage.show();
-//
-//            // Close the current stage (optional)
-//            Stage currentStage = (Stage) afficherButton.getScene().getWindow();
-//            currentStage.close();
-//
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
-//    }
-
     @FXML
-    private void handleAfficherButton() {
+    private void handleAfficherButton(ActionEvent event) {
+        // LoadSalleListeAdmin.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
         Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
-        if (salle == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une salle à modifier.");
-            return;
-        }
+        try {
+            Parent root = loader.load();
+            SalleModifController controller = loader.getController();
+            controller.setSalle(salle);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText("Voulez-vous vraiment modifier cette salle ?");
+            // Set up the stage
+            Stage stage = new Stage();
+            stage.setTitle("Salle Profil");
+            stage.setScene(new Scene(root));
+            stage.show();
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
-            try {
-                Parent root = loader.load();
-                // Set the controller
-                SalleProfilController controller = loader.getController();
-                controller.setSalle(salle);
-                // Set up the stage
-                Stage stage = new Stage();
-                stage.setTitle("Profile Salle");
-                stage.setScene(new Scene(root));
-                stage.show();
+            // Close the current stage (optional)
+            Stage currentStage = (Stage) afficherButton.getScene().getWindow();
+            currentStage.close();
 
-                // Close the current stage (optional)
-                Stage currentStage = (Stage) afficherButton.getScene().getWindow();
-                currentStage.close();
 
-            } catch (IOException e) {
-                e.printStackTrace();
 
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
 
         }
     }

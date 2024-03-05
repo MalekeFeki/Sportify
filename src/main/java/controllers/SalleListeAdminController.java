@@ -69,6 +69,8 @@ public class SalleListeAdminController {
     @FXML
     void initialize() {
         salleCrud = new SalleCrud();
+
+
         nomColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("nomS"));
         adresseColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("adresse"));
         regionColumn.setCellValueFactory(new PropertyValueFactory<Salle, String>("region"));
@@ -90,13 +92,14 @@ public class SalleListeAdminController {
         //
         gymsTableView.setItems(salleObservableList);
 
-
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Filtrer la TableView en fonction du texte de recherche
             filterTableView(newValue);
 
 
         });
+
+
     }
 
     private void filterTableView(String searchText) {

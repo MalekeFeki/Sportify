@@ -45,16 +45,16 @@ public class Seance {
         this.nomSeance = nomSeance;
     }
 
-    public int getDebut() {
-        return debut;
+    public String getDebut() {
+        return String.valueOf(debut);
     }
 
     public void setDebut(int debut) {
         this.debut = debut;
     }
 
-    public int getFin() {
-        return fin;
+    public String getFin() {
+        return String.valueOf(fin);
     }
 
     public java.sql.Date getDateS() {

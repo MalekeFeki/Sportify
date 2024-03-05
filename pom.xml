@@ -40,6 +40,16 @@
             <artifactId>javafx-web</artifactId>
             <version>20.0.2</version> <!-- Replace with your JavaFX version -->
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>20.0.2</version> <!-- Replace with your JavaFX version -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>20.0.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

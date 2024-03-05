@@ -28,6 +28,13 @@ import javafx.scene.web.WebView;
 public class SalleAjoutController {
 
     @FXML
+    private TextField latTextField;
+
+    @FXML
+    private TextField lonTextField;
+    @FXML
+    private WebView mapView;
+    @FXML
     private ResourceBundle resources;
 
     @FXML
@@ -78,6 +85,128 @@ public class SalleAjoutController {
         regionComboBox.getItems().addAll("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba",
                 "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine",
                 "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
+
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/leaftletmap.html").toExternalForm());
+        webEngine.setOnAlert(event -> {
+            System.out.println("WebView alert: " + event.getData());
+
+            // Check for the custom event 'locationUpdated'
+            if ("locationUpdated".equals(event.getData())) {
+                // Retrieve the location information from the event
+                Object latitudeObj = webEngine.executeScript("getSelectedLocation.latitude");
+                Object longitudeObj = webEngine.executeScript("getSelectedLocation.longitude");
+                Object locationNameObj = webEngine.executeScript("getSelectedLocation.locationName");
+
+                if (latitudeObj instanceof Double && longitudeObj instanceof Double && locationNameObj instanceof String) {
+                    Double latitude = (Double) latitudeObj;
+                    Double longitude = (Double) longitudeObj;
+                    String locationName = (String) locationNameObj;
+
+                    // Update the JavaFX controls (adresseTextField, regionComboBox, etc.)
+                    adresseTextField.setText(locationName);
+                    lonTextField.setText(longitude.toString());
+                    latTextField.setText(latitude.toString());
+
+                    // You can also update other controls or perform additional actions
+                }
+            }
+        });
+
+    }
+//    private Optional<cityEV> extractCityFromText(String text) {
+//        // Convert the text to lowercase for case-insensitive comparison
+//        String lowerText = text.toLowerCase();
+//
+//        // Iterate through all enum values and check if the text contains a city name
+//        return Arrays.stream(cityEV.values())
+//                .filter(city -> lowerText.contains(city.toString().toLowerCase()))
+//                .findFirst();
+//    }
+//
+//    @FXML
+//    private void updateCityComboBox() {
+//        String lieuText = adresseTextField.getText();
+//
+//        // Extract the city from the text
+//        Optional<cityEV> extractedCity = extractCityFromText(lieuText);
+//
+//        // Set the extracted city to the ComboBox if found
+//        extractedCity.ifPresent(regionComboBox::setValue);
+//    }
+    @FXML
+    public void updateLocationButtonClicked() {
+        WebEngine webEngine = mapView.getEngine();
+
+        // Get the location from the JavaScript and update the lieuTextField
+        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
+
+        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+            Double latitude = (Double) latitudeObj;
+            Double longitude = (Double) longitudeObj;
+
+            adresseTextField.setText(locationName);
+
+            // Now, you can use latitude, longitude, and locationName as needed
+            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+            lonTextField.setText(longitude.toString());
+            latTextField.setText(latitude.toString());
+            // Update your JavaFX controls (e.g., lieuTextField) here
+        } else {
+            showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de l'emplacement'.", Alert.AlertType.ERROR);
+        }
+    }
+
+
+
+//    @FXML
+//    public void updateLocationButtonClicked() {
+//        WebEngine webEngine = mapView.getEngine();
+//
+//        // Get the location from the JavaScript and update the lieuTextField
+//        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+//        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+//        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
+//
+//        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+//            Double latitude = (Double) latitudeObj;
+//            Double longitude = (Double) longitudeObj;
+//
+//            adresseTextField.setText(locationName);
+//
+//            // Now, you can use latitude, longitude, and locationName as needed
+//            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+//            lonTextField.setText(longitude.toString());
+//            latTextField.setText(latitude.toString());
+//            // Update your JavaFX controls (e.g., lieuTextField) here
+//        } else {
+//            showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de l'emplacement'.", Alert.AlertType.ERROR);
+//        }
+//    }
+
+
+    private void loadMap() {
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+
+        // JavaScript code to get selected latitude and longitude
+        String javascriptCode = "function getSelectedLatitude() {" +
+                "    return selectedLatitude;" +
+                "}" +
+                "function getSelectedLongitude() {" +
+                "    return selectedLongitude;" +
+                "}" +
+                "function getSelectedLocationName() {" +
+                "    return selectedLocationName;" +
+                "}";
+
+        webEngine.executeScript(javascriptCode);
+    }
+    public void setLocationOnMap(double latitude, double longitude) {
+        String jsCode = String.format("setLocationOnMap(%f, %f);", latitude, longitude);
+        mapView.getEngine().executeScript(jsCode);
     }
 
     @FXML
@@ -96,6 +225,7 @@ public class SalleAjoutController {
 //                showAlert("Erreur de validation", "Veuillez saisir une région tunisienne valide.", Alert.AlertType.ERROR);
 //                return;
 //            }
+
 
             Set<String> options = new HashSet<>();
             if (wifiCheckBox.isSelected()) options.add("wifi");

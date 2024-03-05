@@ -79,8 +79,8 @@ public class SeanceCrud implements ISeanceCrud<Seance> {
         try {
             PreparedStatement pst = cnx2.prepareStatement(req2);
             pst.setInt(1, s.getIdSeance());
-            pst.setInt(2, s.getDebut());
-            pst.setInt(2, s.getFin());
+            pst.setInt(2, Integer.parseInt(s.getDebut()));
+            pst.setInt(2, Integer.parseInt(s.getFin()));
             pst.setDate(3, s.getDateS());
             pst.executeUpdate();
             System.out.println("Séance modifié");

@@ -51,10 +51,9 @@ public class SeanceListeController {
 
         // Set up cell value factories for each column
         nomSeanceColumn.setCellValueFactory(new PropertyValueFactory<>("nomSeance"));
-        dateDebutColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateS().toString()));
-        debutColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getDebut())));
-        finColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getFin())));
-
+        debutColumn.setCellValueFactory(new PropertyValueFactory<>("debut"));
+        finColumn.setCellValueFactory(new PropertyValueFactory<>("fin"));
+        dateDebutColumn.setCellValueFactory(new PropertyValueFactory<>("dateS"));
         // Load seances data into the TableView
         loadSeancesData();
     }
