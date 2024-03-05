@@ -499,6 +499,7 @@
 }
 
 /* allevents button---------------------------------------------------------------------------------------------------------------*/
+
 #eventsNearMeButton,
 #rnd1,
 #clearFiltersButton,
@@ -510,6 +511,7 @@
     -fx-background-color:#fe6100;
     -fx-background-radius: 0%;
 }
+
 #eventsNearMeButton:hover,
 #rnd1:hover,
 #clearFiltersButton:hover,
@@ -523,3 +525,21 @@
 }
 
 /*---------------------------------------------------------------------------------------------------------------*/
+#sign_up,
+#sign_in{
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-border-color:null;
+    -fx-background-color:#fe6100;
+    -fx-background-radius: 0%;
+}
+#sign_up:hover,
+#sign_in:hover{
+    -fx-background-color: null;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight:bold;
+    -fx-background-radius: 0%;
+    -fx-border-color: #800000;
+
+}

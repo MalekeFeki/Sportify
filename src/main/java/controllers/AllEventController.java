@@ -88,7 +88,7 @@ private Button reserveButton ;
         }
     }
     private void loadEvents() {
-        List<Evenement> events = evenementCrud.afficherEvent();
+        List<Evenement> events = evenementCrud.afficherEventForUser();
         allEvents = FXCollections.observableArrayList(events);
         displayEvents(allEvents);
 
@@ -367,5 +367,18 @@ private Button reserveButton ;
         alert.showAndWait();
     }
 
-
+    @FXML
+    private ImageView gohomepage;
+    @FXML
+    private void redirectToHomePage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) gohomepage.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

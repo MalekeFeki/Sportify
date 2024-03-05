@@ -156,43 +156,6 @@ public class AjouterEventController {
         // Set the extracted city to the ComboBox if found
         extractedCity.ifPresent(cityEVComboBox::setValue);
     }
-    private Double selectedLatitude;
-    private Double selectedLongitude;
-//    @FXML
-//    public void updateLocationButtonClicked() {
-//        WebEngine webEngine = mapView.getEngine();
-//        // Get the location from the JavaScript and update the lieuTextField
-//        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
-//        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
-//        String locationName = (String) webEngine.executeScript("getSelectedLocationName()");
-//
-//        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
-//            Double latitude = (Double) latitudeObj;
-//            Double longitude = (Double) longitudeObj;
-//            lieuTextField.setText(locationName);
-////            lieuTextField.setText("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
-//
-//        } else {
-//            showAlert("Error", "Unable to retrieve location from the map.");
-//        }
-//    }
-//
-//
-//    private void loadMap() {
-//        WebEngine webEngine = mapView.getEngine();
-//        webEngine.load(getClass().getResource("/map.html").toExternalForm());
-//
-//        // JavaScript code to get selected latitude and longitude
-//        String javascriptCode = "function getSelectedLatitude() {" +
-//                "    return selectedLatitude;" +
-//                "}" +
-//                "function getSelectedLongitude() {" +
-//                "    return selectedLongitude;" +
-//                "}";
-//
-//        // Execute the JavaScript code
-//        webEngine.executeScript(javascriptCode);
-//    }
 
     @FXML
     public void updateLocationButtonClicked() {
@@ -222,7 +185,6 @@ public class AjouterEventController {
             showAlert("Error", "Unable to retrieve location from the map.");
         }
     }
-
 
     private void loadMap() {
         WebEngine webEngine = mapView.getEngine();

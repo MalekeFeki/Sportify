@@ -23,7 +23,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     @Override
     public void ajouterEvent(Evenement u) {
 
-        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,city,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse,Capacite,lat,lon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String req ="INSERT INTO Evenement(NomEv,DatedDebutEV,DatedFinEV,HeureEV,DescrptionEv,Photo,lieu,city,Tele,Email,FB_link,IG_link,GenreEvenement,typeEV,nombrePersonneInteresse,Capacite,lat,lon,role) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement pst ;
         try {
             pst = cnx2.prepareStatement(req);
@@ -45,6 +45,7 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
             pst.setInt(16,u.getCapacite());
             pst.setDouble(17,u.getLat());
             pst.setDouble(18,u.getLon());
+            pst.setString(19,"ADMIN");
             pst.executeUpdate();
 
         } catch (SQLException e) {
@@ -54,10 +55,46 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
 
     }
 
-
-    public  List<Evenement> afficherEvent()  {
+    public  List<Evenement> afficherEventForUser()  {
         List<Evenement> Evenements = new ArrayList<>();
         String req2= "SELECT * FROM Evenement";
+        Statement st1 = null;
+        try {
+            st1 = cnx2.createStatement();
+            ResultSet rs = st1.executeQuery(req2);
+            while (rs.next()){
+                Evenement p =new Evenement();
+                p.setIDevent(rs.getInt(1));
+                p.setNomEv(rs.getString("NomEv"));
+                p.setDatedDebutEV(rs.getDate("DatedDebutEV"));
+                p.setDatedFinEV(rs.getDate("DatedFinEV"));
+                p.setHeureEV(rs.getString("HeureEV"));
+                p.setDescrptionEv(rs.getString("DescrptionEv"));
+                p.setPhoto(rs.getString("Photo"));
+                p.setLieu(rs.getString("lieu"));
+                p.setCity(cityEV.valueOf(rs.getString("city")));
+                p.setTele(rs.getString("Tele"));
+                p.setEmail(rs.getString("Email"));
+                p.setFB_link(rs.getString("FB_link"));
+                p.setIG_link(rs.getString("IG_link"));
+                p.setGenreEvenement(GenreEv.valueOf(rs.getString("GenreEvenement")));
+                p.setTypeEV(typeEvent.valueOf(rs.getString("typeEV")));
+                p.setNombrePersonneInteresse(rs.getInt("nombrePersonneInteresse"));
+                p.setCapacite(rs.getInt("Capacite"));
+                p.setLat(rs.getDouble("lat"));
+                p.setLon(rs.getDouble("lon"));
+                Evenements.add(p);
+
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return Evenements ;
+    }
+    public  List<Evenement> afficherEvent()  {
+        List<Evenement> Evenements = new ArrayList<>();
+        String req2= "SELECT * FROM Evenement WHERE role ='ADMIN'";
         Statement st1 = null;
         try {
             st1 = cnx2.createStatement();
@@ -184,33 +221,33 @@ public class EvenementCrud implements IEvenementCrud<Evenement> {
     }
 
 
-    public List<String> getEventTypes() {
-        List<String> eventTypes = new ArrayList<>();
-        String query = "SELECT DISTINCT GenreEvenement FROM Evenement";
-        try (Statement statement = cnx2.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            while (resultSet.next()) {
-                eventTypes.add(resultSet.getString("GenreEvenement"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return eventTypes;
-    }
-
-    public List<String> getCities() {
-        List<String> cities = new ArrayList<>();
-        String query = "SELECT DISTINCT city FROM Evenement";
-        try (Statement statement = cnx2.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            while (resultSet.next()) {
-                cities.add(resultSet.getString("city"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return cities;
-    }
+//    public List<String> getEventTypes() {
+//        List<String> eventTypes = new ArrayList<>();
+//        String query = "SELECT DISTINCT GenreEvenement FROM Evenement";
+//        try (Statement statement = cnx2.createStatement();
+//             ResultSet resultSet = statement.executeQuery(query)) {
+//            while (resultSet.next()) {
+//                eventTypes.add(resultSet.getString("GenreEvenement"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return eventTypes;
+//    }
+//
+//    public List<String> getCities() {
+//        List<String> cities = new ArrayList<>();
+//        String query = "SELECT DISTINCT city FROM Evenement";
+//        try (Statement statement = cnx2.createStatement();
+//             ResultSet resultSet = statement.executeQuery(query)) {
+//            while (resultSet.next()) {
+//                cities.add(resultSet.getString("city"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return cities;
+//    }
 
 
 

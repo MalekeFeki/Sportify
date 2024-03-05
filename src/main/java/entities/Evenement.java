@@ -1,6 +1,7 @@
 package entities;
 
 import entities.enums.GenreEv;
+import entities.enums.Role;
 import entities.enums.typeEvent;
 import entities.enums.cityEV;
 
@@ -18,6 +19,7 @@ public class Evenement {
     private String Photo;
     private String lieu;
     private cityEV city;
+    private Role role ;
     private String Tele;
     private String Email;
     private String FB_link;
@@ -56,9 +58,10 @@ public class Evenement {
         GenreEvenement = genreEvenement;
         this.typeEV = typeEvenement;
         Capacite = capacite;
+
     }
 
-    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city , String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
+    public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city , String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite ) {
         this.reservations = reservations;
         this.IDevent = IDevent;
         NomEv = nomEv;
@@ -77,6 +80,7 @@ public class Evenement {
         this.typeEV = typeEV;
         this.nombrePersonneInteresse = nombrePersonneInteresse;
         Capacite = capacite;
+
     }
 
     public Evenement(String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu,cityEV city, String tele, String email, String FB_link, String IG_link, GenreEv genreEvenement, typeEvent typeEV, int capacite, double lat, double lon) {
@@ -97,6 +101,7 @@ public class Evenement {
         Capacite = capacite;
         this.lat = lat;
         this.lon = lon;
+
     }
 
     public Evenement(List<EventReservation> reservations, int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city, String tele, String email, String FB_link, String IG_link, double lat, double lon, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
@@ -120,6 +125,7 @@ public class Evenement {
         this.typeEV = typeEV;
         this.nombrePersonneInteresse = nombrePersonneInteresse;
         Capacite = capacite;
+
     }
 
     public Evenement(int IDevent, String nomEv, Date datedDebutEV, Date datedFinEV, String heureEV, String descrptionEv, String photo, String lieu, cityEV city, String tele, String email, String FB_link, String IG_link, double lat, double lon, GenreEv genreEvenement, typeEvent typeEV, int nombrePersonneInteresse, int capacite) {
@@ -142,6 +148,7 @@ public class Evenement {
         this.typeEV = typeEV;
         this.nombrePersonneInteresse = nombrePersonneInteresse;
         Capacite = capacite;
+
     }
 
     @Override
@@ -168,6 +175,14 @@ public class Evenement {
                 ", nombrePersonneInteresse=" + nombrePersonneInteresse +
                 ", Capacite=" + Capacite +
                 '}';
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public double getLat() {

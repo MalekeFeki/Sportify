@@ -40,9 +40,9 @@
                </children></VBox>
 
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="91.0" layoutX="-270.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="1633.0" />
-      <ImageView fitHeight="60.0" fitWidth="71.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="gohomepage" fitHeight="91.0" fitWidth="263.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#redirectToHomePage">
          <image>
-            <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportifylogo.png" />
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportify__2_-removebg-preview_1.png" />
          </image>
       </ImageView>
       <Text layoutX="44.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EVENEMENT">
