@@ -1,30 +1,31 @@
 package controllers;
 
 import entities.Coach;
-import javafx.collections.FXCollections;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.collections.ObservableList;
 import entities.enums.Seance;
 import entities.enums.Sexe;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import services.CoachCrud;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import services.CoachCrud;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CoachController {
 
     @FXML
     private TableView<Coach> Tab1;
+
+    @FXML
+    private PieChart statgenre;
+    @FXML
+    private Label nbtotal;
 
     @FXML
     private TableColumn<Coach, String> colNom;
@@ -92,10 +93,13 @@ public class CoachController {
 
         // Appel de la méthode coachSearch() après avoir chargé les données
         coachSearch();
+
+        // Mettre à jour le PieChart
+        updatePieChart();
     }
 
     @FXML
-    void ajouterCoach(ActionEvent event) {
+    void ajouterCoach(javafx.event.ActionEvent event) {
         String nom = tfNom.getText();
         String prenom = tfPrenom.getText();
         String description = tfDiscription.getText();
@@ -112,10 +116,11 @@ public class CoachController {
         afficherMessage("Coach ajouté avec succès");
         viderChamps();
         chargerDonnees();
+        updatePieChart();
     }
 
     @FXML
-    void modifierCoach(ActionEvent event) {
+    void modifierCoach(javafx.event.ActionEvent event) {
         Coach coach = creerCoachAPartirDesChamps();
         if (coach != null) {
 
@@ -128,6 +133,7 @@ public class CoachController {
                 afficherMessage("Coach modifié avec succès");
                 viderChamps();
                 chargerDonnees();
+                updatePieChart();
             } else {
                 afficherMessageErreur("Veuillez sélectionner un coach à modifier.");
             }
@@ -135,7 +141,7 @@ public class CoachController {
     }
 
     @FXML
-    void supprimerCoach(ActionEvent event) {
+    void supprimerCoach(javafx.event.ActionEvent event) {
         Coach coachSelectionne = Tab1.getSelectionModel().getSelectedItem();
         if (coachSelectionne != null) {
             String nom = coachSelectionne.getNom();
@@ -143,6 +149,7 @@ public class CoachController {
             afficherMessage("Coach supprimé avec succès");
             viderChamps();
             chargerDonnees();
+            updatePieChart();
         } else {
             afficherMessageErreur("Veuillez sélectionner un coach à supprimer.");
         }
@@ -222,5 +229,23 @@ public class CoachController {
         SortedList<Coach> sortedList = new SortedList<>(filter);
         sortedList.comparatorProperty().bind(Tab1.comparatorProperty());
         Tab1.setItems(sortedList);
+    }
+
+    private void updatePieChart() {
+        // Calculer les statistiques sur le nombre total de coachs pour chaque sexe
+        Map<Sexe, Long> sexeCountMap = coachesObservableList.stream()
+                .collect(Collectors.groupingBy(Coach::getSexe, Collectors.counting()));
+        long totalCoachs = sexeCountMap.values().stream().mapToLong(Long::longValue).sum();
+        nbtotal.setText(""+ totalCoachs);
+
+
+        // Créer les données pour le PieChart
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        sexeCountMap.forEach((sexe, count) -> {
+            pieChartData.add(new PieChart.Data(sexe.toString(), count));
+        });
+
+        // Afficher les données dans le PieChart
+        statgenre.setData(pieChartData);
     }
 }
