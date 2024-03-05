@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,35 +12,42 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
+<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
     <children>
-        <ImageView fitHeight="434.0" fitWidth="744.0" layoutY="59.0">
+        <TextField fx:id="lonTextField" layoutX="307.0" layoutY="158.0" opacity="0.0" />
+        <TextField fx:id="latTextField" layoutX="307.0" layoutY="200.0" opacity="0.0" />
+        <ImageView fitHeight="555.0" fitWidth="932.0" layoutY="59.0">
             <image>
                 <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="83.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="83.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="932.0" />
         <HBox layoutX="22.0" layoutY="64.0" spacing="10.0" />
-          <Label layoutX="18.0" layoutY="160.0" text="Nom">
-              <font>
-                  <Font size="14.0" />
-              </font>
-          </Label>
+        <Group layoutX="18.0" layoutY="126.0">
+            <children>
+                <Label text="Nom">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
 
-          <TextField fx:id="nomTextField" layoutX="18.0" layoutY="195.1999969482422" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
-          <Label layoutX="18.0" layoutY="237.60000610351562" text="Adresse">
-              <font>
-                  <Font size="14.0" />
-              </font>
-          </Label>
-          <TextField fx:id="adresseTextField" layoutX="18.0" layoutY="272.79998779296875" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
-          <Label layoutX="18.0" layoutY="315.20001220703125" text="Région">
-              <font>
-                  <Font size="14.0" />
-              </font>
-          </Label>
-        <HBox layoutX="22.0" layoutY="440.0" spacing="10.0">
+                <TextField fx:id="nomTextField" layoutY="35.19999694824219" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <Label layoutY="77.60000610351562" text="Adresse">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="adresseTextField" layoutY="112.79998779296875" prefHeight="27.0" prefWidth="348.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+            </children>
+        </Group>
+        <Label layoutX="20.0" layoutY="468.0" text="Région">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <HBox layoutX="18.0" layoutY="569.0" spacing="10.0">
             <children>
                 <CheckBox fx:id="wifiCheckBox" text="Wifi" />
                 <CheckBox fx:id="parkingCheckBox" text="Parking" />
@@ -47,18 +55,23 @@
                 <CheckBox fx:id="climatisationCheckBox" text="Climatisation" />
             </children>
         </HBox>
-        <HBox layoutX="571.0" layoutY="440.0" spacing="10.0">
+        <HBox layoutX="776.0" layoutY="565.0" spacing="10.0">
             <children>
                 <Button fx:id="annulerButton" mnemonicParsing="false" onAction="#handleAnnulerButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Annuler" />
                 <Button fx:id="enregistrerButton" mnemonicParsing="false" onAction="#saveSalle" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Enregistrer" />
             </children>
         </HBox>
-        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="400.0" layoutY="200.0">
-            <image>
-                <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/default.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="18.0" layoutY="403.0" text="Options">
+        <Group layoutX="588.0" layoutY="446.0">
+            <children>
+                <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0">
+                    <image>
+                        <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/default.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="selectImageButton" layoutX="6.0" layoutY="86.0" mnemonicParsing="false" onAction="#handleSelectImage" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Select Image" />
+            </children>
+        </Group>
+        <Label layoutX="17.0" layoutY="537.0" text="Options">
             <font>
                 <Font size="14.0" />
             </font>
@@ -68,9 +81,10 @@
                 <Image url="file:/C:/Users/PC%20MSI/Desktop/9raya/PI/Sportify/src/img/LogoBlack.png" />
             </image>
         </ImageView>
-      <ComboBox fx:id="regionComboBox" layoutX="18.0" layoutY="360.0" prefHeight="26.0" prefWidth="151.0" />
-        <Button fx:id="selectImageButton" layoutX="406.0" layoutY="286.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Select Image" />
-        <Label layoutX="18.0" layoutY="78.0" prefHeight="43.0" prefWidth="251.0" text="Modifier la salle">
+        <Button fx:id="updateButton" layoutX="397.0" layoutY="362.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Mettre à jour" />
+        <ComboBox fx:id="regionComboBox" layoutX="17.0" layoutY="503.0" prefHeight="26.0" prefWidth="151.0" />
+        <WebView fx:id="mapView" layoutX="397.0" layoutY="115.0" prefHeight="232.0" prefWidth="494.0" />
+        <Label layoutX="18.0" layoutY="78.0" prefHeight="43.0" prefWidth="251.0" text="Modifier votre salle">
             <font>
                 <Font size="29.0" />
             </font>

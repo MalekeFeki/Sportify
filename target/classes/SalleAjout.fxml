@@ -39,7 +39,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="adresseTextField" layoutY="112.79998779296875" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <TextField fx:id="adresseTextField" layoutY="112.79998779296875" prefHeight="27.0" prefWidth="371.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
          </children>
       </Group>
           <Label layoutX="20.0" layoutY="468.0" text="Région">

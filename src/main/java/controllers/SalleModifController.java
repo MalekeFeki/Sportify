@@ -17,8 +17,20 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.SalleCrud;
 
+import javafx.fxml.FXML;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
 public class SalleModifController {
 
+
+    @FXML
+    private TextField latTextField;
+
+    @FXML
+    private TextField lonTextField;
+    @FXML
+    private WebView mapView;
     @FXML
     private ResourceBundle resources;
 
@@ -61,11 +73,7 @@ public class SalleModifController {
     private Salle salle; // The Salle object to be modified
 
 
-    private static final List<String> REGIONS_TUNISIENNES = Arrays.asList(
-            "Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba",
-            "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine",
-            "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"
-    );
+
 
     @FXML
     void initialize() {
@@ -73,6 +81,33 @@ public class SalleModifController {
         regionComboBox.getItems().addAll("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba",
                 "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine",
                 "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/leaftletmap.html").toExternalForm());
+        webEngine.setOnAlert(event -> {
+            System.out.println("WebView alert: " + event.getData());
+
+            // Check for the custom event 'locationUpdated'
+            if ("locationUpdated".equals(event.getData())) {
+                // Retrieve the location information from the event
+                Object latitudeObj = webEngine.executeScript("getSelectedLocation.latitude");
+                Object longitudeObj = webEngine.executeScript("getSelectedLocation.longitude");
+                Object locationNameObj = webEngine.executeScript("getSelectedLocation.locationName");
+
+                if (latitudeObj instanceof Double && longitudeObj instanceof Double && locationNameObj instanceof String) {
+                    Double latitude = (Double) latitudeObj;
+                    Double longitude = (Double) longitudeObj;
+                    String locationName = (String) locationNameObj;
+
+                    // Update the JavaFX controls (adresseTextField, regionComboBox, etc.)
+                    adresseTextField.setText(locationName);
+                    lonTextField.setText(longitude.toString());
+                    latTextField.setText(latitude.toString());
+
+                    // You can also update other controls or perform additional actions
+                }
+            }
+        });
+
     }
 
     @FXML
@@ -101,15 +136,7 @@ public class SalleModifController {
 
     @FXML
     void saveSalle(ActionEvent event) {
-        // Validate input fields
-        if (isValidInput()) {
 
-            String region = regionComboBox.getValue();
-            if (!isValidRegion(region)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Veuillez saisir une région tunisienne valide.", ButtonType.OK);
-                alert.show();
-                return;
-            }
 
             Set<String> options = new HashSet<>();
 
@@ -153,6 +180,39 @@ public class SalleModifController {
                 throw new RuntimeException(e);
             }
         }
+
+
+    @FXML
+    public void updateLocationButtonClicked() {
+        WebEngine webEngine = mapView.getEngine();
+
+        // Get the location from the JavaScript and update the lieuTextField
+        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
+
+        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+            Double latitude = (Double) latitudeObj;
+            Double longitude = (Double) longitudeObj;
+
+            adresseTextField.setText(locationName);
+
+            // Now, you can use latitude, longitude, and locationName as needed
+            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+            lonTextField.setText(longitude.toString());
+            latTextField.setText(latitude.toString());
+            // Update your JavaFX controls (e.g., lieuTextField) here
+        } else {
+            showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de l'emplacement'.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -184,10 +244,7 @@ public class SalleModifController {
 
 
 
-    // Méthode pour vérifier si la région est valide
-    private boolean isValidRegion(String region) {
-        return REGIONS_TUNISIENNES.contains(region);
-    }
+
 
 
 }

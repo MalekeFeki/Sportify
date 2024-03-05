@@ -190,7 +190,7 @@ public class SalleListeController {
         Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
         try {
             Parent root = loader.load();
-            SalleModifController controller = loader.getController();
+            SalleProfilController controller = loader.getController();
             controller.setSalle(salle);
 
             // Set up the stage
