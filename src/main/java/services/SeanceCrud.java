@@ -29,7 +29,6 @@ public class SeanceCrud implements ISeanceCrud<Seance> {
                     seance.setDebut(resultSet.getInt("debut"));
                         seance.setFin(resultSet.getInt("fin"));
                     seance.setDateS(resultSet.getDate("date"));
-                    String options = resultSet.getString("options");
                     seances.add(seance);
                 }
             }

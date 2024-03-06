@@ -64,6 +64,33 @@ public class SalleCrud implements ISalleCrud<Salle> {
         }
     }
 
+    public boolean isAddressAlreadyUsed(String address) {
+        try {
+            // Assuming you have a method to get a Salle by address
+            Salle existingSalle = getSalleByAddress(address);
+
+            // If a salle with the given address is found, return true
+            return existingSalle != null;
+        } catch (Exception e) {
+            // Handle any exceptions (e.g., database access error)
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Example method to retrieve a Salle by address (replace with your actual implementation)
+    private Salle getSalleByAddress(String address) {
+        // Implement the logic to fetch a Salle by address from your database
+        // This is just a placeholder; replace it with your actual database access code
+        // Return null if no salle is found with the given address
+        // Replace the following lines with your actual database access code
+        List<Salle> salleList = getAllSalles(); // Replace with your actual method
+        return salleList.stream()
+                .filter(salle -> salle.getAdresse().equals(address))
+                .findFirst()
+                .orElse(null);
+    }
+
 //    @Override
 //    public List<Salle> afficherSalle() {
 //        List<Salle> salles = new ArrayList<>();

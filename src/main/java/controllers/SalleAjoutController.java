@@ -21,9 +21,10 @@ import services.SalleCrud;
 import java.io.File;
 import services.UtilisateurCrud;
 
-import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+
+import org.controlsfx.control.Notifications;
 
 public class SalleAjoutController {
 
@@ -245,7 +246,17 @@ public class SalleAjoutController {
                 showAlert("Erreur", "Une erreur s'est produite lors de l'ajout de la salle.", Alert.AlertType.ERROR);
                 e.printStackTrace(); // Consider logging the exception for further analysis
             }
+            showNotification();
         }
+    }
+
+    private void showNotification() {
+        // Create and show a notification
+        Notifications.create()
+                .title("Salle Ajouté")
+                .text("Votre salle à été ajouté avec succés.")
+                .darkStyle()  // You can customize the style
+                .showInformation();
     }
 
     private void showAlert(String title, String message, Alert.AlertType alertType) {
@@ -284,23 +295,36 @@ public class SalleAjoutController {
     }
 
     private boolean isValidInput() {
-        if (nomTextField.getText().isEmpty() || adresseTextField.getText().isEmpty() || regionComboBox.getValue().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Veuillez remplir tous les champs.", ButtonType.OK);
-            alert.show();
+        String nom = nomTextField.getText();
+        String adresse = adresseTextField.getText();
+        String region = regionComboBox.getValue();
+
+        // Check if any of the required fields is empty
+        if (nom.isEmpty() || adresse.isEmpty() || region == null || region.isEmpty()) {
+            showAlert("Champs obligatoires", "Veuillez remplir tous les champs obligatoires.", Alert.AlertType.ERROR);
             return false;
         }
 
+        // Additional validation for specific fields (customize as needed)
+        if (nom.length() < 3) {
+            showAlert("Validation", "Le nom de la salle doit contenir au moins 3 caractères.", Alert.AlertType.ERROR);
+            return false;
+        }
 
+        // Check if the address is already associated with an existing salle
+        SalleCrud salleCrud = new SalleCrud();
+        if (salleCrud.isAddressAlreadyUsed(adresse)) {
+            showAlert("Validation", "Cette adresse est déjà associée à une salle existante.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        // Add more validations as needed...
 
         return true;
     }
 
 
 
-    // Méthode pour vérifier si la région est valide
-//    private boolean isValidRegion(String region) {
-//        return REGIONS_TUNISIENNES.contains(region);
-//    }
 
 
 

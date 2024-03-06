@@ -66,7 +66,7 @@ public class SeanceProfilController {
     }
 
     @FXML
-    void saveSalle(ActionEvent event) {
+    void saveSeance(ActionEvent event) {
 
 
 

@@ -73,7 +73,7 @@ public class SeanceModifController {
     }
 
     @FXML
-    void saveSalle(ActionEvent event) {
+    void saveSeance(ActionEvent event) {
         // Validate input fields
         if (isValidInput()) {
 

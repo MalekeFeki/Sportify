@@ -207,6 +207,27 @@ public class SalleListeAdminController {
         }
     }
 
+    @FXML
+    void buttonToutSupprimer(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous vraiment supprimer cette salle ?");
+
+
+
+        Optional<ButtonType> result = alert.showAndWait();
+        Salle selectedSalle = gymsTableView.getSelectionModel().getSelectedItem();
+
+        if (result.isPresent() && result.get() == ButtonType.OK && selectedSalle != null) {
+            salleservices.supprimertoutSalle(selectedSalle.getNomS());
+            System.out.println("Supprimé du tableview");
+
+            // Mettre à jour l'affichage en supprimant la salle de la TableView
+            gymsTableView.getItems().remove(selectedSalle);
+        }
+    }
+
 
 
 }
