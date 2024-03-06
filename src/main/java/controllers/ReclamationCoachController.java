@@ -84,7 +84,7 @@ public class ReclamationCoachController {
                 if (!BadWordsDetector.containsBadWord(texteReclamation)) {
                     Reclamation nouvelleReclamation = new Reclamation(texteReclamation);
                     reclamationCrud.ajouterReclamation(nouvelleReclamation);
-                   sendMail("ines.dkhili@esprit.tn");
+                    sendMail("ines.dkhili@esprit.tn");
                     afficherMessage("Réclamation ajoutée avec succès");
 
                     viderChamps();
@@ -177,28 +177,28 @@ public class ReclamationCoachController {
         }
     }
 
-  /*  private void envoyerEmail(String to, String subject, String content) {
-        // Paramètres de configuration pour l'envoi d'e-mails
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com"); // Remplacez par votre serveur SMTP
-        props.put("mail.smtp.port", "587"); // Port SMTP (peut varier)
+    /*  private void envoyerEmail(String to, String subject, String content) {
+          // Paramètres de configuration pour l'envoi d'e-mails
+          Properties props = new Properties();
+          props.put("mail.smtp.auth", "true");
+          props.put("mail.smtp.starttls.enable", "true");
+          props.put("mail.smtp.host", "smtp.gmail.com"); // Remplacez par votre serveur SMTP
+          props.put("mail.smtp.port", "587"); // Port SMTP (peut varier)
 
-        // Informations d'authentification pour l'envoi d'e-mails
-        String username = "inesdkhl@gmail.com"; // Remplacez par votre adresse e-mail
-        String password = "sawg zsjc ciej ahze"; // Remplacez par votre mot de passe
+          // Informations d'authentification pour l'envoi d'e-mails
+          String username = "inesdkhl@gmail.com"; // Remplacez par votre adresse e-mail
+          String password = "sawg zsjc ciej ahze"; // Remplacez par votre mot de passe
 
-        // Création de*/
-  private Message preparedMessage(Session session, String myAccountEmail, String recepient) throws MessagingException {
-      String texteReclamation = texte_reclamation.getText();
-      Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(myAccountEmail));
-      message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-      message.setSubject("Nouvelle réclamation ajoutée");
-      message.setText("  Une nouvelle réclamation a été ajoutée : "+ texteReclamation);
-      return message;
-  }
+          // Création de*/
+    private Message preparedMessage(Session session, String myAccountEmail, String recepient) throws MessagingException {
+        String texteReclamation = texte_reclamation.getText();
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(myAccountEmail));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
+        message.setSubject("Nouvelle réclamation ajoutée");
+        message.setText("  Une nouvelle réclamation a été ajoutée : "+ texteReclamation);
+        return message;
+    }
     public void sendMail(String recepient){
         System.out.println("Preparing to send email");
         Properties properties = new Properties();
@@ -237,4 +237,4 @@ public class ReclamationCoachController {
 
     }
 
-    }
+}

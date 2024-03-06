@@ -57,14 +57,14 @@
                </styleClass>
                <children>
                   <TableView fx:id="Tab1" layoutX="6.0" layoutY="50.0" prefHeight="139.0" prefWidth="481.0">
-                    <columns>
+                     <columns>
                         <TableColumn fx:id="colNom" minWidth="5.0" prefWidth="75.0" text="Nom" />
                         <TableColumn fx:id="colPrenom" prefWidth="69.0" text="Prénom" />
                         <TableColumn fx:id="colSexe" prefWidth="62.0" text="Sexe" />
                         <TableColumn fx:id="colSeance" prefWidth="66.0" text="Séance" />
-                       <TableColumn fx:id="colDescription" prefWidth="206.0" text="Description" />
-      
-                    </columns>
+                        <TableColumn fx:id="colDescription" prefWidth="206.0" text="Description" />
+
+                     </columns>
                   </TableView>
                   <TextField fx:id="tfChercher" layoutX="14.0" layoutY="14.0" promptText="chercher" />
                </children>

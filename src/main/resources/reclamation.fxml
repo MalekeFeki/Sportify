@@ -57,14 +57,14 @@
          <children>
             <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Réclamation:" />
             <TextField fx:id="texte_reclamation" layoutX="92.0" layoutY="43.0" prefHeight="90.0" prefWidth="222.0" />
-            
+
             <Button fx:id="tfajoutreclamation" layoutX="323.0" layoutY="39.0" mnemonicParsing="false" onAction="#ajouterReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="Ajouter" textFill="WHITE" />
             <Button fx:id="tfmodifreclamation" layoutX="326.0" layoutY="76.0" mnemonicParsing="false" onAction="#modifierReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="Modifier" textFill="WHITE" />
             <Button fx:id="tfsuppressionreclamation" layoutX="325.0" layoutY="116.0" mnemonicParsing="false" onAction="#supprimerReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="supprimer" textFill="#fffdfd" />
             <TableView fx:id="tableViewReclamations" layoutX="6.0" layoutY="163.0" prefHeight="130.0" prefWidth="411.0">
-              <columns>
-                <TableColumn fx:id="colReclamation" prefWidth="410.0" text="Votre réclamation" />
-              </columns>
+               <columns>
+                  <TableColumn fx:id="colReclamation" prefWidth="410.0" text="Votre réclamation" />
+               </columns>
             </TableView>
          </children></AnchorPane>
    </children>

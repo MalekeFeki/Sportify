@@ -17,7 +17,7 @@ public class HomePage extends Application {
         @Override
         public void start(Stage primaryStage) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/coach.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/reclamation.fxml"));
                 primaryStage.setTitle("Coach");
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
