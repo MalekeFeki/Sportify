@@ -1,5 +1,6 @@
 package entities;
 
+import javafx.scene.layout.GridPane;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class PDFGenerator {
 
-    public static void generatePDF(String paymentInfo, String filePath) {
+    public static void generatePDF(GridPane gridPane, String filePath) {
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();
             document.addPage(page);
@@ -35,17 +36,19 @@ public class PDFGenerator {
                 contentStream.setFont(PDType1Font.HELVETICA, 12);
                 contentStream.setNonStrokingColor(Color.BLACK);
 
-                // Write the payment info
-                contentStream.beginText();
-                contentStream.newLineAtOffset(100, 670);
-
-                String[] lines = paymentInfo.split("\n");
-                for (String line : lines) {
-                    contentStream.showText(line);
-                    contentStream.newLine();
+                // Write the payment info from GridPane
+                int row = 0;
+                for (javafx.scene.Node node : gridPane.getChildren()) {
+                    if (node instanceof javafx.scene.text.Text) {
+                        javafx.scene.text.Text text = (javafx.scene.text.Text) node;
+                        String line = text.getText();
+                        contentStream.beginText();
+                        contentStream.newLineAtOffset(100, 670 - row * 20);
+                        contentStream.showText(line);
+                        contentStream.endText();
+                        row++;
+                    }
                 }
-
-                contentStream.endText();
             }
 
             document.save(new File(filePath));

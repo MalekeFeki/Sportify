@@ -45,9 +45,6 @@ public class AdhesionController {
     private final double DAILY_PRICE = 0.4;
     private Adhesion adhesion;
     private ScheduledExecutorService scheduler;
-    private Paiement paiement;
-    private PaiementCrud paiementCrud;
-    private AdhesionCrud adhésionCrud;
     private Runnable onSuccessCallback;
     @FXML
     private void calculatePrice() {
@@ -65,9 +62,12 @@ public class AdhesionController {
     }
 
     private void updateRemainingTime() {
+        LocalDate debutDate = dateDebutPicker.getValue();
         LocalDate finDate = dateFinPicker.getValue();
-        if (finDate != null) {
-            LocalDateTime finDateTime = finDate.atStartOfDay(); // Convert LocalDate to LocalDateTime
+
+        if (debutDate != null && finDate != null) {
+            LocalDateTime debutDateTime = debutDate.atStartOfDay();
+            LocalDateTime finDateTime = finDate.atStartOfDay();
 
             // Stop the scheduler if it's running
             if (scheduler != null && !scheduler.isShutdown()) {
@@ -77,6 +77,12 @@ public class AdhesionController {
             scheduler = Executors.newSingleThreadScheduledExecutor();
             scheduler.scheduleAtFixedRate(() -> {
                 long remainingSeconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), finDateTime);
+                long secondsUntilDebut = ChronoUnit.SECONDS.between(LocalDateTime.now(), debutDateTime);
+
+                if (secondsUntilDebut > 0) {
+                    remainingSeconds += secondsUntilDebut;
+                }
+
                 long days = remainingSeconds / (24 * 60 * 60);
                 remainingSeconds %= (24 * 60 * 60);
                 long hours = remainingSeconds / (60 * 60);
@@ -88,8 +94,21 @@ public class AdhesionController {
                 String countdownText = String.format("Remaining Time: %d days, %02d:%02d:%02d", days, hours, minutes, seconds);
                 Platform.runLater(() -> remainingTimeLabel.setText(countdownText));
             }, 0, 1, TimeUnit.SECONDS);
+
+            // Add listener for changes in debutDate
+            dateDebutPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                updateRemainingTime();
+            });
+
+            // Add listener for changes in finDate
+            dateFinPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                updateRemainingTime();
+            });
         }
     }
+
+
+
 
     @FXML
     public void loadPaiementInterface() {
@@ -141,16 +160,6 @@ public class AdhesionController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
-
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     @FXML
     public void showAdhesions() {
         try {

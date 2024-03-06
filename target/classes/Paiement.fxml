@@ -52,5 +52,6 @@
       <TextField fx:id="debutDateLabel" layoutX="402.0" layoutY="106.0" prefHeight="31.0" prefWidth="167.0" />
       <TextField fx:id="endDateLabel" layoutX="402.0" layoutY="161.0" prefHeight="31.0" prefWidth="167.0" />
       <TextField fx:id="priceLabel" layoutX="402.0" layoutY="212.0" prefHeight="31.0" prefWidth="167.0" />
+      <Button fx:id="btn_Delete" layoutX="440.0" layoutY="257.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Delete" />
     </children>
 </AnchorPane>

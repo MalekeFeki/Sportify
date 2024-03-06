@@ -1,6 +1,7 @@
 package controllers;
 
-
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import java.io.File;
 import java.lang.String ;
 import entities.Adhesion;
@@ -27,6 +28,8 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PaiementController {
 
@@ -50,6 +53,8 @@ public class PaiementController {
 
     @FXML
     private Button btn_Show;
+    @FXML
+    private Button btn_Delete;
 
     @FXML
     private TextField debutDateLabel;
@@ -86,6 +91,13 @@ public class PaiementController {
             }
 
         });
+
+        tfcardnumber.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 16) {
+                tfcardnumber.setText(oldValue);
+            }
+        });
+
     }
 
     public void initData(Adhesion adhesionInfo, Runnable onSuccessCallback) {
@@ -115,10 +127,8 @@ public class PaiementController {
             return null;
         }
     }
-
     @FXML
     public void proceedPayment() {
-
         try {
             String postalCodeStr = tfPostalCode.getText().trim();
             String cardNumber = tfcardnumber.getText().trim();
@@ -174,14 +184,39 @@ public class PaiementController {
                 promocode = promocode.substring(0, 9); // Take the first nine characters only
             }
 
+            Map<String, Double> promoCodePercentageMap = new HashMap<>();
+            promoCodePercentageMap.put("PulseMany", 0.03);
+            promoCodePercentageMap.put("PulseGGWP", 0.06);
+            promoCodePercentageMap.put("PulseWins", 0.09);
+            promoCodePercentageMap.put("PulseFire", 0.12);
+            promoCodePercentageMap.put("PulseGood", 0.15);
+            promoCodePercentageMap.put("PulseXmas", 0.18);
+            promoCodePercentageMap.put("PulseMoul", 0.21);
+            promoCodePercentageMap.put("Pulsechek", 0.24);
+            promoCodePercentageMap.put("PulseBale", 0.27);
+            promoCodePercentageMap.put("PulseRMDN", 0.30);
+            promoCodePercentageMap.put("PulseAide", 0.33);
+            promoCodePercentageMap.put("PulsePrem", 0.36);
+
+            // Check if promo code is valid
+            if (promoCodePercentageMap.containsKey(promocode)) {
+                // Calculate new price with promo code
+                double percentage = promoCodePercentageMap.get(promocode);
+                double discountedPrice = Double.parseDouble(price) * (1 - percentage);
+                priceLabel.setText(String.format("%.2f", discountedPrice)); // Update price label in UI
+                String promoMessage = String.format("Thank you for using '%s'. The following percentage will be applied to the price of adhesion: %.2f%%", promocode, percentage * 100);
+                showAlert(AlertType.INFORMATION, "Promo Code Applied", promoMessage);
+            } else {
+                // Promo code not found, proceed without discount
+                showAlert(AlertType.WARNING, "Warning", "Invalid promo code entered. Proceeding without discount.");
+                priceLabel.setText(String.format("%.2f", Double.parseDouble(price))); // Reset price label in UI to original price
+            }
             dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 1); // Extracting date after ": "
             dateFin = dateFin.substring(dateFin.indexOf(":") + 1); // Extracting date after ": "
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dateDebutAbo = LocalDate.parse(dateDebut.trim(), dateFormatter);
             LocalDate dateFinAbo = LocalDate.parse(dateFin.trim(), dateFormatter);
             double newPriceFormat = Double.parseDouble(price);
-            // Create a new Paiement object with the retrieved values
-
             Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode, dateDebutAbo, dateFinAbo, newPriceFormat);
 
 
@@ -200,24 +235,47 @@ public class PaiementController {
             throw new RuntimeException(e);
         }
 
-        // Get payment information from UI fields
-        String paymentDate = "Payment Date: " + LocalDate.now();
-        String amount = "Amount: $" + priceLabel.getText();
-        String cardNumber = "Card Number: " + tfcardnumber.getText();
-        String expirationDate = "Expiration Date: " + tfexpiration.getText();
-        String cvc = "CVC: " + tfccv.getText();
+        // Create a GridPane to organize payment information
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10); // Horizontal gap between nodes
+        gridPane.setVgap(10); // Vertical gap between nodes
 
-        // Concatenate payment information
-        String paymentInfo = paymentDate + "\n" +
-                amount + "\n" +
-                cardNumber + "\n" +
-                expirationDate + "\n" +
-                cvc;
+        // Add payment information to the GridPane
+        Text paymentDateText = new Text("Payment Date:");
+        Text paymentDateValue = new Text(LocalDate.now().toString());
+        Text amountText = new Text("Amount:");
+        Text amountValue = new Text("$" + priceLabel.getText());
+        Text cardNumberText = new Text("Card Number:");
+        Text cardNumberValue = new Text(tfcardnumber.getText());
+        Text expirationDateText = new Text("Expiration Date:");
+        Text expirationDateValue = new Text(tfexpiration.getText());
+        Text cvcText = new Text("CVC:");
+        Text cvcValue = new Text(tfccv.getText());
+
+        // Add the text nodes to the GridPane
+        gridPane.add(paymentDateText, 0, 0);
+        gridPane.add(paymentDateValue, 1, 0);
+        gridPane.add(amountText, 0, 1);
+        gridPane.add(amountValue, 1, 1);
+        gridPane.add(cardNumberText, 0, 2);
+        gridPane.add(cardNumberValue, 1, 2);
+        gridPane.add(expirationDateText, 0, 3);
+        gridPane.add(expirationDateValue, 1, 3);
+        gridPane.add(cvcText, 0, 4);
+        gridPane.add(cvcValue, 1, 4);
+
+        // Define the file path for saving the PDF
         String userHome = System.getProperty("user.home");
         String desktopPath = userHome + File.separator + "Desktop";
         String filePath = desktopPath + File.separator + "payment_info.pdf";
-        PDFGenerator.generatePDF(paymentInfo, "payment_info.pdf");
+
+        // Generate the PDF with the GridPane content
+        PDFGenerator.generatePDF(gridPane, filePath);
+
+        // Display success message to the user
         showAlert(AlertType.INFORMATION, "Success", "Payment information saved to PDF successfully!");
+
+        // Show an alert with the path where the PDF was saved
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("PDF Generated");
         alert.setHeaderText(null);
@@ -227,15 +285,9 @@ public class PaiementController {
         System.out.println(filePath);
 
     }
-
-
-
     @FXML
     public void cancelPayment() {
-        // Get the stage from the current button
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
-
-        // Close the stage
         stage.close();
     }
     private int getExpirationMonth(String expiration) {
@@ -250,14 +302,10 @@ public class PaiementController {
 
     public void ShowPayments() {
         try {
-            // Load the FXML file for the new interface
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ListePaiements.fxml"));
             Parent root = loader.load();
 
-            // Get the stage from the current button
             Stage stage = (Stage) btn_Show.getScene().getWindow();
-
-            // Set the new scene
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -271,8 +319,6 @@ public class PaiementController {
             e.printStackTrace();
         }
     }
-
-
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -280,7 +326,6 @@ public class PaiementController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -288,19 +333,12 @@ public class PaiementController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     private void processPaymentSuccess() {
-        // Here you can create the adhesion or perform any other action after a successful payment
         System.out.println("Payment successful! Creating adhesion...");
-
         // Attempt to create the adhesion
         LocalDate debutDate = LocalDate.parse(debutDateLabel.getText().trim());
         LocalDate endDate = LocalDate.parse(endDateLabel.getText().trim());
         double price = Double.parseDouble(priceLabel.getText().trim());
-
-        Connection connection = MyConnection.getInstance().getCnx();
-
-
         Adhesion adhesion = new Adhesion(debutDate, endDate, price);
         AdhesionCrud adhesionCrud = new AdhesionCrud();
         boolean adhesionCreated = adhesionCrud.createAdhesion(adhesion);
@@ -311,11 +349,38 @@ public class PaiementController {
 
         } else {
             System.err.println("Error: Failed to create adhesion!");
-            // Handle the case where adhesion creation failed
-            // For example, show an error message to the user
+
+         // show an error message to the user
             showAlert("Failed to create adhesion!");
         }
     }
+
+    @FXML
+    public void deletePayment() {
+        try {
+            // Retrieve the adhesion information from the UI
+            LocalDate debutDate = LocalDate.parse(debutDateLabel.getText().trim());
+            LocalDate endDate = LocalDate.parse(endDateLabel.getText().trim());
+            double price = Double.parseDouble(priceLabel.getText().trim());
+
+            // Create an Adhesion object
+            Adhesion adhesion = new Adhesion(debutDate, endDate, price);
+
+            // Delete the adhesion using AdhesionCrud
+            AdhesionCrud adhesionCrud = new AdhesionCrud();
+            boolean deleted = adhesionCrud.deleteAdhesionByPaymentInfo(adhesion);
+
+            if (deleted) {
+                showAlert(AlertType.INFORMATION, "Success", "Adhesion deleted successfully!");
+            } else {
+                showAlert(AlertType.ERROR, "Error", "Failed to delete adhesion!");
+            }
+        } catch (DateTimeParseException | NumberFormatException e) {
+            showAlert(AlertType.ERROR, "Error", "Failed to delete adhesion! Invalid date or price format.");
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
