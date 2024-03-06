@@ -163,6 +163,7 @@ public class SalleModifController {
                 salle.setRegion(regionComboBox.getValue());
                 System.out.println("Options to be saved: " + options);
                 salle.setOptions(options);
+                salle.setImageSalle(filePath);
             }
 
             SalleCrud sc = new SalleCrud();
@@ -180,6 +181,33 @@ public class SalleModifController {
                 throw new RuntimeException(e);
             }
         }
+
+    String filePath ;
+    @FXML
+    void uploadImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            imageView.setImage(image);
+
+            filePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected Image Path: " + filePath);
+        } else {
+            showAlert("No Image Selected", "Please select an image file.",Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
 
     @FXML

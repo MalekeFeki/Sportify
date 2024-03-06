@@ -53,8 +53,8 @@ public class SalleCrud implements ISalleCrud<Salle> {
         // Assuming options is a Set<String> in your Salle class
         Set<String> options = s.getOptions();
         String optionsString = String.join(",", options);
-        String req1 = "INSERT INTO salle (nom, adresse, region, options) " +
-                "VALUES ('" + s.getNomS() + "','" + s.getAdresse() + "','" + s.getRegion() + "','" + optionsString + "')";
+        String req1 = "INSERT INTO salle (nom, adresse, region, options, imageSalle) " +
+                "VALUES ('" + s.getNomS() + "','" + s.getAdresse() + "','" + s.getRegion() + "','" + optionsString + "','" + s.getImageSalle() + "')";
         try {
             Statement st = cnx2.createStatement();
             st.executeUpdate(req1);
@@ -130,7 +130,7 @@ public class SalleCrud implements ISalleCrud<Salle> {
                 s.setNomS(rs.getString("nom"));
                 s.setAdresse(rs.getString(3));
                 s.setRegion(rs.getString(4));
-
+                s.setImageSalle(rs.getString(6));
                 String optionsString = rs.getString("options");
                 Set<String> options = new HashSet<>(Arrays.asList(optionsString.split(",")));
 
@@ -152,7 +152,7 @@ public class SalleCrud implements ISalleCrud<Salle> {
 
     @Override
     public void modifierSalle(Salle s) {
-        String req2 = "UPDATE salle SET nom=?, adresse=?, region=?, options=? WHERE idS=?";
+        String req2 = "UPDATE salle SET nom=?, adresse=?, region=?, options=?, imageSalle=? WHERE idS=?";
         System.out.println(s);
 
         Set<String> options = s.getOptions();
@@ -164,8 +164,8 @@ public class SalleCrud implements ISalleCrud<Salle> {
             pst.setString(2, s.getAdresse());
             pst.setString(3, s.getRegion());
             pst.setString(4,optionsString);
-            pst.setInt(5, s.getIdS());
-
+            pst.setString(5,s.getImageSalle());
+            pst.setInt(6, s.getIdS());
             pst.executeUpdate();
 
 
@@ -266,6 +266,7 @@ public class SalleCrud implements ISalleCrud<Salle> {
                     Salle.setAdresse(resultSet.getString("adresse"));
                     Salle.setRegion(resultSet.getString("region"));
                     String options = resultSet.getString("options");
+                    Salle.setImageSalle(resultSet.getString("imageSalle"));
                     salles.add(Salle);
                 }
             }
@@ -287,6 +288,7 @@ public class SalleCrud implements ISalleCrud<Salle> {
                     salle.setAdresse(rs.getString("adresse"));
                     salle.setRegion(rs.getString("region"));
                     String options = rs.getString("options");
+
 
                     // Ajoutez d'autres champs selon vos besoins
                 }

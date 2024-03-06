@@ -10,6 +10,7 @@ public class Salle {
     private String region;
 
     Set<String> options = new HashSet<>();
+    private String imageSalle;
 
     public Salle() {
         // Default constructor
@@ -30,6 +31,14 @@ public class Salle {
         this.adresse = adresse;
         this.region = region;
         this.options = options;
+    }
+
+    public Salle(String nomS, String adresse, String region, Set<String> options,  String imageSalle) {
+        this.nomS = nomS;
+        this.adresse = adresse;
+        this.region = region;
+        this.options = options;
+        this.imageSalle = imageSalle;
     }
 
     public int getIdS() {
@@ -70,6 +79,14 @@ public class Salle {
 
     public void setOptions(Set<String> options) {
         this.options = options;
+    }
+
+    public String getImageSalle() {
+        return imageSalle;
+    }
+
+    public void setImageSalle(String imageSalle) {
+        this.imageSalle = imageSalle;
     }
 
     @Override

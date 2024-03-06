@@ -72,6 +72,7 @@ public class SalleAjoutController {
     private ImageView imageView;
     @FXML
     private Button selectImageButton;
+    private Salle salle;
 
     // Liste des régions tunisiennes valides
     private static final List<String> REGIONS_TUNISIENNES = Arrays.asList(
@@ -82,6 +83,9 @@ public class SalleAjoutController {
 
     @FXML
     void initialize() {
+
+
+
         // Initialize the ComboBox with the predefined values
         regionComboBox.getItems().addAll("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba",
                 "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine",
@@ -218,23 +222,30 @@ public class SalleAjoutController {
     }
 
     @FXML
-    void saveSalle(ActionEvent event) {
-        // Validate input fields
+    private void saveSalle(ActionEvent event) {
+        // ... (previous code)
+
         if (isValidInput()) {
             String region = regionComboBox.getValue();
-//            if (!isValidRegion(region)) {
-//                showAlert("Erreur de validation", "Veuillez saisir une région tunisienne valide.", Alert.AlertType.ERROR);
-//                return;
-//            }
 
+            // Validate that an image is selected
+            if (selectedImageFile != null) {
+                showAlert("Erreur", "Veuillez sélectionner une image pour la salle.", Alert.AlertType.ERROR);
+                return;
+            }
+//ffff
+            // Convert the file to a URI string for storage
+//            String imagePath = selectedImageFile.toURI().toString();
+//
+//            handleSelectImage(new ActionEvent());
 
             Set<String> options = new HashSet<>();
             if (wifiCheckBox.isSelected()) options.add("wifi");
             if (parkingCheckBox.isSelected()) options.add("parking");
             if (nutritionnisteCheckBox.isSelected()) options.add("nutritionniste");
             if (climatisationCheckBox.isSelected()) options.add("climatisation");
-
-            Salle s = new Salle(nomTextField.getText(), adresseTextField.getText(), region, options);
+            System.out.println(filePath);
+            Salle s = new Salle(nomTextField.getText(), adresseTextField.getText(), region, options, filePath);
             SalleCrud sc = new SalleCrud();
 
             // Try saving la salle
@@ -278,21 +289,46 @@ public class SalleAjoutController {
             e.printStackTrace();
         }
     }
-
+//    String filepath ;
+//    @FXML
+//    private void handleSelectImage(ActionEvent event) {
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+//
+//        File selectedFile = fileChooser.showOpenDialog(null);
+//
+//        if (selectedFile != null) {
+//            // Update the selectedImageFile with the chosen file
+//             this.selectedImageFile = selectedFile;
+//
+//            // Load and set the image for the imageView
+//            Image selectedImage = new Image(selectedFile.toURI().toString());
+//
+//            imageView.setImage(selectedImage);
+//            filepath= selectedFile.getAbsolutePath();
+//        } else {
+//            showAlert("Error", "No image file selected.", Alert.AlertType.ERROR);
+//        }
+//    }
+String filePath ;
     @FXML
-    private void handleSelectImage(ActionEvent event) {
+    void uploadImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            // charger l'image dans imageView
-            Image selectedImage = new Image(selectedFile.toURI().toString());
-            imageView.setImage(selectedImage);
+            Image image = new Image(selectedFile.toURI().toString());
+            imageView.setImage(image);
 
+            filePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected Image Path: " + filePath);
+        } else {
+            showAlert("No Image Selected", "Please select an image file.",Alert.AlertType.ERROR);
         }
     }
+
 
     private boolean isValidInput() {
         String nom = nomTextField.getText();
