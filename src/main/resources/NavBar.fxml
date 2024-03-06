@@ -10,10 +10,10 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NavBarController">
-   <Rectangle arcHeight="5.0" arcWidth="5.0" height="94.0" layoutX="-54.0" stroke="BLACK" strokeType="INSIDE" width="1332.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" height="94.0" layoutX="-54.0" stroke="BLACK" strokeType="INSIDE" width="1423.0" />
 
     <!-- Guest View -->
-    <HBox fx:id="guestBox" alignment="CENTER_RIGHT" layoutX="-126.0" prefHeight="93.0" prefWidth="1390.0" spacing="10">
+    <HBox fx:id="guestBox" alignment="CENTER_RIGHT" layoutX="-126.0" prefHeight="94.0" prefWidth="1486.0" spacing="10">
         <Button fx:id="sign_up" onAction="#signUpClicked" text="Sign Up" />
         <Button fx:id="sign_in" alignment="CENTER" onAction="#signInClicked" prefHeight="26.0" prefWidth="57.0" text="Sign In" />
       <cursor>
