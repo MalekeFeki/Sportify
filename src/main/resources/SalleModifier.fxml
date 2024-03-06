@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
+<AnchorPane id="AnchorPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
     <children>
         <fx:include source="NavBar.fxml"/>
         <TextField fx:id="lonTextField" layoutX="307.0" layoutY="158.0" opacity="0.0" />

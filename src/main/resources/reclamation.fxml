@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReclamationCoachController">
+<AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReclamationCoachController">
     <children>
         <fx:include source="NavBar.fxml"/>
         <Pane fx:id="tfpane" layoutX="8.0" layoutY="10.0" prefHeight="380.0" prefWidth="150.0" style="-fx-background-color: #FF6100;" stylesheets="@dashboard.css">
