@@ -60,24 +60,34 @@
             </image>
         </ImageView>
         <TextField editable="false" layoutX="30.0" layoutY="132.0" />
-        <TextField editable="false" layoutX="30.0" layoutY="206.0" />
+        <TextField editable="false" layoutX="30.0" layoutY="206.0" prefHeight="26.0" prefWidth="323.0" />
         <TextField editable="false" layoutX="30.0" layoutY="273.0" />
         <HBox layoutX="22.0" layoutY="321.0" prefHeight="42.0" prefWidth="323.0">
             <children>
-                <CheckBox mnemonicParsing="false" prefHeight="42.0" prefWidth="50.0" text="Wifi" />
-                <CheckBox mnemonicParsing="false" prefHeight="42.0" prefWidth="81.0" text="Parking" />
-                <CheckBox mnemonicParsing="false" prefHeight="42.0" prefWidth="98.0" text="Nutritionniste" />
-                <CheckBox mnemonicParsing="false" prefHeight="42.0" prefWidth="94.0" text="Climatisation" />
+                <CheckBox disable="true" mnemonicParsing="false" prefHeight="42.0" prefWidth="50.0" text="Wifi" />
+                <CheckBox disable="true" mnemonicParsing="false" prefHeight="42.0" prefWidth="81.0" text="Parking" />
+                <CheckBox disable="true" mnemonicParsing="false" prefHeight="42.0" prefWidth="98.0" text="Nutritionniste" />
+                <CheckBox disable="true" mnemonicParsing="false" prefHeight="42.0" prefWidth="94.0" text="Climatisation" />
             </children>
         </HBox>
-        <Group layoutX="532.0" layoutY="440.0">
-            <children>
+      <Group layoutX="449.0" layoutY="443.0">
+         <children>
                 <Button fx:id="retourButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Retour" />
-                <Button fx:id="ajouterButton1" layoutX="65.0" mnemonicParsing="false" onAction="#addSeance" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Ajouter une séance" />
-            </children>
-        </Group>
+                <Button fx:id="modifierButton1" layoutX="65.0" mnemonicParsing="false" onAction="#handleUpdateButtonAction" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
+            <Button fx:id="ajouterButton11" layoutX="141.0" mnemonicParsing="false" onAction="#addSeance" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Ajouter une séance" />
+         </children>
+      </Group>
         <Label fx:id="nomLabel" layoutX="39.0" layoutY="135.0" prefHeight="20.0" prefWidth="138.0" />
-        <Label fx:id="adresseLabel" layoutX="39.0" layoutY="209.0" prefHeight="20.0" prefWidth="138.0" />
+        <Label fx:id="adresseLabel" layoutX="39.0" layoutY="209.0" prefHeight="20.0" prefWidth="323.0" />
         <Label fx:id="regionLabel" layoutX="39.0" layoutY="276.0" prefHeight="20.0" prefWidth="138.0" />
+      <Group layoutX="31.0" layoutY="449.0">
+         <children>
+            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="7.0" layoutY="3.0">
+               <image>
+                  <Image url="@../../img/x-social-media-white-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
     </children>
 </AnchorPane>

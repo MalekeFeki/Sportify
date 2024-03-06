@@ -119,6 +119,34 @@ public class SalleListeAdminController {
         gymsTableView.getItems().addAll(filteredList);
     }
 
+    @FXML
+    private void handleAfficherButton(ActionEvent event) {
+        // LoadSalleListeAdmin.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleProfil.fxml"));
+        Salle salle = gymsTableView.getSelectionModel().getSelectedItem();
+        try {
+            Parent root = loader.load();
+            SalleProfilController controller = loader.getController();
+            controller.setSalle(salle);
+
+            // Set up the stage
+            Stage stage = new Stage();
+            stage.setTitle("Salle Profil");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Close the current stage (optional)
+            Stage currentStage = (Stage) afficherButton.getScene().getWindow();
+            currentStage.close();
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
 
     private void loadGymsData() {
         // Prendre données de la BD

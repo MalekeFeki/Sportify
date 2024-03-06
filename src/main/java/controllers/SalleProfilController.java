@@ -88,26 +88,7 @@ public class SalleProfilController {
                 climatisationCheckBox.setSelected(salle.getOptions().contains("climatisation"));
             }};
 
-    public void propSeance(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SeanceAjout.fxml"));
-        try {
-            Parent root = loader.load();
 
-            // Set up the stage
-            Stage stage = new Stage();
-            stage.setTitle("Add Seance Page");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            // Close the current stage (optional)
-            Stage currentStage = (Stage) propButton1.getScene().getWindow();
-            currentStage.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
     public void setSalle(Salle salle) {
         this.salle = salle;
 

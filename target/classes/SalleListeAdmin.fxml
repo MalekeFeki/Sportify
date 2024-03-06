@@ -35,7 +35,7 @@
         </TableView>
         <HBox layoutX="33.0" layoutY="442.0" spacing="10.0">
             <children>
-                <Button fx:id="afficherButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
+                <Button fx:id="afficherButton" mnemonicParsing="false" onAction="#handleAfficherButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
                 <Button fx:id="modifierButton" mnemonicParsing="false" onAction="#handleUpdateButtonAction" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
                 <Button fx:id="supprimerButton" mnemonicParsing="false" onAction="#buttonSupprimer" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer" />
             <Button fx:id="supprimerButton1" mnemonicParsing="false" onAction="#buttonToutSupprimer" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer Tout" />
