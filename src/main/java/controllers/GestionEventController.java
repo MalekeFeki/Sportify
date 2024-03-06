@@ -1,4 +1,5 @@
 package controllers;
+import entities.Utilisateur;
 import javafx.event.ActionEvent;
 import services.PdfService;
 import services.PdfService.*;
@@ -29,6 +30,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import services.EvenementCrud;
 import entities.Evenement;
+import services.UtilisateurCrud;
+import tools.MyConnection;
 
 public class GestionEventController {
 
@@ -245,20 +248,24 @@ public class GestionEventController {
             e.printStackTrace();
         }
     }
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud() ;
+    private Utilisateur ut = new Utilisateur() ;
     @FXML
     public void redirectToProfile() {
 
+        int iduser = MyConnection.getInstance().getId() ;
+        ut=utilisateurCrud.getUtilisateurById(iduser);
         try {
             String fxmlFileName;
-            switch (role) {
+            switch (ut.getRole().toString()) {
                 case "ADMIN":
                     fxmlFileName = "/ProfilAdmin.fxml";
-                    System.out.println("admin");
                     break;
-
+                case "MEMBRE":
+                    fxmlFileName = "/ProfilMembre.fxml";
+                    break;
                 case "PROPRIETAIRE":
                     fxmlFileName = "/ProfilProp.fxml";
-                    System.out.println("prop");
                     break;
                 default:
                     // Gérer d'autres cas si nécessaire
@@ -268,18 +275,8 @@ public class GestionEventController {
             // Charger le fichier FXML correspondant au rôle de l'utilisateur
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent root = loader.load();
-
-
-
-            // Créer une nouvelle scène avec le contenu chargé du fichier FXML
-            Scene scene = new Scene(root);
-
-            // Créer une nouvelle fenêtre (stage) et définir sa scène
-            Stage stage = new Stage();
-            stage.setScene(scene);
-
-            // Afficher la fenêtre
-            stage.show();
+            Stage stage = (Stage) btn_annul.getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
         }
