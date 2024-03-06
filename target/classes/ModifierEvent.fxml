@@ -23,6 +23,7 @@
         <URL value="@STYLES2.css" />
     </stylesheets>
     <children>
+        <fx:include source="NavBar.fxml"/>
         <ImageView fitHeight="611.0" fitWidth="1025.0" layoutX="-1.0" layoutY="63.0">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />

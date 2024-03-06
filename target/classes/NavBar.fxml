@@ -14,8 +14,8 @@
 
     <!-- Guest View -->
     <HBox fx:id="guestBox" alignment="CENTER_RIGHT" layoutX="-126.0" prefHeight="93.0" prefWidth="1390.0" spacing="10">
-        <Button onAction="#signUpClicked" text="Sign Up" />
-        <Button alignment="CENTER" onAction="#signInClicked" prefHeight="26.0" prefWidth="57.0" text="Sign In" />
+        <Button fx:id="sign_up" onAction="#signUpClicked" text="Sign Up" />
+        <Button fx:id="sign_in" alignment="CENTER" onAction="#signInClicked" prefHeight="26.0" prefWidth="57.0" text="Sign In" />
       <cursor>
          <Cursor fx:constant="DEFAULT" />
       </cursor>
@@ -25,11 +25,11 @@
     <HBox fx:id="userBox" alignment="CENTER_RIGHT" prefHeight="94.0" prefWidth="1278.0" spacing="10" visible="false">
         <Label fx:id="userNameLabel" alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="202.0" style="-fx-text-fill: #ffffff" />
         <Button onAction="#profileClicked" prefHeight="38.0" prefWidth="105.0" text="Profile" />
-        <Button onAction="#signOutClicked" prefHeight="26.0" prefWidth="66.0" text="Sign Out" />
+        <Button fx:id="btn_deconn" onAction="#signOutClicked" prefHeight="26.0" prefWidth="66.0" text="Sign Out" />
     </HBox>
-   <ImageView fx:id="gohomepage" fitHeight="78.0" fitWidth="222.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="gohomepage" fitHeight="83.0" fitWidth="202.0" layoutX="10.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
       <image>
-         <Image url="file:/C:/Users/RAY3N/Desktop/pi/Sportify/img/Sportify__2_-removebg-preview_1.png" />
+         <Image url="@../../../img/Sportify__2_-removebg-preview_1.png" />
       </image>
    </ImageView>
 

@@ -13,6 +13,7 @@
 
 <AnchorPane prefHeight="506.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListOfEventReservation">
     <children>
+        <fx:include source="NavBar.fxml"/>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="55.0" stroke="BLACK" strokeType="INSIDE" width="1004.0" />
         <ImageView fitHeight="69.0" fitWidth="112.0" layoutX="7.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
             <image>
