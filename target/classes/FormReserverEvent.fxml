@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="528.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormReserverEventController">
+    <stylesheets>
+        <URL value="@styles.css" />
+        <URL value="@STYLES2.css" />
+    </stylesheets>
+
+    <children>
+      <ImageView fitHeight="527.0" fitWidth="822.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/Background.png" />
+         </image>
+      </ImageView>
+        <HBox spacing="10.0" visible="false">
+            <Label text="Event ID:" />
+            <TextField fx:id="eventIdField" disable="true" />
+        </HBox>
+
+        <HBox spacing="10.0" visible="false">
+            <Label text="Reservation ID:" />
+            <TextField fx:id="reservationIdField" disable="true" />
+        </HBox>
+          <Label layoutX="219.0" layoutY="355.0" text="Email:" />
+          <TextField fx:id="emailField" layoutX="287.0" layoutY="351.0" prefHeight="26.0" prefWidth="223.0" />
+          <Label layoutX="210.0" layoutY="238.0" prefHeight="18.0" prefWidth="50.0" text="Prenom:" />
+          <TextField fx:id="prenomField" layoutX="287.0" layoutY="234.0" prefHeight="26.0" prefWidth="223.0" />
+          <Label layoutX="224.0" layoutY="278.0" text="CIN:" />
+          <TextField fx:id="numTeleField" alignment="TOP_LEFT" layoutX="287.0" layoutY="312.0" prefHeight="26.0" prefWidth="223.0" />
+          <Label layoutX="207.0" layoutY="316.0" text="Num Tele:" />
+
+          <TextField fx:id="cinField" layoutX="287.0" layoutY="274.0" prefHeight="26.0" prefWidth="223.0" />
+         <Label contentDisplay="CENTER" layoutX="333.0" layoutY="161.0" prefHeight="18.0" prefWidth="130.0" text="Event Reservation Form" textAlignment="CENTER" />
+          <Label layoutX="221.0" layoutY="205.0" text="Nom:" />
+          <TextField fx:id="nomField" layoutX="287.0" layoutY="200.0" prefHeight="26.0" prefWidth="223.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="64.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="822.0" />
+      <ImageView fitHeight="78.0" fitWidth="139.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
+         </image>
+      </ImageView>
+        <Button fx:id="Reserve" layoutX="370.0" layoutY="405.0" onAction="#handleReserverButton" text="Reserve" />
+        <Button fx:id="returntoevent" layoutX="55.0" layoutY="95.0" onAction="#returntoEventDetails" text="return" />
+    </children>
+</AnchorPane>

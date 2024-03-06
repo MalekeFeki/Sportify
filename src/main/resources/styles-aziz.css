@@ -1,0 +1,18 @@
+.root {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #ffffff; /* White background */
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ff8c00; /* Orange foreground */
+}
+
+.button {
+    -fx-background-color: #ff8c00; /* Orange background for the button */
+    -fx-text-fill: #ffffff; /* White foreground for the button */
+    -fx-font-weight: bold;
+}
+
+/* Add more styling as needed */

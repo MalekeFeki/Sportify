@@ -1,0 +1,96 @@
+package controllers;
+
+import entities.Challenge;
+import entities.enums.TypeDifficulty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+import services.ChallengeCrud;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+public class ChallengeController {
+
+    @FXML
+    private TextArea challengeNameTextArea; // Updated fx:id
+
+    @FXML
+    private ChoiceBox<String> difficultyChoiceBox;
+
+    @FXML
+    private TextArea descriptionTextArea;
+
+    @FXML
+    private Button submitButton;
+
+    private static final List<String> motsInterdits = Arrays.asList("Chat", "Chien", "Animal");
+
+    @FXML
+    void initialize() {
+        difficultyChoiceBox.getItems().addAll("SIMPLE", "MOYEN", "DIFFICILE");
+    }
+
+    @FXML
+    void ajouterChallenge(ActionEvent challenge1) {
+        String name = challengeNameTextArea.getText();
+        String description = descriptionTextArea.getText();
+        String selectedDifficulty = difficultyChoiceBox.getValue();
+
+        if (name.trim().isEmpty() || description.trim().isEmpty() || selectedDifficulty == null) {
+            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "Le nom, la description et la difficulté ne peuvent pas être vides.");
+            return;
+        }
+
+        if (contientMotsInterdits(name) || contientMotsInterdits(description)) {
+            showAlert(Alert.AlertType.WARNING, "Challenge non ajouté", "Le nom ou la description contient des mots interdits.");
+            return;
+        }
+
+        Challenge challenge = new Challenge(0, name, TypeDifficulty.valueOf(selectedDifficulty), description);
+        ChallengeCrud challengeCrud = new ChallengeCrud();
+        challengeCrud.ajouterChallenge(challenge);
+
+        showAlert(Alert.AlertType.INFORMATION, "Challenge Added", "The challenge has been added successfully!");
+        redirectToAfficherChallenge();
+    }
+
+
+    private boolean contientMotsInterdits(String input) {
+        for (String mot : motsInterdits) {
+            if (input.toLowerCase().contains(mot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void redirectToAfficherChallenge() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherChallenge.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            AfficherChallengeController afficherChallengeController = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

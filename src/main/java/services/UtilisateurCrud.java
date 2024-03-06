@@ -264,7 +264,7 @@ public class UtilisateurCrud implements IUtilisateurCrud<Utilisateur> {
                     utilisateur.setPrenom(rs.getString("prenom"));
                     utilisateur.setEmail(rs.getString("email"));
                     utilisateur.setMdp(rs.getString("mdp"));
-
+                    utilisateur.setRole(Role.valueOf(rs.getString("role")));
                     // Ajoutez d'autres champs selon vos besoins
                 }
             }

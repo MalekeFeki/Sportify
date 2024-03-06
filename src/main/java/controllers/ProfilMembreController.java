@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import entities.Utilisateur;
 import entities.enums.Role;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -92,6 +93,19 @@ public class ProfilMembreController {
 
     @FXML
     void initialize() {
+        btn_deco3.setOnAction(event -> {
+            try {
+                // Load reclamation.fxml
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reclamation.fxml"));
+                Parent root = loader.load();
+
+                // Display the scene associated with reclamation.fxml
+                Stage stage = (Stage) btn_deco3.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         // Effectuer la liaison bidirectionnelle entre le texte de tfnom et le texte de nomUtilisateur
         nomUtilisateur.textProperty().bindBidirectional(tfnom.textProperty());
 
@@ -181,6 +195,18 @@ public class ProfilMembreController {
         // Appeler la méthode de mise à jour appropriée du CRUD Utilisateur
         utilisateurCrud.modifierEntite(u);
     }
-
+    @FXML
+    void annuler(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btn_annul.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            HomePage coachController = loader.getController();
+            coachController.initialize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

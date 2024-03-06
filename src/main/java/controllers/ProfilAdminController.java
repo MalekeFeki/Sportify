@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -199,16 +200,8 @@ public class ProfilAdminController {
                 // Charger le fichier FXML de la page ListeUtilisateurs
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeUtilisateurs.fxml"));
                 Parent root = loader.load();
-
-                // Créer une nouvelle scène avec le contenu chargé du fichier FXML
-                Scene scene = new Scene(root);
-
-                // Créer une nouvelle fenêtre (stage) et définir sa scène
-                Stage stage = new Stage();
-                stage.setScene(scene);
-
-                // Afficher la fenêtre
-                stage.show();
+                Scene currentScene = btn_membres.getScene();
+                currentScene.setRoot(root);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -240,6 +233,19 @@ public class ProfilAdminController {
 
         // Appeler la méthode de mise à jour appropriée du CRUD Utilisateur
         utilisateurCrud.modifierEntite(u);
+    }
+    @FXML
+    void annuler(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btn_annul.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            HomePage coachController = loader.getController();
+            coachController.initialize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

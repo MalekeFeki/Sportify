@@ -255,14 +255,15 @@ public class InscriptionController {
     @FXML
     void annuler(ActionEvent event) {
         // Obtenez la scène à partir du bouton
-        Scene scene = btn_annul.getScene();
-        if (scene != null) {
-            // Obtenez la fenêtre à partir de la scène
-            Stage stage = (Stage) scene.getWindow();
-            if (stage != null) {
-                // Fermez la fenêtre
-                stage.close();
-            }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HomePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btn_annul.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            InscriptionController coachController = loader.getController();
+            coachController.initialize();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -358,6 +359,8 @@ public class InscriptionController {
             e.printStackTrace();
         }
     }
+
+
 
 }
 

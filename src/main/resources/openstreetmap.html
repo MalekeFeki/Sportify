@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>OpenStreetMap with Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var city = "ghazela";
+    var lieu = "tunis";
+
+    // Use city and lieu variables to customize your map
+    // Example: create a Leaflet map with OpenStreetMap tiles
+    var map = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker = L.marker([0, 0]).addTo(map)
+        .bindPopup('City: ' + city + '<br>Lieu: ' + lieu)
+        .openPopup();
+
+    // Update map location based on city and lieu
+    updateMap(city, lieu);
+
+    function updateMap(newCity, newLieu) {
+        // Update the marker and map view based on new data
+        marker.setLatLng([0, 0]).bindPopup('City: ' + newCity + '<br>Lieu: ' + newLieu).openPopup();
+        map.setView([0, 0], 13); // You may need to set appropriate coordinates
+    }
+</script>
+</body>
+</html>

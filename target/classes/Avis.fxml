@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- <?import com.gluonhq.charm.glisten.control.BottomNavigation?> -->
+
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AvisController">
+    <children>
+      <ImageView fitHeight="493.0" fitWidth="859.0" layoutY="68.0">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="70.0" layoutX="395.0" layoutY="107.0">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/images__2_-removebg-preview.png" />
+         </image>
+      </ImageView>
+          <!--   <BottomNavigation /> -->
+                <!-- Rating Level -->
+          <Label layoutX="383.0" layoutY="198.0" styleClass="label" text="Rating Level:" />
+          <ChoiceBox fx:id="ratingChoiceBox" layoutX="355.0" layoutY="238.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
+              <items>
+                  <FXCollections fx:factory="observableArrayList">
+
+                        </FXCollections>
+              </items>
+          </ChoiceBox>
+          <!-- Description Label -->
+          <Label layoutX="386.0" layoutY="290.0" styleClass="label" text="Description:" />
+          <TextArea fx:id="descriptionTextArea" layoutX="214.0" layoutY="329.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
+          <!-- Submit Rating Button -->
+          <Button fx:id="submitRatingButton" layoutX="360.0" layoutY="415.0" mnemonicParsing="false" onAction="#ajouterAvis" styleClass="submit-button" text="Submit Rating" />
+      <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
+      <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />
+      <Label layoutX="640.0" layoutY="20.0" text="Profile" textFill="WHITE" />
+      <ImageView fitHeight="71.0" fitWidth="150.0">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
+         </image>
+      </ImageView>
+    </children>
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+</AnchorPane>

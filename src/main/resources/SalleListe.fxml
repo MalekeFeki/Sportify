@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeController">
+    <children>
+        <fx:include source="NavBar.fxml"/>
+        <ImageView fitHeight="492.0" fitWidth="744.0">
+            <image>
+                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
+        <HBox layoutX="84.0" layoutY="137.0" spacing="10.0">
+            <children>
+                <TextField fx:id="searchTextField" prefWidth="150.0" promptText="Rechercher.." style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+            </children>
+        </HBox>
+        <TableView fx:id="gymsTableView" editable="true" layoutX="84.0" layoutY="177.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+            <columns>
+                <TableColumn fx:id="nomColumn" prefWidth="126.39996337890625" text="Nom" />
+                <TableColumn fx:id="adresseColumn" prefWidth="191.20001220703125" text="Adresse" />
+                <TableColumn fx:id="regionColumn" prefWidth="92.79998779296875" text="Région" />
+                <TableColumn fx:id="optionsColumn" prefWidth="166.40008544921875" text="Options" />
+            </columns>
+        </TableView>
+        <HBox layoutX="30.0" layoutY="440.0" spacing="10.0">
+            <children>
+                <Button fx:id="afficherButton" mnemonicParsing="false" onAction="#handleAfficherButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
+            <Button fx:id="AdminButton" mnemonicParsing="false" onAction="#handleAdminButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Admin" />
+            </children>
+        </HBox>
+        <ImageView fitHeight="61.0" fitWidth="122.0">
+            <image>
+                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
+            </image>
+        </ImageView>
+    </children>
+    <stylesheets>
+        <URL value="@gymapp.css" />
+    </stylesheets>
+</AnchorPane>

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
@@ -12,10 +13,15 @@ import entities.Utilisateur;
 import entities.enums.Role;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import services.UtilisateurCrud;
 import javafx.scene.layout.HBox;
@@ -62,7 +68,8 @@ public class ListeUtilisateursController {
 
     @FXML
     private Label totalUtilisateurs;
-
+    @FXML
+    private Button btn_annul;
     @FXML
     private Label totalAdmins;
     @FXML
@@ -330,5 +337,18 @@ public class ListeUtilisateursController {
     void afficherProprietairesSalles() {
         ObservableList<Utilisateur> proprietaires = utilisateurCrud.getUtilisateursByRole(Role.PROPRIETAIRE);
         tableView.setItems(proprietaires);
+    }
+    @FXML
+    void annuler(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilAdmin.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btn_annul.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            ProfilAdminController profilAdminController = loader.getController();
+            profilAdminController.initialize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

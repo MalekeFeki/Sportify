@@ -17,12 +17,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilMembreController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="611.0">
+      <ImageView fitHeight="600.0" fitWidth="800.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/esprit/background_2.png" />
+            <Image url="file:/C:/Users/Malek/Desktop/esprit/Background.png" />
          </image>
       </ImageView>
-      <Pane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #FF6100;">
+      <Pane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #FF6100;">
          <children>
             <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
             <Button fx:id="btn_deco2" alignment="CENTER" layoutX="27.0" layoutY="347.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Se déconnecter" textFill="#fcf8f8">
@@ -38,7 +38,7 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="btn_deco3" alignment="CENTER" layoutX="27.0" layoutY="301.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Réservation" textFill="#fcf8f8">
+            <Button fx:id="btn_deco3" alignment="CENTER" layoutX="27.0" layoutY="301.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Coachs" textFill="#fcf8f8">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
@@ -49,25 +49,25 @@
             <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="126.0" size="100" wrappingWidth="8.571428298950252" />
          </children>
       </Pane>
-      <Label layoutX="267.0" layoutY="147.0" text="Nom" />
-      <Label layoutX="266.0" layoutY="194.0" text="Prénom" />
-      <TextField fx:id="tfnom" layoutX="376.0" layoutY="143.0" />
-      <TextField fx:id="tfprenom" layoutX="376.0" layoutY="191.0" />
-      <TextField fx:id="tfemail" layoutX="376.0" layoutY="235.0" />
-      <Label layoutX="266.0" layoutY="239.0" text="Email" />
-      <Label layoutX="266.0" layoutY="276.0" text="Mot de passe" />
-      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="376.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
-      <RadioButton fx:id="rbproprietaire" layoutX="453.0" layoutY="312.0" mnemonicParsing="false" text="Propriétaire de salle" />
-      <RadioButton fx:id="rbmembre" layoutX="377.0" layoutY="312.0" mnemonicParsing="false" selected="true" text="Membre" />
-      <Label layoutX="266.0" layoutY="312.0" text="Role" />
-      <Button fx:id="btn_annul" layoutX="483.0" layoutY="350.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler" />
-      <PasswordField fx:id="tfmdp" layoutX="376.0" layoutY="272.0" />
-      <TextField fx:id="tfnum_tel" layoutX="378.0" layoutY="99.0" />
-      <TextField fx:id="tfcin" layoutX="378.0" layoutY="54.0" />
-      <Label layoutX="266.0" layoutY="58.0" text="Cin" />
-      <Label layoutX="266.0" layoutY="103.0" text="Numéro téléphone" />
+      <Label layoutX="267.0" layoutY="237.0" text="Nom" />
+      <Label layoutX="266.0" layoutY="284.0" text="Prénom" />
+      <TextField fx:id="tfnom" layoutX="376.0" layoutY="233.0" />
+      <TextField fx:id="tfprenom" layoutX="376.0" layoutY="281.0" />
+      <TextField fx:id="tfemail" layoutX="376.0" layoutY="325.0" />
+      <Label layoutX="266.0" layoutY="329.0" text="Email" />
+      <Label layoutX="266.0" layoutY="366.0" text="Mot de passe" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="444.0" layoutY="445.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
+      <RadioButton fx:id="rbproprietaire" layoutX="453.0" layoutY="402.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton fx:id="rbmembre" layoutX="377.0" layoutY="402.0" mnemonicParsing="false" selected="true" text="Membre" />
+      <Label layoutX="266.0" layoutY="402.0" text="Role" />
+      <Button fx:id="btn_annul" layoutX="368.0" layoutY="445.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler" />
+      <PasswordField fx:id="tfmdp" layoutX="376.0" layoutY="362.0" />
+      <TextField fx:id="tfnum_tel" layoutX="378.0" layoutY="189.0" />
+      <TextField fx:id="tfcin" layoutX="378.0" layoutY="144.0" />
+      <Label layoutX="266.0" layoutY="148.0" text="Cin" />
+      <Label layoutX="266.0" layoutY="193.0" text="Numéro téléphone" />
       <Text layoutX="65.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
       <Label fx:id="nomUtilisateur" layoutX="73.0" layoutY="167.0" text="\${tfnom.text}&quot;" />
-      <TextField fx:id="tfid" layoutX="292.0" layoutY="368.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
+      <TextField fx:id="tfid" layoutX="292.0" layoutY="458.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
    </children>
 </AnchorPane>
