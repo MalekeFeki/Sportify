@@ -17,7 +17,7 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public Utilisateur(int idC, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
+    public Utilisateur(int id, int cin, int num_tel, String nom, String prenom, String email, String mdp,Role role) {
         this.id = id;
         this.cin=cin;
         this.num_tel=num_tel;
@@ -36,12 +36,22 @@ public class Utilisateur {
         this.mdp = mdp;
         this.role=role;
     }
+    public Utilisateur(int id,int cin, int num_tel,String nom, String prenom, String email, String mdp) {
+        this.id=id;
+        this.cin=cin;
+        this.num_tel=num_tel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
 
-    public int getIdC() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setIdC(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,7 +100,9 @@ public class Utilisateur {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        // Vérifier si l'email est au format email kifeh?
+            this.email = email;
+
     }
 
     public String getMdp() {
@@ -98,7 +110,10 @@ public class Utilisateur {
     }
 
     public void setMdp(String mdp) {
-        this.mdp = mdp;
+        {
+            this.mdp = mdp;
+
+        }
     }
 
     @Override
@@ -122,7 +137,7 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "idC=" + id +
+                "id=" + id +
                 ", cin=" + cin +
                 ", num_tel=" + num_tel +
                 ", nom='" + nom + '\'' +

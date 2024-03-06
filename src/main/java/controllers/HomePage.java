@@ -1,23 +1,46 @@
 package controllers;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    List<String> fxml1 = new ArrayList<>();
+    @FXML
+    private Button sign_in;
 
+    @FXML
+    private Button sign_up;
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+        // Add elements to the list
+        fxml1.add("AjouterEvent.fxml");
+        fxml1.add("AllEvent.fxml");
+        fxml1.add("EventINFO.fxml");
+        fxml1.add("FormReserverEvent.fxml");
+        fxml1.add("GestionEvent.fxml");
+        fxml1.add("ModifierEvent.fxml");
+
         try {
-            Parent root= FXMLLoader.load(getClass().getResource("/inscription.fxml"));
-            primaryStage.setTitle("Inscription");
+            Parent root= FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+
+            primaryStage.setTitle("Acceuil");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
@@ -25,5 +48,50 @@ public class HomePage extends Application {
         }
 
     }
+    @FXML
+    private ImageView event;
+    @FXML
+    void initialize() {
+        sign_in.setOnAction(event -> {
+            try {
+                // Load reclamation.fxml
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/inscription.fxml"));
+                Parent root = loader.load();
+
+                // Display the scene associated with reclamation.fxml
+                Stage stage = (Stage) sign_in.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        sign_up.setOnAction(event -> {
+            try {
+                // Load reclamation.fxml
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
+                Parent root = loader.load();
+
+                // Display the scene associated with reclamation.fxml
+                Stage stage = (Stage) sign_up.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
+    @FXML
+    private void redirectToAllEvent() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllEvent.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) event.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
 

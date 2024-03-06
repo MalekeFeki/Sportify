@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane fx:id="scrollPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AllEventController">
+   <stylesheets>
+      <URL value="@styles.css" />
+      <URL value="@STYLES2.css" />
+   </stylesheets>
+   <AnchorPane prefHeight="761.0" prefWidth="1376.0">
+      <children>
+         <fx:include source="NavBar.fxml"/>
+         <ImageView fitHeight="707.0" fitWidth="1371.0" layoutY="53.0">
+            <image>
+               <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
+            </image>
+         </ImageView>
+
+            <VBox alignment="CENTER" layoutX="22.0" layoutY="272.0" prefHeight="487.0" prefWidth="1312.0" spacing="10">
+               <children>
+                  <Pagination fx:id="pagination" prefHeight="147.0" prefWidth="1279.0" />
+                  <FlowPane fx:id="eventFlowPane" hgap="10" prefHeight="90.0" prefWidth="1312.0" rowValignment="TOP" vgap="10">
+         </FlowPane>
+               </children></VBox>
+
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="91.0" layoutX="-270.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="1633.0" />
+      <ImageView fx:id="gohomepage" fitHeight="91.0" fitWidth="263.0" onMouseClicked="#redirectToHomePage" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="44.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EVENEMENT">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Text>
+      <TextField fx:id="textFieldSEARCH" layoutX="37.0" layoutY="149.0" prefHeight="39.0" prefWidth="190.0" promptText="recherche par nom d'événement" />
+         <Button fx:id="rnd" layoutX="245.0" layoutY="151.0" mnemonicParsing="true" onAction="#searchEvents" prefHeight="36.0" prefWidth="70.0" text="SEARCH" />
+         <HBox layoutX="345.0" layoutY="147.0" prefHeight="66.0" prefWidth="576.0" spacing="10">
+         <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+         </padding>
+            <ComboBox fx:id="typeFilter" prefHeight="34.0" prefWidth="118.0" promptText="Event Type" style="-fx-fill: white" styleClass="orange-combobox" />
+            <ComboBox fx:id="cityFilter" prefHeight="33.0" prefWidth="76.0" promptText="ville" styleClass="orange-combobox" />
+            <Button fx:id="rnd1" mnemonicParsing="false" onAction="#filterEvents" prefHeight="33.0" prefWidth="85.0" text="Apply Filters" />
+            <Button fx:id="clearFiltersButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="95.0" text="Clear Filters" />
+            <Button fx:id="eventsNearMeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" text="events NearMe " />
+
+
+         </HBox>
+         <Label fx:id="countdownLabel" />
+
+      </children>
+</AnchorPane>
+</ScrollPane>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="70.0" prefWidth="1084.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NavBarController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" height="94.0" layoutX="-54.0" stroke="BLACK" strokeType="INSIDE" width="1332.0" />
+
+    <!-- Guest View -->
+    <HBox fx:id="guestBox" alignment="CENTER_RIGHT" layoutX="-126.0" prefHeight="93.0" prefWidth="1390.0" spacing="10">
+        <Button fx:id="sign_up" onAction="#signUpClicked" text="Sign Up" />
+        <Button fx:id="sign_in" alignment="CENTER" onAction="#signInClicked" prefHeight="26.0" prefWidth="57.0" text="Sign In" />
+      <cursor>
+         <Cursor fx:constant="DEFAULT" />
+      </cursor>
+    </HBox>
+
+       <!-- User View -->
+    <HBox fx:id="userBox" alignment="CENTER_RIGHT" prefHeight="94.0" prefWidth="1278.0" spacing="10" visible="false">
+        <Label fx:id="userNameLabel" alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="202.0" style="-fx-text-fill: #ffffff" />
+        <Button onAction="#profileClicked" prefHeight="38.0" prefWidth="105.0" text="Profile" />
+        <Button fx:id="btn_deconn" onAction="#signOutClicked" prefHeight="26.0" prefWidth="66.0" text="Sign Out" />
+    </HBox>
+   <ImageView fx:id="gohomepage" fitHeight="83.0" fitWidth="202.0" layoutX="10.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../img/Sportify__2_-removebg-preview_1.png" />
+      </image>
+   </ImageView>
+
+</AnchorPane>

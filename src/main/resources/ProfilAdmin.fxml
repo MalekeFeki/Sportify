@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilAdminController">
+   <children>
+      <fx:include source="NavBar.fxml"/>
+      <ImageView fitHeight="600.0" fitWidth="800.0">
+         <image>
+            <Image url="file:/C:/Users/Malek/Desktop/esprit/Background.png" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css">
+         <children>
+            <Circle fill="WHITE" layoutX="94.0" layoutY="90.0" radius="55.0" stroke="WHITE" strokeType="INSIDE" />
+            <Text layoutX="70.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue," />
+            <Line endX="71.29287719726562" endY="-1.52587890625E-5" layoutX="99.0" layoutY="184.0" startX="-66.09998321533203" startY="-1.52587890625E-5" />
+            <Button fx:id="btn_deco1" alignment="CENTER_RIGHT" layoutX="36.0" layoutY="247.0" mnemonicParsing="false" onAction="#afficherProprietairesSalles" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text=" Propriétaires salles" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="125.0" size="100" wrappingWidth="8.571428298950252" />
+            <Button fx:id="btn_membres" alignment="CENTER" layoutX="36.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Membres" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="38.0" layoutY="303.0" size="23" />
+            <Button fx:id="btn_deconn" alignment="CENTER" layoutX="36.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" styleClass="logout" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Se déconnecter" textFill="#fcf8f8">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" layoutX="38.0" layoutY="341.0" size="25" />
+            <Label fx:id="nomUtilisateur" layoutX="87.0" layoutY="162.0" text="\${tfnom.text}&quot;" />
+         </children>
+      </Pane>
+      <Label layoutX="293.0" layoutY="237.0" text="Nom" />
+      <Label layoutX="292.0" layoutY="284.0" text="Prénom" />
+      <TextField fx:id="tfid" layoutX="424.0" layoutY="464.0" prefHeight="26.0" prefWidth="42.0" visible="false" />
+      <TextField fx:id="tfnom" layoutX="402.0" layoutY="233.0" />
+      <TextField fx:id="tfprenom" layoutX="402.0" layoutY="281.0" />
+      <TextField fx:id="tfemail" layoutX="402.0" layoutY="325.0" />
+      <Label layoutX="292.0" layoutY="329.0" text="Email" />
+      <Label layoutX="292.0" layoutY="366.0" text="Mot de passe" />
+      <Button fx:id="btn_enregismodif" alignment="BOTTOM_LEFT" layoutX="459.0" layoutY="438.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" styleClass="add-btn" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Modifier profil" />
+      <Button fx:id="btn_annul" layoutX="383.0" layoutY="438.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" stylesheets="@../../../../../Downloads/dashboardDesign.css" text="Annuler">
+         <styleClass>
+            <String fx:value="close" />
+            <String fx:value="delete-btn" />
+         </styleClass></Button>
+      <PasswordField fx:id="tfmdp" layoutX="402.0" layoutY="362.0" />
+      <TextField fx:id="tfnum_tel" layoutX="404.0" layoutY="189.0" />
+      <TextField fx:id="tfcin" layoutX="404.0" layoutY="144.0" />
+      <Label layoutX="292.0" layoutY="148.0" text="Cin" />
+      <Label layoutX="292.0" layoutY="193.0" text="Numéro téléphone" />
+      <FontAwesomeIconView glyphName="USER" />
+      <Button fx:id="btn_modif1" alignment="CENTER" layoutX="35.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #FF6100; -fx-border-color: #FFFFFF;" text="Modifier profil" textFill="#fcf8f8">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <FontAwesomeIconView fill="WHITE" glyphName="EDIT" layoutX="39.0" layoutY="232.0" size="23" wrappingWidth="17.59999999999991" />
+      <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="38.0" layoutY="266.0" size="23" />
+      <RadioButton fx:id="rbproprietaire" disable="true" layoutX="478.0" layoutY="413.0" mnemonicParsing="false" text="Propriétaire de salle" />
+      <RadioButton fx:id="rbmembre" disable="true" layoutX="402.0" layoutY="413.0" mnemonicParsing="false" text="Membre" />
+      <Label layoutX="294.0" layoutY="404.0" text="Role" />
+   </children>
+</AnchorPane>

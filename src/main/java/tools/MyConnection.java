@@ -8,8 +8,17 @@ public class MyConnection {
     public String url="jdbc:mysql://localhost:3306/sportify";
     public String login="root";
     public String password="";
+    public int id;
     Connection cnx;
     public static MyConnection instance;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUrl() {
         return url;

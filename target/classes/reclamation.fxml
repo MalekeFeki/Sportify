@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReclamationCoachController">
+    <children>
+        <Pane fx:id="tfpane" layoutX="8.0" layoutY="10.0" prefHeight="380.0" prefWidth="150.0" style="-fx-background-color: #FF6100;" stylesheets="@dashboard.css">
+            <styleClass>
+                <String fx:value="white-bg" />
+                <String fx:value="shadow" />
+            </styleClass>
+            <children>
+                <Button fx:id="tfdeconnexion" layoutX="22.0" layoutY="327.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Déconnexion" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Button>
+                <Text fill="WHITE" layoutX="33.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Membre">
+                    <font>
+                        <Font name="System Bold" size="21.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="49.0" fitWidth="56.0" layoutX="-6.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportifylogo.png" />
+                    </image>
+                </ImageView>
+                <Circle fill="WHITE" layoutX="75.0" layoutY="79.0" radius="54.0" stroke="BLACK" strokeType="INSIDE" />
+                <Button fx:id="nav_btn" layoutX="1.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: transparent;" stylesheets="@dashboard.css" text="Réclamation" textFill="#fffdfd">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="white-bg" />
+                        <String fx:value="shadow" />
+                    </styleClass>
+                </Button>
+                <Line endX="67.0" layoutX="72.0" layoutY="168.0" startX="-58.0" stroke="WHITE" />
+            </children>
+        </Pane>
+        <AnchorPane layoutX="166.0" layoutY="10.0" prefHeight="380.0" prefWidth="426.0" stylesheets="@dashboard.css">
+            <styleClass>
+                <String fx:value="white-bg" />
+                <String fx:value="shadow" />
+            </styleClass>
+            <children>
+                <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Réclamation:" />
+                <TextField fx:id="texte_reclamation" layoutX="92.0" layoutY="43.0" prefHeight="90.0" prefWidth="222.0" />
+
+                <Button fx:id="tfajoutreclamation" layoutX="323.0" layoutY="39.0" mnemonicParsing="false" onAction="#ajouterReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="Ajouter" textFill="WHITE" />
+                <Button fx:id="tfmodifreclamation" layoutX="326.0" layoutY="76.0" mnemonicParsing="false" onAction="#modifierReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="Modifier" textFill="WHITE" />
+                <Button fx:id="tfsuppressionreclamation" layoutX="325.0" layoutY="116.0" mnemonicParsing="false" onAction="#supprimerReclamation" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #BF8460;" text="supprimer" textFill="#fffdfd" />
+                <TableView fx:id="tableViewReclamations" layoutX="6.0" layoutY="163.0" prefHeight="130.0" prefWidth="411.0">
+                    <columns>
+                        <TableColumn fx:id="colReclamation" prefWidth="410.0" text="Votre réclamation" />
+                    </columns>
+                </TableView>
+            </children></AnchorPane>
+    </children>
+</AnchorPane>

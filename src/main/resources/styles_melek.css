@@ -1,0 +1,34 @@
+.container {
+    -fx-background-color: #f4f4f4;
+}
+
+.navbar {
+    -fx-background-color: #333;
+    -fx-padding: 10px;
+}
+
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.text-area {
+    -fx-font-size: 14px;
+}
+
+.choice-box {
+    -fx-font-size: 14px;
+}
+
+.submit-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #4caf50; /* Green background color */
+    -fx-border: none; /* Remove button border */
+    -fx-text-fill: white; /* White text color */
+    -fx-padding: 10px 20px; /* Add some padding */
+    -fx-cursor: hand; /* Change cursor on hover */
+}
+
+.submit-button:hover {
+    -fx-background-color: #45a049; /* Darker green color on hover */
+}

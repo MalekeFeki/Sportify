@@ -1,0 +1,196 @@
+/* styles.css */
+
+#infoVBox {
+    -fx-background-color: #f0f0f0; /* Light gray background color */
+    -fx-padding: 10px; /* Padding around the VBox */
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.description {
+    -fx-font-size: 14px;
+}
+
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.value {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 0; /* Vertical padding for labels */
+}
+
+/* Additional styles for specific labels */
+#emailLabel {
+    -fx-text-fill: #3366cc; /* Blue color for email label */
+}
+
+#numTeleLabel {
+    -fx-text-fill: #009900; /* Green color for phone label */
+}
+
+#CityLabel {
+    -fx-text-fill: #990099; /* Purple color for city label */
+}
+
+#LieuLabel {
+    -fx-text-fill: #fe6100; /* Orange color for location label */
+}
+.date-text {
+    /* Add your styling properties here */
+    -fx-font-size: 14px;
+    -fx-fill: #555555;
+    /* Add more styling properties as needed */
+}
+/* Chart graphic color */
+.chart {
+    -fx-background-color: #fe6100; /* Orange color for chart graphic */
+}
+.event-box {
+     -fx-border-color: black;
+     -fx-padding: 10px;
+     -fx-spacing: 5px;
+     -fx-border-color: #ff7741;
+}
+.event-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-fill: #000000; /* Set the text color */
+    /* Add any other styles you want */
+}
+/* JavaFX CSS for Button */
+/*.info-button,*/
+/*.interest-button,*/
+/*.reserve-button {*/
+/*    -fx-padding: 17px 40px;*/
+/*    -fx-border-radius: 50px;*/
+/*    -fx-cursor: hand; !* For Windows compatibility *!*/
+/*    -fx-cursor: pointer;*/
+/*    -fx-border-width: 0;*/
+/*    -fx-background-color: white;*/
+/*    -fx-box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);*/
+/*    -fx-letter-spacing: 1.5px;*/
+/*    -fx-text-transform: uppercase;*/
+/*    -fx-font-size: 15px;*/
+/*    -fx-transition-duration: 0.5s;*/
+/*}*/
+/*.info-button,*/
+/*.interest-button,*/
+/*.reserve-button:hover {*/
+/*    -fx-letter-spacing: 3px;*/
+/*    -fx-background-color: hsl(261, 80%, 48%);*/
+/*    -fx-text-fill: hsl(0, 0%, 100%);*/
+/*    -fx-box-shadow: 0 7px 29px 0 rgba(93, 24, 220, 1);*/
+/*}*/
+/*.info-button,*/
+/*.interest-button,*/
+/*.reserve-button:pressed {*/
+/*    -fx-letter-spacing: 3px;*/
+/*    -fx-background-color: hsl(261, 80%, 48%);*/
+/*    -fx-text-fill: hsl(0, 0%, 100%);*/
+/*    -fx-box-shadow: 0 0 0 0 rgba(93, 24, 220, 1);*/
+/*    -fx-translate-y: 10px;*/
+/*    -fx-transition-duration: 0.1s;*/
+/*}*/
+/* Apply styles to countdown label */
+.countdown-label {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 20px;
+    -fx-text-fill: #ffffff; /* Text color */
+    -fx-background-color: #fe6100; /* Background color */
+    -fx-padding: 5px 10px; /* Padding */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Rounded corners for background */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0); /* Drop shadow */
+}
+
+/* Apply styles to the container VBox */
+.countdown-container {
+    -fx-alignment: center; /* Center the countdown label within the container */
+    -fx-spacing: 10px;
+}
+.orange-combobox{
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-fill: #ffffff;
+    -fx-background-color: #fe6100; /* Background color */
+    -fx-text-fill: #ffffff;        /* Text color for good contrast */
+}
+/*Edit Normal Cell color */
+
+/*Edit Cell Color Only when cursor hover cell */
+.orange-combobox .list-cell:hover{
+    -fx-background-color: #ff7741;
+}
+
+
+/*!* JavaFX CSS for Button *!*/
+/*.info-button,*/
+/*.interest-button,*/
+/*.reserve-button {*/
+/*    -fx-text-fill: #ecf0f1;*/
+/*    -fx-font-size: 17px;*/
+/*    -fx-background-color: #e67e22;*/
+/*    -fx-border-color: #f39c12;*/
+/*    -fx-border-width: 1px;*/
+/*    -fx-border-radius: 5px;*/
+/*    -fx-padding: 10px;*/
+/*    -fx-effect: dropshadow( three-pass-box , rgba(211, 84, 0, 0.7) , 0, 6, 0, 0 );*/
+/*    -fx-transition-duration: 0.1s;*/
+/*}*/
+/*.info-button,*/
+/*.interest-button,*/
+/*.reserve-buttonn:pressed {*/
+/*    -fx-effect: dropshadow( three-pass-box , rgba(211, 84, 0, 0.7) , 0, 2, 0, 0 );*/
+/*    -fx-translate-y: 2;*/
+/*}*/
+
+.countdown-label {
+    -fx-background-color: #E74C3C; /* Red */
+    -fx-text-fill: white;
+}
+
+/* Event Box Style */
+.event-box {
+    -fx-border-color: black;
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-border-color: #ff7741;
+}
+
+
+/*eventTableView*/
+#eventTableView {
+    -fx-control-inner-background: #ffffff; /* Background color of the cells */
+    -fx-selection-bar: #ff8c42; /* Color of the selected row */
+    -fx-selection-bar-non-focused: #ff8c42; /* Color of the selected row when the TableView is not focused */
+    -fx-table-cell-border-color: derive(#fe6100, 20%); /* Border color of the cells */
+    -fx-table-header-border-color: derive(#fe6100, 20%); /* Border color of the table header */
+}
+
+#eventTableView .column-header-background {
+    -fx-background-color: #ffffff; /* Background color of the table header */
+}
+
+#eventTableView .column-header,
+#eventTableView .column-header-background {
+    -fx-text-fill: white; /* Text color of the column headers */
+}
+
+#eventTableView .table-row-cell {
+    -fx-background-color: #d0d0d0; /* Background color of the rows */
+    -fx-text-fill: white; /* Text color of the rows */
+}
+
+#eventTableView .table-row-cell:even {
+    -fx-background-color: derive(#ffffff, 10%); /* Alternate row background color */
+}
+
+#eventTableView .table-row-cell:selected {
+    -fx-background-color: #ff8c42; /* Background color of the selected row */
+}

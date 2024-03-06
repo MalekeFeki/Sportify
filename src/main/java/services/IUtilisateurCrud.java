@@ -10,5 +10,9 @@ public interface IUtilisateurCrud<T> {
 
     public void modifierEntite(Utilisateur u);
 
+    void modifierProfil(Utilisateur u);
+
     public void supprimerEntite(int id);
+
+    void modifier2(Utilisateur e);
 }
