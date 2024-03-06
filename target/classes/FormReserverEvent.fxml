@@ -17,6 +17,7 @@
     </stylesheets>
 
     <children>
+        <fx:include source="NavBar.fxml"/>
       <ImageView fitHeight="527.0" fitWidth="822.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../img/Background.png" />

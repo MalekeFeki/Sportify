@@ -16,6 +16,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
     <children>
+        <fx:include source="NavBar.fxml"/>
         <TextField fx:id="lonTextField" layoutX="307.0" layoutY="158.0" opacity="0.0" />
         <TextField fx:id="latTextField" layoutX="307.0" layoutY="200.0" opacity="0.0" />
         <ImageView fitHeight="555.0" fitWidth="932.0" layoutY="59.0">

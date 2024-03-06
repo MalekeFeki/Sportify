@@ -12,6 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdhesionController">
     <children>
+        <fx:include source="NavBar.fxml"/>
       <ImageView fitHeight="401.0" fitWidth="714.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />

@@ -23,6 +23,7 @@
       <URL value="@STYLES2.css" />
    </stylesheets>
    <children>
+      <fx:include source="NavBar.fxml"/>
 
       <ImageView fitHeight="557.0" fitWidth="959.0" layoutX="-1.0" layoutY="63.0">
          <image>
