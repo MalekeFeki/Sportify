@@ -79,7 +79,7 @@ public class InscriptionController {
     private CheckBox show;
     @FXML
     private Label passwordStrengthLabel;
-    // Twilio account credentials
+
     private static final String ACCOUNT_SID = "ACd6178ca26eb4a78ebcf30b381f0ebeab";
     private static final String AUTH_TOKEN = "9c80cfd68e4cd0692781ba469c2e819b";
     public void setRegisteredUsers(List<Utilisateur> registeredUsers) {
@@ -106,35 +106,28 @@ public class InscriptionController {
                 tfshowpassword.setText(newValue);
             }
 
-        // Vérifier la force du mot de passe et mettre à jour le label en conséquence
         String password = newValue;
         if (password.length() < 8 || !password.matches(".*[A-Z].*")) {
-            // Si le mot de passe ne répond pas aux critères de force, afficher un message en rouge
             passwordStrengthLabel.setText("Mot de passe faible!");
             passwordStrengthLabel.setStyle("-fx-text-fill: red;");
         } else {
-            // Si le mot de passe est fort, afficher un message en vert
             passwordStrengthLabel.setText("Mot de passe fort.");
             passwordStrengthLabel.setStyle("-fx-text-fill: green;");
         }
     });
         hyperlink.setOnAction(event -> {
             try {
-                // Chargez la page d'authentification depuis le fichier FXML
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
                 Parent root = loader.load();
 
-                // Créez une nouvelle scène et un nouveau stage
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
 
-                // Affichez la nouvelle scène
                 stage.show();
 
-                // Fermez la fenêtre actuelle
                 ((Stage) hyperlink.getScene().getWindow()).close();
             } catch (IOException e) {
-                e.printStackTrace(); // Gérez l'exception selon vos besoins
+                e.printStackTrace();
             }
 
         });

@@ -19,8 +19,8 @@
 
 <AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CoachController">
     <children>
-        <fx:include source="NavBar.fxml"/>
-        <Pane layoutX="14.0" layoutY="12.0" prefHeight="577.0" prefWidth="150.0" style="-fx-background-color: FF6100;" stylesheets="@dashboard.css">
+        <fx:include source="NavBar.fxml" />
+        <Pane layoutX="4.0" layoutY="106.0" prefHeight="652.0" prefWidth="160.0" style="-fx-background-color: FF6100;" stylesheets="@dashboard.css">
             <children>
                 <Circle fill="WHITE" layoutX="75.0" layoutY="85.0" radius="54.0" stroke="BLACK" strokeType="INSIDE" />
                 <Text fill="WHITE" layoutX="10.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propriétaire">
@@ -49,53 +49,53 @@
                 <String fx:value="shadow" />
             </styleClass>
         </Pane>
-        <AnchorPane layoutX="176.0" layoutY="15.0" prefHeight="571.0" prefWidth="509.0" stylesheets="@dashboard.css">
+        <AnchorPane layoutX="186.0" layoutY="109.0" prefHeight="644.0" prefWidth="1164.0" stylesheets="@dashboard.css">
             <children>
-                <AnchorPane layoutX="4.0" layoutY="180.0" prefHeight="189.0" prefWidth="495.0" stylesheets="@dashboard.css">
+                <AnchorPane layoutX="4.0" layoutY="180.0" prefHeight="189.0" prefWidth="1142.0" stylesheets="@dashboard.css">
                     <styleClass>
                         <String fx:value="white-bg" />
                         <String fx:value="shadow" />
                     </styleClass>
                     <children>
-                        <TableView fx:id="Tab1" layoutX="6.0" layoutY="50.0" prefHeight="139.0" prefWidth="481.0">
+                        <TableView fx:id="Tab1" layoutX="6.0" layoutY="50.0" prefHeight="139.0" prefWidth="1127.0">
                             <columns>
-                                <TableColumn fx:id="colNom" minWidth="5.0" prefWidth="75.0" text="Nom" />
-                                <TableColumn fx:id="colPrenom" prefWidth="69.0" text="Prénom" />
-                                <TableColumn fx:id="colSexe" prefWidth="62.0" text="Sexe" />
-                                <TableColumn fx:id="colSeance" prefWidth="66.0" text="Séance" />
-                                <TableColumn fx:id="colDescription" prefWidth="206.0" text="Description" />
+                                <TableColumn fx:id="colNom" minWidth="5.0" prefWidth="107.0" text="Nom" />
+                                <TableColumn fx:id="colPrenom" prefWidth="93.0" text="Prénom" />
+                                <TableColumn fx:id="colSexe" prefWidth="103.0" text="Sexe" />
+                                <TableColumn fx:id="colSeance" prefWidth="120.0" text="Séance" />
+                                <TableColumn fx:id="colDescription" prefWidth="702.0" text="Description" />
 
                             </columns>
                         </TableView>
-                        <TextField fx:id="tfChercher" layoutX="14.0" layoutY="14.0" promptText="chercher" />
+                        <TextField fx:id="tfChercher" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="230.0" promptText="chercher" />
                     </children>
                 </AnchorPane>
-                <TextField fx:id="tfNom" layoutX="68.0" layoutY="377.0" prefHeight="25.0" prefWidth="130.0" />
-                <TextField fx:id="tfPrenom" layoutX="68.0" layoutY="429.0" prefHeight="25.0" prefWidth="130.0" />
+                <TextField fx:id="tfNom" layoutX="68.0" layoutY="377.0" prefHeight="25.0" prefWidth="230.0" />
+                <TextField fx:id="tfPrenom" layoutX="68.0" layoutY="429.0" prefHeight="25.0" prefWidth="230.0" />
                 <Label layoutX="14.0" layoutY="381.0" prefHeight="17.0" prefWidth="33.0" text="Nom :" />
                 <Label layoutX="8.0" layoutY="433.0" text="Prénom:" />
                 <Label layoutX="14.0" layoutY="482.0" text="Sexe :" />
-                <ComboBox fx:id="tfSexe" layoutX="68.0" layoutY="478.0" prefHeight="25.0" prefWidth="130.0" promptText="choisir" style="-fx-background-color: #BF8460;" />
-                <TextField fx:id="tfDiscription" layoutX="329.0" layoutY="433.0" prefHeight="68.0" prefWidth="160.0" />
-                <Label layoutX="249.0" layoutY="382.0" text="Séance :" />
-                <Button fx:id="tfSupprimer" layoutX="417.0" layoutY="532.0" mnemonicParsing="false" onAction="#supprimerCoach" style="-fx-background-color: #BF8460;" text="Supprimer" />
-                <Button fx:id="btnAjout" layoutX="240.0" layoutY="532.0" mnemonicParsing="false" onAction="#ajouterCoach" prefHeight="25.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="Ajouter" />
-                <Button fx:id="btnretour" layoutX="16.0" layoutY="531.0" mnemonicParsing="false" onAction="#btnretour" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="retour" />
+                <ComboBox fx:id="tfSexe" layoutX="68.0" layoutY="478.0" prefHeight="25.0" prefWidth="230.0" promptText="choisir" style="-fx-background-color: #BF8460;" />
+                <TextField fx:id="tfDiscription" layoutX="566.0" layoutY="444.0" prefHeight="68.0" prefWidth="239.0" />
+                <Label layoutX="489.0" layoutY="394.0" text="Séance :" />
+                <Button fx:id="tfSupprimer" layoutX="567.0" layoutY="573.0" mnemonicParsing="false" onAction="#supprimerCoach" style="-fx-background-color: #BF8460;" text="Supprimer" />
+                <Button fx:id="btnAjout" layoutX="330.0" layoutY="573.0" mnemonicParsing="false" onAction="#ajouterCoach" prefHeight="25.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="Ajouter" />
 
-                <Button fx:id="tfModifier" layoutX="329.0" layoutY="532.0" mnemonicParsing="false" onAction="#modifierCoach" prefHeight="25.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="Modifier" />
-                <Label layoutX="240.0" layoutY="433.0" text="Discription :" />
-                <ComboBox fx:id="tfSeance" layoutX="329.0" layoutY="378.0" prefHeight="25.0" prefWidth="160.0" promptText="choisir" style="-fx-background-color: #BF8460;" />
-                <PieChart fx:id="statgenre" layoutX="30.0" layoutY="7.0" prefHeight="157.0" prefWidth="173.0" />
-                <Label fx:id="nbtotal" layoutX="293.0" layoutY="34.0" prefHeight="121.0" prefWidth="182.0">
+                <Button fx:id="tfModifier" layoutX="444.0" layoutY="573.0" mnemonicParsing="false" onAction="#modifierCoach" prefHeight="25.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="Modifier" />
+                <Label layoutX="489.0" layoutY="446.0" text="Discription :" />
+                <ComboBox fx:id="tfSeance" layoutX="567.0" layoutY="386.0" prefHeight="25.0" prefWidth="239.0" promptText="choisir" style="-fx-background-color: #BF8460;" />
+                <PieChart fx:id="statgenre" layoutX="83.0" layoutY="16.0" prefHeight="157.0" prefWidth="173.0" />
+                <Label fx:id="nbtotal" layoutX="567.0" layoutY="43.0" prefHeight="121.0" prefWidth="182.0">
                     <font>
                         <Font size="48.0" />
                     </font>
                 </Label>
-                <Text layoutX="255.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Total de coachs  :">
+                <Text layoutX="390.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Total de coachs  :">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Text>
+                <Button fx:id="btnretour" layoutX="221.0" layoutY="572.0" mnemonicParsing="false" onAction="#btnretour" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #BF8460;" text="retour" />
             </children>
             <styleClass>
                 <String fx:value="white-bg" />

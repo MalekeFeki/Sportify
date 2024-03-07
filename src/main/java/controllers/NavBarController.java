@@ -112,11 +112,9 @@ public class NavBarController {
                     fxmlFileName = "/ProfilProp.fxml";
                     break;
                 default:
-                    // Gérer d'autres cas si nécessaire
                     return;
             }
 
-            // Charger le fichier FXML correspondant au rôle de l'utilisateur
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent root = loader.load();
             Scene currentScene = sign_up.getScene();
@@ -125,13 +123,11 @@ public class NavBarController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Handle profile button click
         System.out.println("Profile clicked");
     }
 
     @FXML
     private void signOutClicked() {
-        // Display a confirmation dialog
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText(null);
@@ -139,7 +135,6 @@ public class NavBarController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // If the user clicks "OK", close the current window and open the authentication page
             MyConnection.getInstance().setId(0);
 
             try {
@@ -151,10 +146,7 @@ public class NavBarController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            // maysir chay
         }
-        // Handle sign-out button click
         System.out.println("Sign Out clicked");
     }
 }

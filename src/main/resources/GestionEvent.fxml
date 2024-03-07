@@ -39,7 +39,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Button fx:id="redirectToProfile" layoutX="82.0" layoutY="105.0" mnemonicParsing="false" onAction="#redirectToProfile" prefHeight="40.0" prefWidth="74.0" text="retour" textAlignment="CENTER">
+      <Button fx:id="btn_annul" layoutX="82.0" layoutY="105.0" mnemonicParsing="false" onAction="#redirectToProfile" prefHeight="40.0" prefWidth="74.0" text="retour" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

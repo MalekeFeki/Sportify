@@ -121,7 +121,6 @@ public class FormReserverEventController implements Initializable {
 
     private void closeForm() {
         Stage stage = (Stage) nomField.getScene().getWindow();
-//        stage.close();
         returntoEventDetails();
     }
 

@@ -100,8 +100,8 @@ private VBox eventBox ;
 
         startDateText.setText("Start Date: " + event.getDatedDebutEV().toString());
         endDateText.setText("End Date: " + event.getDatedFinEV().toString());
-        endDateText.getStyleClass().add("date-text-moreinfo");  // Add style class to end date text
-        startDateText.getStyleClass().add("date-text-moreinfo");  // Add style class to start date text
+        endDateText.getStyleClass().add("date-text-moreinfo");
+        startDateText.getStyleClass().add("date-text-moreinfo");
         eventImageView.setImage(new Image("file:" + event.getPhoto()));
 
         emailLabel.setText("Email: " + event.getEmail());
@@ -125,7 +125,6 @@ private VBox eventBox ;
 
         genreevent.setText("Genre: " + event.getGenreEvenement().toString());
         typeevent.setText("Type: " + event.getTypeEV().toString());
-// Disable the reserveButton if the event type is "publicevent"
         if ("publicevent".equalsIgnoreCase(event.getTypeEV().toString()) || eventReservationCrud.afficherReservation(event.getIDevent()).size()>=event.getCapacite()) {
             reserveButton.setDisable(true);
             System.out.println("event is public ou capacity full");
@@ -154,10 +153,8 @@ private VBox eventBox ;
         timeline.play();
         System.out.println("Timeline started");
         infoVBox.setStyle("-fx-background-color: transparent;");
-        // Directly add the countdownLabel to the infoVBox
         infoVBox.getChildren().add(countdownLabel);
 
-        // Existing code...
 
         updateMapView();
         return infoVBox;
@@ -172,14 +169,12 @@ private VBox eventBox ;
 
         mapView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Worker.State.SUCCEEDED) {
-                // Define the initMap function
                 mapView.getEngine().executeScript("function initMap(latitude, longitude) {" +
                         "var map = L.map('map').setView([latitude, longitude], 13);" +
                         "L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);" +
                         "L.marker([latitude, longitude]).addTo(map);" +
                         "}");
 
-                // Call the initMap function with latitude and longitude
                 mapView.getEngine().executeScript("initMap(" + eventLatitude + ", " + eventLongitude + ")");
             }
         });

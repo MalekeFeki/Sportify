@@ -25,7 +25,6 @@ public class HomePage extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-        // Add elements to the list
         fxml1.add("AjouterEvent.fxml");
         fxml1.add("AllEvent.fxml");
         fxml1.add("EventINFO.fxml");

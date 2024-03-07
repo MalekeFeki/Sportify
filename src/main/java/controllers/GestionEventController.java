@@ -172,10 +172,7 @@ public class GestionEventController {
     @FXML
     private void printEventDetails(Evenement selectedEvent) {
         if (selectedEvent != null) {
-            // Call a method to retrieve important information for the event
-//            String eventInfo = retrieveEventInfo(selectedEvent);
 
-            // Call the print method with the event information
             PdfService.printEvent(selectedEvent);
 
         } else {
@@ -268,11 +265,9 @@ public class GestionEventController {
                     fxmlFileName = "/ProfilProp.fxml";
                     break;
                 default:
-                    // Gérer d'autres cas si nécessaire
                     return;
             }
 
-            // Charger le fichier FXML correspondant au rôle de l'utilisateur
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent root = loader.load();
             Stage stage = (Stage) btn_annul.getScene().getWindow();

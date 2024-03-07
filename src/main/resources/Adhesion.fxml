@@ -3,21 +3,17 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+
 <!--salem-->
+
 <AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdhesionController">
     <children>
-        <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="401.0" fitWidth="714.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
-         </image>
-      </ImageView>
+        <fx:include source="NavBar.fxml" />
         <!-- Payment Details -->
         <Text layoutX="287.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details d'Adhesion">
             <font>
@@ -26,21 +22,45 @@
         </Text>
         <!-- Date Pickers -->
         <HBox layoutX="67.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fe6100" height="123.0" layoutX="348.0" layoutY="576.0" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" width="682.0" />
         <!-- Total Label -->
-        <Label layoutX="186.0" layoutY="292.0" prefHeight="17.0" prefWidth="30.0" text="Total" />
+        <Label layoutX="478.0" layoutY="586.0" prefHeight="27.0" prefWidth="53.0" text="Total">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
         <!-- Payment Button -->
-        <Button fx:id="payerButton" layoutX="182.0" layoutY="326.0" mnemonicParsing="false" onAction="#loadPaiementInterface" prefHeight="25.0" prefWidth="350.0" stylesheets="@STYLES2.css" text="Payer">
+        <Button fx:id="payerButton" layoutX="472.0" layoutY="629.0" mnemonicParsing="false" onAction="#loadPaiementInterface" prefHeight="39.0" prefWidth="452.0" stylesheets="@STYLES2.css" text="Payer">
             <font>
-                <Font name="System Bold" size="14.0" />
+                <Font name="System Bold" size="18.0" />
             </font>
         </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fe6100" height="123.0" layoutX="308.0" layoutY="225.0" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" width="779.0" />
         <!-- Price Label -->
         <Label fx:id="priceLabel" layoutX="218.0" layoutY="292.0" />
-        <DatePicker fx:id="dateDebutPicker" layoutX="161.0" layoutY="112.0" promptText="date debut" />
-        <Button fx:id="calculateButton" layoutX="182.0" layoutY="246.0" mnemonicParsing="false" onAction="#initialize" text="Calculate Price" />
+        <DatePicker fx:id="dateDebutPicker" layoutX="325.0" layoutY="287.0" prefHeight="39.0" prefWidth="321.0" promptText="date debut" />
+        <Button fx:id="calculateButton" layoutX="636.0" layoutY="427.0" mnemonicParsing="false" onAction="#initialize" text="Calculer Prix" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
         <!-- Remaining Time Label -->
-        <Label fx:id="remainingTimeLabel" layoutX="323.0" layoutY="210.0" text="Remaining Time:" />
-        <DatePicker fx:id="dateFinPicker" layoutX="379.0" layoutY="112.0" promptText="date fin" />
-      <Button fx:id="afficheradhesion" layoutX="415.0" layoutY="246.0" mnemonicParsing="false" onAction="#showAdhesions" text="Show Adhesions" />
+        <Label fx:id="remainingTimeLabel" layoutX="634.0" layoutY="377.0" text="Temps Restant :" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <DatePicker fx:id="dateFinPicker" layoutX="739.0" layoutY="287.0" prefHeight="39.0" prefWidth="321.0" promptText="date fin" />
+      <Button fx:id="afficheradhesion" layoutX="592.0" layoutY="487.0" mnemonicParsing="false" onAction="#showAdhesions" text="Historique d'Adhésions" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label layoutX="608.0" layoutY="245.0" text="Choisissez votre date" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="568.0" layoutY="132.0" text="insérez votre Adhésion" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

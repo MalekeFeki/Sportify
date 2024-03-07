@@ -54,8 +54,7 @@ public class ListOfEventReservation {
     @FXML
     private Text nomevent;
     private EventReservationCrud eventReservationCrud = new EventReservationCrud();
-    private int eventId; // Variable to store the eventId
-
+    private int eventId;
     public void setEventId(Evenement event) {
         TableColumn<EventReservation, Integer> eventIdColumn = new TableColumn<>("Event ID");
         TableColumn<EventReservation, Integer> reservationIdColumn = new TableColumn<>("Reservation ID");
@@ -65,7 +64,6 @@ public class ListOfEventReservation {
         TableColumn<EventReservation, String> emailColumn = new TableColumn<>("Email");
         TableColumn<EventReservation, Integer> numTeleColumn = new TableColumn<>("Num Tele");
         System.out.println(eventId);
-        // Set column cell values
         eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
         reservationIdColumn.setCellValueFactory(new PropertyValueFactory<>("reservationId"));
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -79,7 +77,6 @@ public class ListOfEventReservation {
     }
     @FXML
     void initialize() {
-        // Load reservations for the selected event
         loadReservations(eventId);
     }
 

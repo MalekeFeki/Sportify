@@ -137,10 +137,8 @@ public class AjouterEventController {
             loadMap();
         }
     private Optional<cityEV> extractCityFromText(String text) {
-        // Convert the text to lowercase for case-insensitive comparison
         String lowerText = text.toLowerCase();
 
-        // Iterate through all enum values and check if the text contains a city name
         return Arrays.stream(cityEV.values())
                 .filter(city -> lowerText.contains(city.toString().toLowerCase()))
                 .findFirst();
@@ -150,10 +148,8 @@ public class AjouterEventController {
     private void updateCityComboBox() {
         String lieuText = lieuTextField.getText();
 
-        // Extract the city from the text
         Optional<cityEV> extractedCity = extractCityFromText(lieuText);
 
-        // Set the extracted city to the ComboBox if found
         extractedCity.ifPresent(cityEVComboBox::setValue);
     }
 
@@ -161,7 +157,6 @@ public class AjouterEventController {
     public void updateLocationButtonClicked() {
         WebEngine webEngine = mapView.getEngine();
 
-        // Get the location from the JavaScript and update the lieuTextField
         Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
         Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
         String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
@@ -173,11 +168,9 @@ public class AjouterEventController {
 
             lieuTextField.setText(cleanLocationName);
 
-            // Now, you can use latitude, longitude, and locationName as needed
             System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
             lonTextField.setText(longitude.toString());
             latTextField.setText(latitude.toString());
-            // Update your JavaFX controls (e.g., lieuTextField) here
             lieuTextField.textProperty().addListener((observable, oldValue, newValue) -> {
                 updateCityComboBox();
             });
@@ -190,7 +183,6 @@ public class AjouterEventController {
         WebEngine webEngine = mapView.getEngine();
         webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
 
-        // JavaScript code to get selected latitude and longitude
         String javascriptCode = "function getSelectedLatitude() {" +
                 "    return selectedLatitude;" +
                 "}" +

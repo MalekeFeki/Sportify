@@ -4,50 +4,87 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaiementController">
     <children>
-        <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="412.0" fitWidth="608.0" layoutY="-6.0">
-         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
-         </image>
-      </ImageView>
+        <fx:include source="NavBar.fxml" />
         <!-- Black rectangle at the top -->
-        <AnchorPane prefHeight="56.0" prefWidth="608.0" style="-fx-background-color: #000000;">
-            <!-- Labels for Profile and Home -->
-            <Label layoutX="461.0" layoutY="22.0" text="Profile" textFill="WHITE" />
-            <Label layoutX="526.0" layoutY="22.0" text="Home" textFill="WHITE" />
-            <ImageView fx:id="logo1" fitHeight="50.0" fitWidth="100.0" layoutY="6.0" preserveRatio="true">
-                <image>
-                    <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-                </image>
-            </ImageView>
-        </AnchorPane>
+        <AnchorPane prefHeight="0.0" prefWidth="100.0" style="-fx-background-color: #000000;" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fe6100" height="398.0" layoutX="260.0" layoutY="214.0" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" width="441.0" />
 
         <!-- Labels -->
-        <Label layoutX="105.0" layoutY="113.0" text="Numéro de carte" />
-        <Label layoutX="139.0" layoutY="159.0" text="CCV" />
-        <Label layoutX="101.0" layoutY="202.0" prefHeight="25.0" prefWidth="100.0" text="ZIP/PostalCode" />
-        <Label layoutX="97.0" layoutY="241.0" prefHeight="31.0" prefWidth="106.0" text="Date d'expiration" />
-        <Label layoutX="117.0" layoutY="292.0" text="Code Promo" />
+        <Label layoutX="278.0" layoutY="261.0" text="Numéro de carte">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <Label layoutX="328.0" layoutY="329.0" text="CCV">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <Label layoutX="278.0" layoutY="399.0" prefHeight="27.0" prefWidth="135.0" text="ZIP/PostalCode">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <Label layoutX="276.0" layoutY="461.0" prefHeight="31.0" prefWidth="140.0" text="Date d'expiration">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <Label layoutX="295.0" layoutY="531.0" text="Code Promo">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fe6100" height="254.0" layoutX="804.0" layoutY="203.0" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" width="242.0" />
         <!-- TextFields and PasswordField -->
-        <TextField fx:id="tfcardnumber" layoutX="212.0" layoutY="106.0" prefHeight="31.0" prefWidth="167.0" />
-        <PasswordField fx:id="tfccv" layoutX="212.0" layoutY="152.0" prefHeight="31.0" prefWidth="167.0" />
-        <TextField fx:id="tfPostalCode" layoutX="212.0" layoutY="199.0" prefHeight="31.0" prefWidth="167.0" />
-        <TextField fx:id="tfexpiration" layoutX="212.0" layoutY="241.0" prefHeight="31.0" prefWidth="167.0" />
-        <TextField fx:id="tfpromocode" layoutX="212.0" layoutY="285.0" prefHeight="31.0" prefWidth="167.0" />
+        <TextField fx:id="tfcardnumber" alignment="CENTER" layoutX="465.0" layoutY="255.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+        <PasswordField fx:id="tfccv" alignment="CENTER" layoutX="465.0" layoutY="323.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></PasswordField>
+        <TextField fx:id="tfPostalCode" layoutX="465.0" layoutY="393.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+        <TextField fx:id="tfexpiration" layoutX="465.0" layoutY="457.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+        <TextField fx:id="tfpromocode" layoutX="465.0" layoutY="525.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
 
         <!-- Buttons -->
-        <Button fx:id="btn_proceed" layoutX="191.0" layoutY="337.0" mnemonicParsing="false" onAction="#proceedPayment" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Valider" />
-        <Button fx:id="btn_cancel" layoutX="307.0" layoutY="337.0" mnemonicParsing="false" onAction="#cancelPayment" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Annuler " />
-      <Button fx:id="btn_Show" layoutX="440.0" layoutY="337.0" mnemonicParsing="false" onAction="#ShowPayments" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Afficher" />
-      <TextField fx:id="debutDateLabel" layoutX="402.0" layoutY="106.0" prefHeight="31.0" prefWidth="167.0" />
-      <TextField fx:id="endDateLabel" layoutX="402.0" layoutY="161.0" prefHeight="31.0" prefWidth="167.0" />
-      <TextField fx:id="priceLabel" layoutX="402.0" layoutY="212.0" prefHeight="31.0" prefWidth="167.0" />
-      <Button fx:id="btn_Delete" layoutX="440.0" layoutY="257.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #FF6100;" text="Delete" />
+        <Button fx:id="btn_proceed" layoutX="275.0" layoutY="645.0" mnemonicParsing="false" onAction="#proceedPayment" prefHeight="31.0" prefWidth="140.0" style="-fx-background-color: #FF6100;" text="Valider" />
+        <Button fx:id="btn_cancel" layoutX="549.0" layoutY="645.0" mnemonicParsing="false" onAction="#cancelPayment" prefHeight="31.0" prefWidth="140.0" style="-fx-background-color: #FF6100;" text="Annuler " />
+      <Button fx:id="btn_Show" layoutX="834.0" layoutY="558.0" mnemonicParsing="false" onAction="#ShowPayments" prefHeight="31.0" prefWidth="178.0" style="-fx-background-color: #FF6100;" text="Afficher Historique Paiement" />
+      <TextField fx:id="debutDateLabel" layoutX="841.0" layoutY="255.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="endDateLabel" layoutX="841.0" layoutY="326.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="priceLabel" layoutX="841.0" layoutY="393.0" prefHeight="31.0" prefWidth="167.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <Button fx:id="btn_Delete" layoutX="852.0" layoutY="477.0" mnemonicParsing="false" onAction="#deletePayment" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #FF6100;" text="Supprimer Adhésion" />
+      <Label layoutX="858.0" layoutY="213.0" text="Détails Adhésion">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="531.0" layoutY="134.0" text="insérez vos informations de paiement">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

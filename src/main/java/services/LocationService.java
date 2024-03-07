@@ -9,15 +9,11 @@ public class LocationService {
 
     public static String getUserCity() {
         try {
-            // Get the user's public IP address
             String ipAddress = getPublicIPAddress();
             System.out.println("ipAddress"+ipAddress);
-            // Use an IP-based location service (replace this URL with a reliable IP geolocation service)
             String locationInfo = getLocationInfoByIP(ipAddress);
             System.out.println("locationInfo"+locationInfo);
-            // Extract the city from the location information
             String city = extractCityFromLocationInfo(locationInfo);
-           // city="sfax";
             System.out.println("city from method"+city);
 
             return city;
@@ -34,7 +30,6 @@ public class LocationService {
     }
 
     private static String getLocationInfoByIP(String ipAddress) throws IOException {
-        // Replace this URL with a reliable IP geolocation service
         URL url = new URL("https://ipinfo.io/" + ipAddress + "/json");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         StringBuilder response = new StringBuilder();
@@ -47,8 +42,6 @@ public class LocationService {
     }
 
     private static String extractCityFromLocationInfo(String locationInfo) {
-        // Parse the JSON response or use any other method to extract the city information
-        // This is a simplified example assuming a JSON response
         return locationInfo.contains("city") ? locationInfo.split("\"city\":")[1].split("\"")[1] : "Unknown";
     }
 

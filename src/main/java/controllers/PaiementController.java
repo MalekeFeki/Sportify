@@ -67,7 +67,7 @@ public class PaiementController {
     private Runnable onSuccessCallback;
     private final PaiementCrud paiementCrud = new PaiementCrud();
 
-    private final Connection connection = MyConnection.getInstance().getCnx(); // Get the database connection
+    private final Connection connection = MyConnection.getInstance().getCnx();
 
 
 
@@ -142,31 +142,25 @@ public class PaiementController {
             String price = priceLabel.getText().trim();
 
 
-            // Validate postal code
             if (!postalCodeStr.matches("\\d+")) {
                 showAlert(AlertType.ERROR, "Error", "Postal Code must be a valid integer!");
                 return;
             }
 
-            // Validate postal code
             if (postalCodeStr.length() > 4) {
-                postalCodeStr = postalCodeStr.substring(0, 4); // Take the first four characters only
+                postalCodeStr = postalCodeStr.substring(0, 4);
             }
 
             int postalCode = Integer.parseInt(postalCodeStr);
 
-            // Validate card number, expiration, and ccv
             if (cardNumber.isEmpty() || expirationInput.isEmpty() || ccv.isEmpty() || promocode.isEmpty() || postalCodeStr.isEmpty()) {
                 showAlert(AlertType.ERROR, "Error", "All fields must be filled!");
                 return;
             }
 
-            // Validate and parse the expiration date
             LocalDate expiration = null;
 
-            // Define the expected date format
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            // Attempt to parse the expiration date
             try {
                 expiration = YearMonth.parse(expirationInput, formatter).atDay(1);
             } catch (DateTimeParseException e) {
@@ -174,14 +168,12 @@ public class PaiementController {
                 return;
             }
 
-            // Validate CCV
             if (ccv.length() > 3 || !ccv.matches("\\d{1,3}")) {
-                ccv = ccv.substring(0, Math.min(ccv.length(), 3)); // Take the first three digits only
+                ccv = ccv.substring(0, Math.min(ccv.length(), 3));
             }
 
-            // Validate promocode
             if (promocode.length() > 9) {
-                promocode = promocode.substring(0, 9); // Take the first nine characters only
+                promocode = promocode.substring(0, 9);
             }
 
             Map<String, Double> promoCodePercentageMap = new HashMap<>();
@@ -198,21 +190,18 @@ public class PaiementController {
             promoCodePercentageMap.put("PulseAide", 0.33);
             promoCodePercentageMap.put("PulsePrem", 0.36);
 
-            // Check if promo code is valid
             if (promoCodePercentageMap.containsKey(promocode)) {
-                // Calculate new price with promo code
                 double percentage = promoCodePercentageMap.get(promocode);
                 double discountedPrice = Double.parseDouble(price) * (1 - percentage);
-                priceLabel.setText(String.format("%.2f", discountedPrice)); // Update price label in UI
+                priceLabel.setText(String.format("%.2f", discountedPrice));
                 String promoMessage = String.format("Thank you for using '%s'. The following percentage will be applied to the price of adhesion: %.2f%%", promocode, percentage * 100);
                 showAlert(AlertType.INFORMATION, "Promo Code Applied", promoMessage);
             } else {
-                // Promo code not found, proceed without discount
                 showAlert(AlertType.WARNING, "Warning", "Invalid promo code entered. Proceeding without discount.");
-                priceLabel.setText(String.format("%.2f", Double.parseDouble(price))); // Reset price label in UI to original price
+                priceLabel.setText(String.format("%.2f", Double.parseDouble(price)));
             }
-            dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 1); // Extracting date after ": "
-            dateFin = dateFin.substring(dateFin.indexOf(":") + 1); // Extracting date after ": "
+            dateDebut = dateDebut.substring(dateDebut.indexOf(":") + 1);
+            dateFin = dateFin.substring(dateFin.indexOf(":") + 1);
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dateDebutAbo = LocalDate.parse(dateDebut.trim(), dateFormatter);
             LocalDate dateFinAbo = LocalDate.parse(dateFin.trim(), dateFormatter);
@@ -220,14 +209,12 @@ public class PaiementController {
             Paiement paiement = new Paiement(hashedCardNumberMd5, hashedCvvMd5, expiration, promocode, postalCode, dateDebutAbo, dateFinAbo, newPriceFormat);
 
 
-            // Check if PaiementCrud is initialized
-            // Call the create method in PaiementCrud to save the payment information
+
             paiementCrud.create(paiement);
 
-            // Display a success message
             showAlert(AlertType.INFORMATION, "Success", "Payment saved successfully!");
             if (onSuccessCallback != null) {
-                onSuccessCallback.run(); // Call the onSuccessCallback
+                onSuccessCallback.run();
             }
             processPaymentSuccess();
 
@@ -235,12 +222,12 @@ public class PaiementController {
             throw new RuntimeException(e);
         }
 
-        // Create a GridPane to organize payment information
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10); // Horizontal gap between nodes
-        gridPane.setVgap(10); // Vertical gap between nodes
 
-        // Add payment information to the GridPane
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+
         Text paymentDateText = new Text("Payment Date:");
         Text paymentDateValue = new Text(LocalDate.now().toString());
         Text amountText = new Text("Amount:");
@@ -252,7 +239,6 @@ public class PaiementController {
         Text cvcText = new Text("CVC:");
         Text cvcValue = new Text(tfccv.getText());
 
-        // Add the text nodes to the GridPane
         gridPane.add(paymentDateText, 0, 0);
         gridPane.add(paymentDateValue, 1, 0);
         gridPane.add(amountText, 0, 1);
@@ -264,7 +250,6 @@ public class PaiementController {
         gridPane.add(cvcText, 0, 4);
         gridPane.add(cvcValue, 1, 4);
 
-        // Define the file path for saving the PDF
         String userHome = System.getProperty("user.home");
         String desktopPath = userHome + File.separator + "Desktop";
         String filePath = desktopPath + File.separator + "payment_info.pdf";

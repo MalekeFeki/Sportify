@@ -135,7 +135,6 @@ public class ModifierEventController {
     public void updateLocationButtonClicked() {
         WebEngine webEngine = mapView.getEngine();
 
-        // Get the location from the JavaScript and update the lieuTextField
         Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
         Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
         String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
@@ -146,11 +145,9 @@ public class ModifierEventController {
 
             lieuTextField.setText(locationName);
 
-            // Now, you can use latitude, longitude, and locationName as needed
             System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
             lonTextField.setText(longitude.toString());
             latTextField.setText(latitude.toString());
-            // Update your JavaFX controls (e.g., lieuTextField) here
         } else {
             showAlert("Error", "Unable to retrieve location from the map.");
         }
@@ -161,7 +158,6 @@ public class ModifierEventController {
         WebEngine webEngine = mapView.getEngine();
         webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
 
-        // JavaScript code to get selected latitude and longitude
         String javascriptCode = "function getSelectedLatitude() {" +
                 "    return selectedLatitude;" +
                 "}" +

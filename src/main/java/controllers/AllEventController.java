@@ -154,8 +154,8 @@ private Button reserveButton ;
         Text eventDescriptionText = new Text(eventDescription);
         Text startDateText = new Text("Start Date: " + event.getDatedDebutEV().toString());
         Text endDateText = new Text("End Date: " + event.getDatedFinEV().toString());
-        endDateText.getStyleClass().add("date-text");  // Add style class to end date text
-        startDateText.getStyleClass().add("date-text");  // Add style class to start date text
+        endDateText.getStyleClass().add("date-text");
+        startDateText.getStyleClass().add("date-text");
 
         Button moreInfoButton = new Button("More Info");
         moreInfoButton.getStyleClass().add("info-button");
