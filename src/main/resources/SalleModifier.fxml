@@ -10,13 +10,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane id="AnchorPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleModifController">
     <children>
-        <fx:include source="NavBar.fxml"/>
+        <fx:include source="NavBar.fxml" />
         <TextField fx:id="lonTextField" layoutX="307.0" layoutY="158.0" opacity="0.0" />
         <TextField fx:id="latTextField" layoutX="307.0" layoutY="200.0" opacity="0.0" />
         <ImageView fitHeight="555.0" fitWidth="932.0" layoutY="59.0">
@@ -24,9 +23,8 @@
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="83.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="932.0" />
         <HBox layoutX="22.0" layoutY="64.0" spacing="10.0" />
-        <Group layoutX="18.0" layoutY="126.0">
+        <Group layoutX="24.0" layoutY="209.0">
             <children>
                 <Label text="Nom">
                     <font>
@@ -37,7 +35,7 @@
                 <TextField fx:id="nomTextField" layoutY="35.19999694824219" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
             </children>
         </Group>
-      <Group layoutX="17.0" layoutY="206.0">
+      <Group layoutX="23.0" layoutY="338.0">
          <children>
               <Label layoutX="3.0" text="Région">
                   <font>
@@ -47,7 +45,7 @@
               <ComboBox fx:id="regionComboBox" layoutY="35.0" prefHeight="26.0" prefWidth="151.0" />
          </children>
       </Group>
-        <HBox layoutX="184.0" layoutY="243.0" spacing="10.0">
+        <HBox layoutX="23.0" layoutY="432.0" spacing="10.0">
             <children>
                 <CheckBox fx:id="wifiCheckBox" text="Wifi" />
                 <CheckBox fx:id="parkingCheckBox" text="Parking" />
@@ -55,13 +53,13 @@
                 <CheckBox fx:id="climatisationCheckBox" text="Climatisation" />
             </children>
         </HBox>
-        <HBox layoutX="776.0" layoutY="565.0" spacing="10.0">
+        <HBox layoutX="1118.0" layoutY="699.0" spacing="10.0">
             <children>
                 <Button fx:id="annulerButton" mnemonicParsing="false" onAction="#handleAnnulerButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Annuler" />
                 <Button fx:id="enregistrerButton" mnemonicParsing="false" onAction="#saveSalle" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Enregistrer" />
             </children>
         </HBox>
-        <Group layoutX="676.0" layoutY="186.0">
+        <Group layoutX="1062.0" layoutY="245.0">
             <children>
                 <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0">
                     <image>
@@ -71,19 +69,14 @@
                 <Button fx:id="selectImageButton" layoutX="6.0" layoutY="86.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Select Image" />
             </children>
         </Group>
-        <ImageView fitHeight="74.0" fitWidth="145.0" layoutX="-10.0" layoutY="-12.0">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview.png" />
-            </image>
-        </ImageView>
-        <WebView fx:id="mapView" layoutX="14.0" layoutY="279.0" prefHeight="232.0" prefWidth="494.0" />
-        <Label layoutX="18.0" layoutY="78.0" prefHeight="43.0" prefWidth="251.0" text="Modifier votre salle">
+        <WebView fx:id="mapView" layoutX="40.0" layoutY="483.0" prefHeight="232.0" prefWidth="494.0" />
+        <Label layoutX="13.0" layoutY="119.0" prefHeight="43.0" prefWidth="251.0" text="Modifier votre salle">
             <font>
                 <Font size="29.0" />
             </font>
         </Label>
-          <TextField fx:id="adresseTextField" layoutX="18.0" layoutY="511.0" prefHeight="27.0" prefWidth="409.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
-        <Button fx:id="updateButton" layoutX="339.0" layoutY="477.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Mettre à jour" />
+          <TextField fx:id="adresseTextField" layoutX="35.0" layoutY="697.0" prefHeight="27.0" prefWidth="499.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+        <Button fx:id="updateButton" layoutX="441.0" layoutY="682.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Mettre à jour" />
 
     </children>
 </AnchorPane>
