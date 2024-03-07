@@ -20,11 +20,7 @@ public class HomePage extends Application {
         launch(args);
     }
     List<String> fxml1 = new ArrayList<>();
-    @FXML
-    private Button sign_in;
 
-    @FXML
-    private Button sign_up;
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -52,32 +48,7 @@ public class HomePage extends Application {
     private ImageView event;
     @FXML
     void initialize() {
-        sign_in.setOnAction(event -> {
-            try {
-                // Load reclamation.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/inscription.fxml"));
-                Parent root = loader.load();
 
-                // Display the scene associated with reclamation.fxml
-                Stage stage = (Stage) sign_in.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        sign_up.setOnAction(event -> {
-            try {
-                // Load reclamation.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
-                Parent root = loader.load();
-
-                // Display the scene associated with reclamation.fxml
-                Stage stage = (Stage) sign_up.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
     }
     @FXML
@@ -86,6 +57,20 @@ public class HomePage extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AllEvent.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) event.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private ImageView salle;
+    @FXML
+    private void redirectTosalleListe() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalleListe.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) salle.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

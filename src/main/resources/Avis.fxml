@@ -11,25 +11,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AvisController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AvisController">
     <children>
-        <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="493.0" fitWidth="859.0" layoutY="68.0">
+        <fx:include source="NavBar.fxml" />
+      <ImageView fitHeight="703.0" fitWidth="1366.0" layoutY="68.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
+            <Image url="file:/C:/Users/msi/Desktop/Studies/ESPRIT/SEM2/PI/Sportify/src/main/resources/img/background_2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="71.0" fitWidth="70.0" layoutX="395.0" layoutY="107.0">
+      <ImageView fitHeight="71.0" fitWidth="70.0" layoutX="649.0" layoutY="189.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/images__2_-removebg-preview.png" />
+            <Image url="file:/C:/Users/msi/Downloads/images__2_-removebg-preview.png" />
          </image>
       </ImageView>
           <!--   <BottomNavigation /> -->
                 <!-- Rating Level -->
-          <Label layoutX="383.0" layoutY="198.0" styleClass="label" text="Rating Level:" />
-          <ChoiceBox fx:id="ratingChoiceBox" layoutX="355.0" layoutY="238.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
+          <Label layoutX="637.0" layoutY="280.0" styleClass="label" text="Rating Level:" />
+          <ChoiceBox fx:id="ratingChoiceBox" layoutX="609.0" layoutY="320.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
               <items>
                   <FXCollections fx:factory="observableArrayList">
 
@@ -37,18 +36,10 @@
               </items>
           </ChoiceBox>
           <!-- Description Label -->
-          <Label layoutX="386.0" layoutY="290.0" styleClass="label" text="Description:" />
-          <TextArea fx:id="descriptionTextArea" layoutX="214.0" layoutY="329.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
+          <Label layoutX="640.0" layoutY="372.0" styleClass="label" text="Description:" />
+          <TextArea fx:id="descriptionTextArea" layoutX="468.0" layoutY="411.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
           <!-- Submit Rating Button -->
-          <Button fx:id="submitRatingButton" layoutX="360.0" layoutY="415.0" mnemonicParsing="false" onAction="#ajouterAvis" styleClass="submit-button" text="Submit Rating" />
-      <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
-      <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />
-      <Label layoutX="640.0" layoutY="20.0" text="Profile" textFill="WHITE" />
-      <ImageView fitHeight="71.0" fitWidth="150.0">
-         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-         </image>
-      </ImageView>
+          <Button fx:id="submitRatingButton" layoutX="614.0" layoutY="497.0" mnemonicParsing="false" onAction="#ajouterAvis" styleClass="submit-button" text="Submit Rating" />
     </children>
     <stylesheets>
         <URL value="@styles.css" />

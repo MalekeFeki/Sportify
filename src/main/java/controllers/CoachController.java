@@ -16,6 +16,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.stage.Stage;
 import services.CoachCrud;
+import tools.MyConnection;
 
 import java.io.IOException;
 import java.util.List;
@@ -315,6 +316,7 @@ public class CoachController {
     private void btnretour() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfilProp.fxml"));
+            MyConnection.getInstance().setId(0);
             Parent root = loader.load();
             Stage stage = (Stage) btnretour.getScene().getWindow();
             stage.setScene(new Scene(root));

@@ -11,25 +11,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierAvisController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierAvisController">
     <children>
-        <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="497.0" fitWidth="859.0" layoutY="66.0">
+        <fx:include source="NavBar.fxml" />
+      <ImageView fitHeight="679.0" fitWidth="1366.0" layoutY="91.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
+            <Image url="file:/C:/Users/msi/Desktop/Work/PROJET/Sportify-master/Sportify-master/img/Background.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="374.0" layoutY="85.0">
+      <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="630.0" layoutY="168.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportifylogo.png" />
+            <Image url="file:/C:/Users/msi/Desktop/Work/PROJET/Sportify-master/Sportify-master/img/3643648-removebg-preview.png" />
          </image>
       </ImageView>
           <!--   <BottomNavigation /> -->
           <!-- Rating Level -->
-          <Label layoutX="347.0" layoutY="189.0" styleClass="label" text="Current Rating Level:" />
-          <ChoiceBox fx:id="ratingChoiceBox" layoutX="352.0" layoutY="234.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
+          <Label layoutX="619.0" layoutY="287.0" styleClass="label" text="Current Rating Level:" />
+          <ChoiceBox fx:id="ratingChoiceBox" layoutX="608.0" layoutY="317.0" prefHeight="26.0" prefWidth="150.0" styleClass="choice-box">
               <items>
                   <FXCollections fx:factory="observableArrayList">
 
@@ -37,19 +36,11 @@
               </items>
           </ChoiceBox>
           <!-- Description Label -->
-          <Label layoutX="351.0" layoutY="291.0" styleClass="label" text="Current Description:" />
-          <TextArea fx:id="descriptionTextArea" layoutX="212.0" layoutY="328.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
+          <Label layoutX="621.0" layoutY="376.0" styleClass="label" text="Current Description:" />
+          <TextArea fx:id="descriptionTextArea" layoutX="468.0" layoutY="411.0" prefHeight="65.0" prefWidth="430.0" styleClass="text-area" />
           <!-- Submit Rating Button -->
-          <Button fx:id="submitRatingButton" layoutX="357.0" layoutY="421.0" mnemonicParsing="false" onAction="#modifierAvis" styleClass="submit-button" text="Modify Rating" />
-      <Button fx:id="returntolist" layoutX="355.0" layoutY="486.0" mnemonicParsing="false" onAction="#redirectToAfficherAvis" styleClass="submit-button" text="Return To Avis" />
-        <Rectangle arcHeight="5.0" arcWidth="6.0" height="71.0" layoutX="-4.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
-        <Label layoutX="755.0" layoutY="20.0" text="Home" textFill="WHITE" />
-        <Label layoutX="640.0" layoutY="20.0" text="Profile" textFill="WHITE" />
-      <ImageView fitHeight="79.0" fitWidth="159.0" layoutY="-5.0">
-         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-         </image>
-      </ImageView>
+          <Button fx:id="submitRatingButton" layoutX="613.0" layoutY="504.0" mnemonicParsing="false" onAction="#modifierAvis" styleClass="submit-button" text="Modify Rating" />
+      <Button fx:id="returntolist" layoutX="611.0" layoutY="569.0" mnemonicParsing="false" onAction="#redirectToAfficherAvis" styleClass="submit-button" text="Return To Avis" />
     </children>
     <stylesheets>
         <URL value="@styles.css" />

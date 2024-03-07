@@ -7,33 +7,30 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SeanceListeController">
+<AnchorPane id="AnchorPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SeanceListeController">
     <children>
-        <fx:include source="NavBar.fxml"/>
+        <fx:include source="NavBar.fxml" />
         <ImageView fitHeight="434.0" fitWidth="744.0" layoutY="59.0">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="83.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
         <HBox layoutX="22.0" layoutY="64.0" spacing="10.0" />
         
-        <TableView fx:id="seancesTableView" layoutX="59.0" layoutY="129.0" prefHeight="294.0" prefWidth="626.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+        <TableView fx:id="seancesTableView" layoutX="145.0" layoutY="154.0" prefHeight="506.0" prefWidth="1076.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
             <columns>
-                <TableColumn fx:id="nomSeanceColumn" prefWidth="237.59996795654297" text="Séance" />
-                <TableColumn fx:id="dateDebutColumn" prefWidth="246.40005493164062" text="Date" />
-                <TableColumn fx:id="debutColumn" prefWidth="67.2000732421875" text="Début" />
-                <TableColumn fx:id="finColumn" prefWidth="75.2000732421875" text="Fin" />
+                <TableColumn fx:id="nomSeanceColumn" prefWidth="496.7999496459961" text="Séance" />
+                <TableColumn fx:id="dateDebutColumn" prefWidth="241.60009765625" text="Date" />
+                <TableColumn fx:id="debutColumn" prefWidth="203.2000732421875" text="Début" />
+                <TableColumn fx:id="finColumn" prefWidth="133.599853515625" text="Fin" />
             </columns>
         </TableView>
         <HBox layoutX="27.0" layoutY="360.0" spacing="10.0" />
-        <ImageView fitHeight="74.0" fitWidth="145.0" layoutX="-10.0" layoutY="-12.0">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-            </image>
-        </ImageView>
-          <Button fx:id="afficherButton" layoutX="24.0" layoutY="442.0" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
+          <Button fx:id="afficherButton" layoutX="1229.0" layoutY="688.0" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
     </children>
 </AnchorPane>

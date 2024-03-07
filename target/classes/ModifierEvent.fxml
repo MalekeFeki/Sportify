@@ -11,39 +11,32 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="631.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierEventController">
+<AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierEventController">
 
     <stylesheets>
         <URL value="@styles.css" />
         <URL value="@STYLES2.css" />
     </stylesheets>
     <children>
-        <fx:include source="NavBar.fxml"/>
-        <ImageView fitHeight="611.0" fitWidth="1025.0" layoutX="-1.0" layoutY="63.0">
+        <fx:include source="NavBar.fxml" />
+        <ImageView fitHeight="704.0" fitWidth="1369.0" layoutX="-1.0" layoutY="63.0">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="65.0" stroke="BLACK" strokeType="INSIDE" width="1027.0" />
-        <ImageView fitHeight="90.0" fitWidth="148.0" layoutX="-1.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="26.0" layoutY="84.0" text="MODIFIER EVENEMENT">
+        <Label layoutX="66.0" layoutY="97.0" text="MODIFIER EVENEMENT">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Label>
         <Label layoutX="26.0" layoutY="130.0" text="Nom Evenement" />
-        <TextField fx:id="nomEvenementTextField" layoutX="132.0" layoutY="126.0" prefHeight="26.0" prefWidth="247.0" />
+        <TextField fx:id="nomEvenementTextField" layoutX="132.0" layoutY="126.0" prefHeight="26.0" prefWidth="311.0" />
         <TextArea fx:id="descriptionTextArea" layoutX="578.0" layoutY="287.0" prefHeight="53.0" prefWidth="311.0" />
-        <DatePicker fx:id="dateDebutDatePicker" layoutX="132.0" layoutY="168.0" prefHeight="26.0" prefWidth="247.0" />
+        <DatePicker fx:id="dateDebutDatePicker" layoutX="132.0" layoutY="168.0" prefHeight="26.0" prefWidth="311.0" />
 
         <Label layoutX="28.0" layoutY="172.0" text="date de debut" />
         <Label layoutX="28.0" layoutY="205.0" text="date de fin" />
@@ -57,7 +50,7 @@
         <Label layoutX="501.0" layoutY="492.0" text="capacite" />
         <TextField fx:id="numTeleTextField" layoutX="575.0" layoutY="136.0" prefHeight="26.0" prefWidth="239.0" />
         <TextField fx:id="emailTextField" layoutX="576.0" layoutY="173.0" prefHeight="26.0" prefWidth="233.0" />
-        <TextField fx:id="lieuTextField" layoutX="132.0" layoutY="283.0" prefHeight="26.0" prefWidth="247.0" />
+        <TextField fx:id="lieuTextField" layoutX="132.0" layoutY="283.0" prefHeight="26.0" prefWidth="322.0" />
         <TextField fx:id="igLinkTextField" layoutX="575.0" layoutY="214.0" prefHeight="26.0" prefWidth="234.0" />
         <HBox layoutX="132.0" layoutY="246.0" prefHeight="34.0" prefWidth="262.0">
             <ComboBox fx:id="hoursComboBox" prefHeight="26.0" prefWidth="82.0" promptText="Hours" />
@@ -68,7 +61,7 @@
             <ComboBox fx:id="minutesComboBox" prefHeight="26.0" prefWidth="89.0" promptText="Minutes" />
 
         </HBox>
-        <DatePicker fx:id="dateFinDatePicker" layoutX="132.0" layoutY="201.0" prefHeight="26.0" prefWidth="247.0" />
+        <DatePicker fx:id="dateFinDatePicker" layoutX="132.0" layoutY="201.0" prefHeight="26.0" prefWidth="311.0" />
         <TextField fx:id="fbLinkTextField" layoutX="575.0" layoutY="250.0" prefHeight="26.0" prefWidth="234.0" />
         <TextField fx:id="capaciteTextField" layoutX="583.0" layoutY="488.0" prefHeight="26.0" prefWidth="200.0" />
         <Label layoutX="476.0" layoutY="411.0" text="Genre Evenement" />
@@ -83,11 +76,11 @@
             </font>
         </Label>
         <Button fx:id="uploadimage" layoutX="578.0" layoutY="532.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
-        <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="752.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="modifierEventButton" layoutX="748.0" layoutY="600.0" mnemonicParsing="false" onAction="#modifierEvent" prefHeight="42.0" prefWidth="82.0" text="Modifier" />
-        <Button fx:id="returntolist" layoutX="664.0" layoutY="599.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
-        <Button fx:id="updateLocationButtonClicked" layoutX="30.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="65.0" text="Update Location" />
-        <WebView fx:id="mapView" layoutX="114.0" layoutY="326.0" prefHeight="297.0" prefWidth="322.0" />
+        <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="110.0" layoutX="752.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="modifierEventButton" layoutX="883.0" layoutY="658.0" mnemonicParsing="false" onAction="#modifierEvent" prefHeight="42.0" prefWidth="82.0" text="Modifier" />
+        <Button fx:id="returntolist" layoutX="799.0" layoutY="657.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
+        <Button fx:id="updateLocationButtonClicked" layoutX="11.0" layoutY="347.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="124.0" text="Update Location" />
+        <WebView fx:id="mapView" layoutX="134.0" layoutY="325.0" prefHeight="420.0" prefWidth="322.0" />
         <TextField fx:id="latTextField" layoutX="409.0" layoutY="574.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
         <TextField fx:id="lonTextField" layoutX="467.0" layoutY="575.0" prefHeight="26.0" prefWidth="34.0" visible="false" />
     </children>

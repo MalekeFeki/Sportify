@@ -33,7 +33,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="nomevent" layoutX="340.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="67.13671875">
+      <Text fx:id="nomevent" layoutX="336.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="374.13671875">
          <font>
             <Font size="20.0" />
          </font></Text>

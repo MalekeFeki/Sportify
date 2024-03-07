@@ -9,25 +9,25 @@
 
 <AnchorPane prefHeight="823.0" prefWidth="1361.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomePage">
     <children>
-    <ImageView fitHeight="768.0" fitWidth="1379.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="756.0" fitWidth="1365.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify-master/img/Background.png" />
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi%20int/Sportify/img/Background.png" />
         </image>
     </ImageView>
         <fx:include source="NavBar.fxml" />
-      <ImageView fx:id="salle" fitHeight="300.0" fitWidth="400.0" layoutX="328.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="salle" fitHeight="300.0" fitWidth="400.0" layoutX="328.0" layoutY="335.0" onMouseClicked="#redirectTosalleListe" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify-master/img/2122.png" />
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi%20int/Sportify/img/2122.png" />
          </image>
       </ImageView>
       <ImageView fx:id="event" fitHeight="300.0" fitWidth="400.0" layoutX="760.0" layoutY="337.0" onMouseClicked="#redirectToAllEvent" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify-master/img/ll12.png" />
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi%20int/Sportify/img/ll12.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="115.0" fitWidth="683.0" layoutX="361.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify-master/img/Evenements.png" />
+            <Image url="file:/C:/Users/RAY3N/Desktop/pi%20int/Sportify/img/Evenements.png" />
          </image>
       </ImageView>
       <Text fill="#ff9e36" layoutX="380.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sportify une plateforme innovante de gestion des salles de sport, offrant une solution complète pour les propriétaires de salles ainsi que pour les membres et les utilisateurs." textAlignment="CENTER" wrappingWidth="645.3896899034272">

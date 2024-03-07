@@ -9,39 +9,30 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="562.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherAvisController">
+<AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherAvisController">
    <children>
-      <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="505.0" fitWidth="870.0" layoutY="57.0">
+      <fx:include source="NavBar.fxml" />
+      <ImageView fitHeight="673.0" fitWidth="1369.0" layoutY="95.0">
          <image>
-            <Image url="file:/C:/Users/Malek/Desktop/esprit/Background.png" />
+            <Image url="file:/C:/Users/msi/Desktop/Studies/ESPRIT/SEM2/PI/Sportify/src/main/resources/img/background_2.png" />
          </image>
       </ImageView>
-      <TableView fx:id="avisTableView" layoutX="387.0" layoutY="86.0" prefHeight="463.0" prefWidth="429.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="62.0" stroke="BLACK" strokeType="INSIDE" width="870.0" />
-      <PieChart fx:id="avisPieChart" layoutX="30.0" layoutY="193.0" prefHeight="310.0" prefWidth="326.0" />
-      <Label fx:id="ratingLabel" layoutX="91.0" layoutY="172.0" prefHeight="21.0" prefWidth="175.0" />
-      <Text layoutX="85.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avis Salle">
+      <TableView fx:id="avisTableView" layoutX="742.0" layoutY="115.0" prefHeight="556.0" prefWidth="515.0" />
+      <PieChart fx:id="avisPieChart" layoutX="131.0" layoutY="241.0" prefHeight="430.0" prefWidth="452.0" />
+      <Label fx:id="ratingLabel" layoutX="269.0" layoutY="220.0" prefHeight="21.0" prefWidth="175.0" />
+      <Text layoutX="278.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avis Salle">
          <font>
             <Font name="Calibri Bold" size="40.0" />
          </font>
       </Text>
-      <Label layoutX="579.0" layoutY="21.0" text="Profile" textFill="WHITE" />
-      <ImageView fitHeight="71.0" fitWidth="133.0" layoutX="19.0" layoutY="-4.0">
-         <image>
-            <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-         </image>
-      </ImageView>
-      <TextField layoutX="85.0" layoutY="123.0" />
+      <TextField layoutX="263.0" layoutY="167.0" />
 
       <!-- Add Export Button -->
-      <HBox layoutX="500.0" layoutY="550.0">
-         <Button onAction="#exporterAvis" text="Export Avis" />
-      </HBox>
-      <Button fx:id="btn_annul" layoutX="717.0" layoutY="19.0" mnemonicParsing="false" onAction="#annuler" text="Home" />
+      <HBox layoutX="500.0" layoutY="550.0" />
+      <Button fx:id="btn_annul" layoutX="1047.0" layoutY="32.0" mnemonicParsing="false" onAction="#annuler" text="Home" />
+      <Button layoutX="953.0" layoutY="694.0" onAction="#exporterAvis" text="Export Avis" />
    </children>
 </AnchorPane>

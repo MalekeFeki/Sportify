@@ -7,41 +7,37 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="506.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListOfEventReservation">
+<AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListOfEventReservation">
     <children>
-        <fx:include source="NavBar.fxml"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="55.0" stroke="BLACK" strokeType="INSIDE" width="1004.0" />
-        <ImageView fitHeight="69.0" fitWidth="112.0" layoutX="7.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="564.0" fitWidth="1028.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+        <fx:include source="NavBar.fxml" />
+        <ImageView fitHeight="768.0" fitWidth="1369.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-      <Text layoutX="73.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Réservation">
+      <Text layoutX="164.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Réservation">
          <font>
             <Font name="Arial Black" size="31.0" />
          </font>
       </Text>
-        <VBox alignment="CENTER" layoutX="112.0" layoutY="164.0" prefHeight="400.0" prefWidth="691.0" spacing="10.0" style="-fx-background-color: #f0f8ff;">
+        <VBox alignment="CENTER" layoutX="248.0" layoutY="204.0" prefHeight="415.0" prefWidth="856.0" spacing="10.0" style="-fx-background-color: #f0f8ff;">
          <children>
-               <TableView fx:id="reservationTableView" prefHeight="400.0" prefWidth="682.0" />
+               <TableView fx:id="reservationTableView" prefHeight="399.0" prefWidth="656.0" />
          </children>
         </VBox>
-      <Text layoutX="112.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" wrappingWidth="39.73674011230469">
+      <Text layoutX="269.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" wrappingWidth="52.73674011230469">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="nomevent" layoutX="152.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-        <Button fx:id="returntolist" layoutX="751.0" layoutY="101.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
+      <Text fx:id="nomevent" layoutX="340.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="67.13671875">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+        <Button fx:id="returntolist" layoutX="1067.0" layoutY="144.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
 
     </children>
     <stylesheets>
