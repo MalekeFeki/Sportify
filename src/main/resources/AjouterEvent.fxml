@@ -11,7 +11,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
@@ -23,45 +22,44 @@
       <URL value="@STYLES2.css" />
    </stylesheets>
    <children>
-      <fx:include source="NavBar.fxml"/>
+      <fx:include source="NavBar.fxml" />
 
-      <ImageView fitHeight="557.0" fitWidth="959.0" layoutX="-1.0" layoutY="63.0">
+      <ImageView fitHeight="702.0" fitWidth="1369.0" layoutX="-1.0" layoutY="63.0">
          <image>
             <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="65.0" stroke="BLACK" strokeType="INSIDE" width="960.0" />
       <ImageView fitHeight="87.0" fitWidth="148.0" layoutX="-1.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview_1.png" />
          </image>
       </ImageView>
-      <Label layoutX="26.0" layoutY="84.0" text="AJOUTER EVENEMENT">
+      <Label layoutX="30.0" layoutY="94.0" prefHeight="34.0" prefWidth="137.0" text="AJOUTER EVENEMENT">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="26.0" layoutY="130.0" text="Nom Evenement" />
-      <TextField fx:id="nomEvenementTextField" layoutX="132.0" layoutY="126.0" prefHeight="26.0" prefWidth="247.0" />
-      <TextArea fx:id="descriptionTextArea" layoutX="581.0" layoutY="253.0" prefHeight="53.0" prefWidth="311.0" />
-      <DatePicker fx:id="dateDebutDatePicker" layoutX="132.0" layoutY="168.0" prefHeight="26.0" prefWidth="247.0" />
+      <Label layoutX="27.0" layoutY="139.0" text="Nom Evenement" />
+      <TextField fx:id="nomEvenementTextField" layoutX="140.0" layoutY="134.0" prefHeight="26.0" prefWidth="247.0" />
+      <TextArea fx:id="descriptionTextArea" layoutX="775.0" layoutY="290.0" prefHeight="53.0" prefWidth="311.0" />
+      <DatePicker fx:id="dateDebutDatePicker" layoutX="140.0" layoutY="181.0" prefHeight="26.0" prefWidth="247.0" />
 
-      <Label layoutX="28.0" layoutY="172.0" text="date de debut" />
-      <Label layoutX="28.0" layoutY="205.0" text="date de fin" />
-      <Label layoutX="29.0" layoutY="248.0" text="Heure" />
-      <Label layoutX="496.0" layoutY="260.0" text="Descrption" />
-      <Label layoutX="35.0" layoutY="287.0" text="lieu" />
-      <Label layoutX="499.0" layoutY="106.0" text="num tele" />
-      <Label layoutX="509.0" layoutY="140.0" text="email" />
-      <Label layoutX="504.0" layoutY="221.0" text="FB_link" />
-      <Label layoutX="504.0" layoutY="179.0" text="IG_link" />
-      <Label layoutX="504.0" layoutY="458.0" text="capacite" />
-      <TextField fx:id="numTeleTextField" layoutX="578.0" layoutY="102.0" prefHeight="26.0" prefWidth="239.0" />
-      <TextField fx:id="emailTextField" layoutX="579.0" layoutY="139.0" prefHeight="26.0" prefWidth="233.0" />
-      <TextField fx:id="lieuTextField" layoutX="132.0" layoutY="283.0" prefHeight="26.0" prefWidth="247.0" />
+      <Label layoutX="34.0" layoutY="186.0" text="date de debut" />
+      <Label layoutX="43.0" layoutY="225.0" text="date de fin" />
+      <Label layoutX="56.0" layoutY="258.0" text="Heure" />
+      <Label layoutX="690.0" layoutY="297.0" text="Descrption" />
+      <Label layoutX="63.0" layoutY="306.0" text="lieu" />
+      <Label layoutX="693.0" layoutY="143.0" text="num tele" />
+      <Label layoutX="703.0" layoutY="177.0" text="email" />
+      <Label layoutX="698.0" layoutY="258.0" text="FB_link" />
+      <Label layoutX="698.0" layoutY="216.0" text="IG_link" />
+      <Label layoutX="698.0" layoutY="495.0" text="capacite" />
+      <TextField fx:id="numTeleTextField" layoutX="772.0" layoutY="139.0" prefHeight="26.0" prefWidth="239.0" />
+      <TextField fx:id="emailTextField" layoutX="773.0" layoutY="176.0" prefHeight="26.0" prefWidth="233.0" />
+      <TextField fx:id="lieuTextField" layoutX="140.0" layoutY="304.0" prefHeight="26.0" prefWidth="247.0" />
 
-      <TextField fx:id="igLinkTextField" layoutX="578.0" layoutY="180.0" prefHeight="26.0" prefWidth="234.0" />
-      <HBox layoutX="132.0" layoutY="246.0" prefHeight="34.0" prefWidth="262.0">
+      <TextField fx:id="igLinkTextField" layoutX="772.0" layoutY="217.0" prefHeight="26.0" prefWidth="234.0" />
+      <HBox layoutX="140.0" layoutY="258.0" prefHeight="34.0" prefWidth="262.0">
       <ComboBox fx:id="hoursComboBox" prefHeight="26.0" prefWidth="82.0" promptText="Hours" />
       <Text text=":">
             <font>
@@ -70,26 +68,26 @@
       <ComboBox fx:id="minutesComboBox" prefHeight="26.0" prefWidth="89.0" promptText="Minutes" />
 
       </HBox>
-      <DatePicker fx:id="dateFinDatePicker" layoutX="132.0" layoutY="201.0" prefHeight="26.0" prefWidth="247.0" />
-      <TextField fx:id="fbLinkTextField" layoutX="578.0" layoutY="216.0" prefHeight="26.0" prefWidth="234.0" />
-      <TextField fx:id="capaciteTextField" layoutX="586.0" layoutY="454.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="479.0" layoutY="377.0" text="Genre Evenement" />
-      <ComboBox fx:id="genreEvenementComboBox" layoutX="586.0" layoutY="375.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="483.0" layoutY="414.0" text="type Evenement" />
-      <ComboBox fx:id="typeEventComboBox" layoutX="586.0" layoutY="414.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="516.0" layoutY="330.0" text="Ville" />
-      <ComboBox fx:id="cityEVComboBox" layoutX="586.0" layoutY="326.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="488.0" layoutY="501.0" text="Image Upload" textFill="#1f1f1f">
+      <DatePicker fx:id="dateFinDatePicker" layoutX="140.0" layoutY="220.0" prefHeight="26.0" prefWidth="247.0" />
+      <TextField fx:id="fbLinkTextField" layoutX="772.0" layoutY="253.0" prefHeight="26.0" prefWidth="234.0" />
+      <TextField fx:id="capaciteTextField" layoutX="780.0" layoutY="491.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="673.0" layoutY="414.0" text="Genre Evenement" />
+      <ComboBox fx:id="genreEvenementComboBox" layoutX="780.0" layoutY="412.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="677.0" layoutY="451.0" text="type Evenement" />
+      <ComboBox fx:id="typeEventComboBox" layoutX="780.0" layoutY="451.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="710.0" layoutY="367.0" text="Ville" />
+      <ComboBox fx:id="cityEVComboBox" layoutX="780.0" layoutY="363.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="682.0" layoutY="538.0" text="Image Upload" textFill="#1f1f1f">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="uploadimage" layoutX="581.0" layoutY="498.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
-      <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="738.0" layoutY="485.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="ajouterEventButton" layoutX="749.0" layoutY="552.0" mnemonicParsing="false" onAction="#ajouterEvent" prefHeight="42.0" prefWidth="82.0" text="Submit" />
-      <Button fx:id="returntolist" layoutX="655.0" layoutY="552.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="34.0" prefWidth="74.0" text="return" />
-      <Button fx:id="updateLocationButtonClicked" layoutX="30.0" layoutY="348.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="65.0" text="Update Location" />
-      <WebView fx:id="mapView" layoutX="102.0" layoutY="321.0" prefHeight="282.0" prefWidth="321.0" />
+      <Button fx:id="uploadimage" layoutX="775.0" layoutY="535.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Image" />
+      <ImageView fx:id="imageView" fitHeight="53.0" fitWidth="104.0" layoutX="932.0" layoutY="522.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="ajouterEventButton" layoutX="879.0" layoutY="650.0" mnemonicParsing="false" onAction="#ajouterEvent" prefHeight="53.0" prefWidth="94.0" text="Submit" />
+      <Button fx:id="returntolist" layoutX="765.0" layoutY="650.0" mnemonicParsing="false" onAction="#redirectToGestionEvent" prefHeight="53.0" prefWidth="94.0" text="return" />
+      <Button fx:id="updateLocationButtonClicked" layoutX="21.0" layoutY="359.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="104.0" text="Update Location" />
+      <WebView fx:id="mapView" layoutX="135.0" layoutY="363.0" prefHeight="282.0" prefWidth="321.0" />
       <TextField fx:id="latTextField" layoutX="409.0" layoutY="574.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
       <TextField fx:id="lonTextField" layoutX="467.0" layoutY="575.0" prefHeight="26.0" prefWidth="34.0" visible="false" />
    </children>

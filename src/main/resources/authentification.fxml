@@ -14,24 +14,24 @@
 
 <AnchorPane prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AuthentificationController">
    <children>
-      <fx:include source="NavBar.fxml"/>
-      <ImageView fitHeight="600.0" fitWidth="808.0" layoutX="-6.0">
+      <ImageView fitHeight="768.0" fitWidth="1376.0" layoutX="-6.0">
          <image>
             <Image url="file:/C:/Users/Malek/Desktop/esprit/Background.png" />
          </image>
       </ImageView>
-      <TextField fx:id="tfemail" layoutX="321.0" layoutY="278.0" promptText="Email" />
-      <Button fx:id="btn_auth" alignment="CENTER" layoutX="322.0" layoutY="394.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
-      <Text layoutX="324.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authentification">
+      <fx:include source="NavBar.fxml" />
+      <TextField fx:id="tfemail" layoutX="524.0" layoutY="340.0" promptText="Email" />
+      <Button fx:id="btn_auth" alignment="CENTER" layoutX="525.0" layoutY="456.0" mnemonicParsing="false" style="-fx-background-color: #FF6100;" text="s'authentifier" textFill="#402424" />
+      <Text layoutX="527.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authentification">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <PasswordField fx:id="tfmdp" layoutX="321.0" layoutY="329.0" promptText="Mot de passe" />
-      <TextField fx:id="tfshowpassword" layoutX="321.0" layoutY="329.0" promptText="Mot de passe" visible="false" />
-      <FontAwesomeIconView fill="#ff6100" glyphName="USER" layoutX="346.0" layoutY="197.0" size="150" text="" wrappingWidth="76.00001220703132" />
-      <Hyperlink fx:id="hyperlink" layoutX="309.0" layoutY="425.0" text="Mot de passe oublié? Cliquez ici" />
-      <CheckBox fx:id="show" layoutX="321.0" layoutY="365.0" mnemonicParsing="false" text="Voir mot de passe" />
-      <Button fx:id="btn_annul" layoutX="415.0" layoutY="394.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" text="Annuler" />
+      <PasswordField fx:id="tfmdp" layoutX="524.0" layoutY="391.0" promptText="Mot de passe" />
+      <TextField fx:id="tfshowpassword" layoutX="524.0" layoutY="391.0" promptText="Mot de passe" visible="false" />
+      <FontAwesomeIconView fill="#ff6100" glyphName="USER" layoutX="549.0" layoutY="259.0" size="150" text="" wrappingWidth="76.00001220703132" />
+      <Hyperlink fx:id="hyperlink" layoutX="512.0" layoutY="487.0" text="Mot de passe oublié? Cliquez ici" />
+      <CheckBox fx:id="show" layoutX="524.0" layoutY="427.0" mnemonicParsing="false" text="Voir mot de passe" />
+      <Button fx:id="btn_annul" layoutX="618.0" layoutY="456.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: #FF6100;" text="Annuler" />
    </children>
 </AnchorPane>
