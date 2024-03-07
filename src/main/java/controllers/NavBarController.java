@@ -33,8 +33,8 @@ public class NavBarController {
     private Button sign_up;
     @FXML
     private Label userNameLabel;
-    private UtilisateurCrud utilisateurCrud ;
-    private Utilisateur ut ;
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud() ;
+    private Utilisateur ut = new Utilisateur() ;
     @FXML
     private void initialize() {
         // Check user authentication status and update the view
@@ -44,10 +44,11 @@ public class NavBarController {
     private void updateView() {
         boolean userLoggedIn ;
         iduser = MyConnection.getInstance().getId() ;
-        if(iduser ==0){
-            userLoggedIn = /* Check if the user is logged in */ false;
-        }else{
+        if(iduser != 0){
             userLoggedIn = /* Check if the user is logged in */ true;
+
+        }else{
+            userLoggedIn = /* Check if the user is logged in */ false;
         }
 
 
@@ -85,10 +86,8 @@ public class NavBarController {
             // Load reclamation.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
             Parent root = loader.load();
-
-            // Display the scene associated with reclamation.fxml
-            Stage stage = (Stage) sign_in.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene currentScene = sign_up.getScene();
+            currentScene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,18 +119,9 @@ public class NavBarController {
             // Charger le fichier FXML correspondant au rôle de l'utilisateur
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
             Parent root = loader.load();
+            Scene currentScene = sign_up.getScene();
 
-
-
-            // Créer une nouvelle scène avec le contenu chargé du fichier FXML
-            Scene scene = new Scene(root);
-
-            // Créer une nouvelle fenêtre (stage) et définir sa scène
-            Stage stage = new Stage();
-            stage.setScene(scene);
-
-            // Afficher la fenêtre
-            stage.show();
+            currentScene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,15 +140,14 @@ public class NavBarController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // If the user clicks "OK", close the current window and open the authentication page
-            Stage stage = (Stage) btn_deconn.getScene().getWindow();
-            stage.close();
+            MyConnection.getInstance().setId(0);
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/authentification.fxml"));
                 Parent root = loader.load();
-                Stage authStage = new Stage();
-                authStage.setScene(new Scene(root));
-                authStage.show();
+                Scene currentScene = sign_up.getScene();
+
+                currentScene.setRoot(root);
             } catch (IOException e) {
                 e.printStackTrace();
             }

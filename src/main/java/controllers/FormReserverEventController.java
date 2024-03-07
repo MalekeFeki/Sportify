@@ -1,9 +1,11 @@
 package controllers;
 
 import entities.Evenement;
+import entities.Utilisateur;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,11 +15,15 @@ import entities.EventReservation;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import services.EventReservationCrud;
+import services.UtilisateurCrud;
+import tools.MyConnection;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class FormReserverEventController {
+public class FormReserverEventController implements Initializable {
 
     @FXML
     private TextField nomField;
@@ -160,5 +166,18 @@ public class FormReserverEventController {
         } else {
             System.out.println("Selected event details not found.");
         }
+    }
+    private UtilisateurCrud utilisateurCrud = new UtilisateurCrud() ;
+    private Utilisateur ut = new Utilisateur() ;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        int iduser = MyConnection.getInstance().getId() ;
+        ut=utilisateurCrud.getUtilisateurById(iduser);
+        nomField.setText(ut.getNom());
+        prenomField.setText(ut.getPrenom());
+        emailField.setText(ut.getEmail());
+        numTeleField.setText(String.valueOf(ut.getNum_tel()));
+        cinField.setText(String.valueOf(ut.getCin()));
+        
     }
 }
