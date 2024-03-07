@@ -9,32 +9,26 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane id="AnchorPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SalleListeAdminController">
     <children>
-        <fx:include source="NavBar.fxml"/>
+        <fx:include source="NavBar.fxml" />
         <ImageView fitHeight="492.0" fitWidth="744.0">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-        <HBox layoutX="84.0" layoutY="137.0" spacing="10.0">
-            <children>
-                <TextField fx:id="searchTextField" prefWidth="150.0" promptText="Rechercher.." style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
-            </children>
-        </HBox>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="68.0" layoutY="-9.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
+        <HBox layoutX="84.0" layoutY="137.0" spacing="10.0" />
         <HBox layoutX="84.0" layoutY="122.0" spacing="10.0" />
-        <TableView fx:id="gymsTableView" editable="true" layoutX="84.0" layoutY="177.0" prefHeight="200.0" prefWidth="576.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+        <TableView fx:id="gymsTableView" editable="true" layoutX="54.0" layoutY="197.0" prefHeight="440.0" prefWidth="1267.0" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
             <columns>
                 <TableColumn fx:id="nomColumn" prefWidth="126.39996337890625" text="Nom" />
-                <TableColumn fx:id="adresseColumn" prefWidth="191.20001220703125" text="Adresse" />
-                <TableColumn fx:id="regionColumn" prefWidth="92.79998779296875" text="Région" />
-                <TableColumn fx:id="optionsColumn" prefWidth="166.40008544921875" text="Options" />
+                <TableColumn fx:id="adresseColumn" prefWidth="524.7999572753906" text="Adresse" />
+                <TableColumn fx:id="regionColumn" prefWidth="146.400146484375" text="Région" />
+                <TableColumn fx:id="optionsColumn" prefWidth="468.0001220703125" text="Options" />
             </columns>
         </TableView>
-        <HBox layoutX="33.0" layoutY="442.0" spacing="10.0">
+        <HBox layoutX="49.0" layoutY="714.0" spacing="10.0">
             <children>
                 <Button fx:id="afficherButton" mnemonicParsing="false" onAction="#handleAfficherButton" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Afficher" />
                 <Button fx:id="modifierButton" mnemonicParsing="false" onAction="#handleUpdateButtonAction" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Modifier" />
@@ -42,11 +36,7 @@
             <Button fx:id="supprimerButton1" mnemonicParsing="false" onAction="#buttonToutSupprimer" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Supprimer Tout" />
             </children>
         </HBox>
-        <ImageView fitHeight="61.0" fitWidth="122.0">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview.png" />
-            </image>
-        </ImageView>
+          <TextField fx:id="searchTextField" layoutX="58.0" layoutY="119.0" prefHeight="45.0" prefWidth="206.0" promptText="Rechercher.." style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
 
     </children>
     <stylesheets>

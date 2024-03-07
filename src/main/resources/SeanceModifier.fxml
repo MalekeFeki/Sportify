@@ -9,60 +9,68 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="768" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SeanceModifController">
     <children>
-        <fx:include source="NavBar.fxml"/>
+        <fx:include source="NavBar.fxml" />
         <ImageView fitHeight="434.0" fitWidth="744.0" layoutY="59.0">
             <image>
                 <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Background.png" />
             </image>
         </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="83.0" layoutY="-16.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
-        <VBox layoutX="28.0" layoutY="144.0" prefHeight="231.0" prefWidth="151.0" spacing="15.0">
+        <VBox layoutX="39.0" layoutY="207.0" prefHeight="506.0" prefWidth="329.0" spacing="15.0">
             <children>
                 <Label text="Nom">
                     <font>
-                        <Font size="14.0" />
+                        <Font size="40.0" />
                     </font>
                 </Label>
-                <TextField fx:id="nomTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <TextField fx:id="nomTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
                 <Label text="Début">
                     <font>
-                        <Font size="14.0" />
+                        <Font size="40.0" />
                     </font>
                 </Label>
-                <TextField fx:id="debutTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <TextField fx:id="debutTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
                 <Label text="Fin">
                     <font>
-                        <Font size="14.0" />
+                        <Font size="40.0" />
                     </font>
                 </Label>
-                <TextField fx:id="finTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
+                <TextField fx:id="finTextField" style="-fx-background-color: white; -fx-border-color: #FF7F50;">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
                 <Label text="Date">
                     <font>
-                        <Font size="14.0" />
+                        <Font size="40.0" />
                     </font>
                 </Label>
                 <DatePicker fx:id="datePicker" style="-fx-background-color: white; -fx-border-color: #FF7F50;" />
             </children>
         </VBox>
-        <HBox layoutX="571.0" layoutY="440.0" spacing="10.0">
+        <HBox layoutX="1104.0" layoutY="693.0" spacing="10.0">
             <children>
-                <Button fx:id="annulerButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Annuler" />
-                <Button fx:id="enregistrerButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Enregistrer" />
+                <Button fx:id="annulerButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Annuler">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+                <Button fx:id="enregistrerButton" mnemonicParsing="false" style="-fx-background-color: #FF7F50; -fx-text-fill: white;" text="Enregistrer">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
             </children>
         </HBox>
-        <ImageView fitHeight="83.0" fitWidth="164.0" layoutX="-10.0" layoutY="-12.0">
-            <image>
-                <Image url="file:/C:/Users/Malek/Desktop/Sportify%20-%20malekmelekinesrayen/img/Sportify__2_-removebg-preview.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="18.0" layoutY="78.0" prefHeight="43.0" prefWidth="273.0" text="Modifier la séance">
+        <Label layoutX="47.0" layoutY="110.0" prefHeight="74.0" prefWidth="421.0" text="Modifier la séance">
             <font>
-                <Font size="29.0" />
+                <Font size="50.0" />
             </font>
         </Label>
     </children>
